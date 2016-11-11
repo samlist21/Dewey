@@ -25,6 +25,7 @@ class Drive {
   public:
     Drive();
 
+    void driveAutonomous(boolean);
     void driveUpdate();
     byte driveStatus();
     void runSpeed(byte );
@@ -135,6 +136,17 @@ class Drive {
   return byte(outSpeed);
   };
   
+  void Drive::driveAutonomous (boolean cont) 
+  {
+    if (cont)
+    {
+      driveDirection 
+    }
+    else
+    {
+      driveSTOP();
+    }
+  };
 
   void Drive::driveUpdate (){
       // need to convert to case

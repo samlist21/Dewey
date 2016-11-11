@@ -7,6 +7,7 @@ class UI():
                 self.inputs = serialInputs.serialInputs()
                 self.inputs._init_()
                 self.prev = "S"
+                self.speeds = ["1", "2", "3","4", "5", "6","7", "8", "9"]
                 
         def key_input(self, event):
                 key_press = event.keysym.upper()
@@ -19,8 +20,10 @@ class UI():
                         	self.inputs.forward()
                         if key_press == "DOWN":
                                 self.inputs.back()
-                        if key_press == "S":
+                        if key_press == "S" or key_press == "0":
                                 self.inputs.stop()
+                        if key_press in self.speeds:
+                                self.inputs.change_speed(key_press)
                         if key_press == "V":
                                 self.inputs.start_record()
                         if key_press == "Q":

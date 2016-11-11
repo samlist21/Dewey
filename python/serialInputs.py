@@ -82,6 +82,10 @@ class serialInputs():
         ser.write(inputVal.encode('utf-8'))
         print("Stop")
 
+    def change_speed(self, speed):
+        ser.write(speed.encode('utf-8'))
+        print("Change Speed" + speed);
+
     def playback(self):
         for run in self.runList:
             print(step['command'] + " will run for " + str(step['time']) + " seconds\r")
