@@ -32,6 +32,8 @@ class UI():
                                 self.inputs.start_playback()
                         if key_press == "E":
                                 self.inputs.start_playback_file()
+						if key_press == "A":
+								self.inputs.start_autonomous();
                         self.prev = key_press
 
                 

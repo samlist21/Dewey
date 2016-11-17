@@ -81,6 +81,11 @@ class serialInputs():
         inputVal = 'S'
         ser.write(inputVal.encode('utf-8'))
         print("Stop")
+		
+	def start_autonomous(self):
+		inputVal = 'A'
+		ser.write(inputVal.encode('utf-8'))
+        print("Autonomous Started")
 
     def change_speed(self, speed):
         ser.write(speed.encode('utf-8'))

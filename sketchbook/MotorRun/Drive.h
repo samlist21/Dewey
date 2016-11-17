@@ -21,11 +21,14 @@ class Drive {
  
    byte holdCommand;
    byte slowSpeed;
+   long prevCm;
+   int driveRight = 0;
+   bool autonomous = false;
   
   public:
     Drive();
 
-    void driveAutonomous(boolean);
+    void driveAutonomous();
     void driveUpdate();
     byte driveStatus();
     void runSpeed(byte );
@@ -136,16 +139,33 @@ class Drive {
   return byte(outSpeed);
   };
   
-  void Drive::driveAutonomous (boolean cont) 
+  
+  void Drive::driveAutonomous (long cm) 
   {
-    if (cont)
-    {
-      driveDirection 
-    }
-    else
-    {
-      driveSTOP();
-    }
+	if (autonomous)
+	{
+		if (cm =< 15)
+		{
+			if (cm < cmPrev)
+		    {
+				driveRight = false;
+			}
+			if (driveRight)
+			{
+				driveDirection = 'R';
+			}
+			else 	
+			{
+				driveDirection = 'L';
+			}
+		}
+		else
+		{
+			driveRight = 0;
+			driveDirection = 'F';
+		}
+		cmPrev = cm;
+	}
   };
 
   void Drive::driveUpdate (){
@@ -203,7 +223,11 @@ class Drive {
          case 'S':
          case '0':
          
-         driveDirection = 'S'; 
+         driveDirection = 'S';
+		 if (autonomous)
+		 {
+			autonomous = false;
+		 }
          driveSTOP();
          
          break;
@@ -237,6 +261,16 @@ class Drive {
          
          driveDirection = 'L';
          driveLEFT();
+		 
+		 break;
+		 
+		 case 'a':
+		 case 'A':
+		 
+		 autonomous = true;
+		 driveAutonomous();
+		 
+		 break;
          
          
          default: 

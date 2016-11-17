@@ -166,7 +166,10 @@ void loop()
        cm = (duration/2) / 29.1;
       inches = (duration/2) / 74;   
    
-        
+        if (autonomous)
+		{
+			dewey.driveAutonomous(cm);
+		}
 
   if (duration == 0) {
  
@@ -178,7 +181,7 @@ void loop()
   }
 
         
-        if (cm < 15 && duration >0){  // about 6 inches
+        if (!autonomous && cm < 15 && duration >0){  // about 6 inches
 
 
     //      Serial.print(oldSensorSpeed );
