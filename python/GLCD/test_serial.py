@@ -1,7 +1,18 @@
-    # test_serial.py
+# test_serial.py
 # Python module to test interface with DX160 serial graphic LCD screen
 # Fayetteville Free Library Robotics Club
 # June 2016, Bob Lawler
+# Updated - Tested on Dewey and removed extraneous files.
+# Only runs on Python 3
+# Run Command from this directory:
+#   sudo python3 test_serial.py
+# June 2017 Ken Samuelson 
+# Next step is to incorporate this code into Dewey python driving baseline
+# so Dewey may display things while driving.
+# Remove all commented code and test for Linux use.  
+# Most commented code is windows specific.
+#
+
 
 from PIL import Image                           # Image processing module
 import random                                           # Random number generation
@@ -9,7 +20,7 @@ import time                                                     # Used for sleep
 import sys					# to teest for non-blockign input 
 
 
-import Dewey_GLCD1 as lcd                        # GLCD control module
+import Dewey_GLCD as lcd                        # GLCD control module
 
 # if windows usee this
 # not sure for other OSs
