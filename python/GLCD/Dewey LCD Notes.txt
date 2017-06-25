@@ -1,0 +1,32 @@
+Dewey LCD Notes
+- Recommended development tools
+	- Realterm (Windows) / GTKTerm (Linux) for manual serial commands
+	- Notepad++ (Windows) / Notepadqq (Linux) for Python programming
+- Additional modules (non-standard Python libraries)
+	- Pyserial
+	- Pillow
+- Serial configuration
+	- The display defaults to 57600 baud, 8-N-1 configuration
+	- The port parameters are currently hard-coded in Dewey_GLCD._initSerial()
+- Displaying images
+	- The LCD display is only designed to accept fullscreen images natively. However, the Dewey_GLCD library will display images of any size. Images less than fullscreen can be positioned on the display.
+	- In general, image coordinates begin at (0,0) in the upper-left corner of the image. This origin is the placement point for less-than-fullscreen images.
+	- Internally, the code handles fullscreen and non-fullscreen images very differently. This is because the display accepts byte data for fullscreen images in a very non-conventional format. Although this optimizes displaying fullscreen images, it would be inefficient for non-fullscreen images.
+	- As exposed to the user, both methods for fullscreen and non-fullscreen image handling take an Image object as a parameter and are functionally equivalent.
+	- The fullscreen data format is as follows:
+		- The display is divided into 8 rows of pixel information, each 8 pixels tall
+		- Beginning at the top of each row (starting with row 0), 1 byte (8 bits) of pixel data is written to the screen, moving downward from that point. After 8 bits (upon reaching the upper boundary of the below row), another 8 bits is written to the column to the left. This repeats until the entire row (128 bytes) is completed. The process then continues with the next row down until all pixels are displayed.
+	- The non-fullscreen data format is as follows:
+		- The Image object data is parsed bit by bit within the width and height of the incoming image
+		- For each pixel in the source Image object, a pixel is drawn in the corresponding location on the screen
+		- This is significantly slower than fullscreen rendering, but is substantially more flexible
+- The display can be very temperamental about the input commands it receives
+	- I believe (though have not confirmed) that the display will become unresponsive after receiving a sufficient number of bad commands. This will require a restart of the display.
+	- Some invalid commands (such as sending lowercase characters when in the small font mode) will immediately brick the display, requiring a power cycle before it will function. The included library converts lowercase characters in this mode, but not all symbols may be supported.
+	- If commands are sent too frequently (wait time after serial port write action is too low), the ends of those commands may be truncated and overwritten by the next. In the case of text display, this has the result of not displaying any text until the final command is received, at which point a long string of mangled text containing pieces of previous commands will be written to the screen.
+	
+Changelog:
+
+v0.1	9 Jun 2016		Initial release
+v0.1.1	17 Jun 2016		Added drawImage()
+						Bug fixes for drawPixel() and color range bounding
