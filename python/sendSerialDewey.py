@@ -10,6 +10,10 @@ import sys
 import termios
 import select
 
+import os
+import picamera
+counter=0 
+
 orig_settings = termios.tcgetattr(sys.stdin)
 
 tty.setraw(sys.stdin)
@@ -29,6 +33,12 @@ tty.setraw(sys.stdin)
 #stdscr = curses.initscr()
 
 #curses.cbreak()
+
+# Setup Camera Stuff
+camera = picamera.PiCamera()
+os.chdir("/home/pi")
+camera.hflip=True
+camera.vflip=True
 
 print("Starting Dewey Program ")
 
@@ -60,6 +70,24 @@ def playback ():
     print("-- Done running Playback -- \r")
 
 
+def printHelpMenu ():
+	print('Enter your commands below.\r')
+	print('Available Commands:(uppercase preferred but not necessary)\r')
+	print('F = Forward\r')
+	print('B = Backward\r')
+	print('R = Turn Right\r')
+	print('L = Turn Left\r')
+	print('S or 0 = Stop\r')
+	print('Available Speeds 1, 2, 3, 4...9\r')
+	print('V = Start Recording steps\r')
+	print('Q = Stop Recording steps\r')
+	print('D = Playback Recorded steps\r')
+	print('E = Playback Recorded steps from a file\r')
+	print('P = Take a picture\r')
+	print('H = Print Help Menu\r')
+	print('\r')
+	print('Press ESC, "x", or "X" to Exit (leave application) and STOP Dewey.\r')
+
 ser.isOpen()
 print("First Action - Stopping Dewey\r")
 ser.write('S'.encode('utf-8'))
@@ -75,20 +103,9 @@ print(' ')
 #if everything is okay
 # print(a)
 
-print('Enter your commands below.\r')
-print('Available Commands:(uppercase preferred but not necessary)\r')
-print('F = Forward\r')
-print('B = Backward\r')
-print('R = Turn Right\r')
-print('L = Turn Left\r')
-print('S or 0 = Stop\r')
-print('Available Speeds 1, 2, 3, 4...9\r')
-print('V = Start Recording steps\r')
-print('Q = Stop Recording steps\r')
-print('D = Playback Recorded steps\r')
-print('E = Playback Recorded steps from a file\r')
+printHelpMenu()
 
-print('Press ESC, "x", or "X" to Exit (leave application) and STOP Dewey.\r')
+
 
 
 inputVal = "a"
@@ -162,7 +179,7 @@ while 1:
     #        print (pressed.name())
 
         inputValUpper = inputVal.upper()
-        print('Received inputVal='+ inputVal + ",Sending=" + inputValUpper+ " \r")
+        print('Received inputVal='+ str(inputVal) + ",Sending=" + str(inputValUpper)+ " \r")
 
             # send character to the serial device
             #note that I could append a \n\r carriage return and linefeed characters
@@ -188,7 +205,7 @@ while 1:
     #            print("inputValUpper is in "),
     #            print(inputValUpper in ['X','V','Q','D','E'] )
 
-    if inputValUpper in ['X','V','Q','D','E'] or inputVal == chr(27):
+    if inputValUpper in ['X','V','Q','D','E','H','P'] or inputVal == chr(27):
 #        print("Late inputValUpper is="),
 #        print(inputValUpper)
 
@@ -226,6 +243,17 @@ while 1:
             termios.tcsetattr(sys.stdin,termios.TCSADRAIN, orig_settings)
             deweyRecord.rec_start()
             tty.setraw(sys.stdin)
+
+        if inputValUpper == 'H':
+            printHelpMenu()
+
+        if inputValUpper == 'P':
+            counter = counter+1
+            camera.start_preview()
+            time.sleep(5)
+            camera.capture("/home/pi/Pictures/image"+str(counter)+".jpg")
+            camera.stop_preview()
+            print("Photo taken /home/pi/Pictures/image"+str(counter)+".jpg")
 
         if inputValUpper == 'Q':
             # Q Means stop recording
