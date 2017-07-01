@@ -1,3 +1,15 @@
+# Need to run the program with python (2)
+# from the dewey directory run command 
+#   sudo python/sendSerialDewey.py
+
+# must have serial to use serial functions
+# use sudo apt-get install pyserial
+
+# Other funcitons that need tobe installed to use this code.
+# use sudo apt-get install <none specified yet>
+
+
+
 import time
 import serial
 import record
@@ -12,11 +24,18 @@ import select
 
 import os
 import picamera
-counter=0 
+
+
 
 orig_settings = termios.tcgetattr(sys.stdin)
 
 tty.setraw(sys.stdin)
+
+
+# must have aplay and/ or mpg123 to use sound functions
+# use sudo apt-get install asla-utils   OR
+# use sudo apt-get install mpg123 
+
 
 
 # setup pygame to use key press
@@ -85,9 +104,37 @@ def printHelpMenu ():
 	print('E = Playback Recorded steps from a file\r')
 	print('P = Take a picture\r')
 	print('H = Print Help Menu\r')
+	print('T = Print Talk - Play Sound\r')
+	print('I = Run GLCD program - Currently needs Python3\r')
 	print('\r')
 	print('Press ESC, "x", or "X" to Exit (leave application) and STOP Dewey.\r')
 
+def playSound( sound):
+	if (sound == 1 ):
+		print("Playing Sound - /usr/share/sounds/asla/Front_Center.wav")
+		os.system("aplay /usr/share/sounds/asla/Front_Center.wav &")
+		
+	if (sound == 2 ):
+		print("Playing Sound -  /home/pi/dewey/sounds/bizarre-guitar-daniel_simon.mp3")
+		os.system("mpg123 /home/pi/dewey/sounds/bizarre-guitar-daniel_simon.mp3 &")
+	
+	
+def runGLCD():
+	print("Would be sending GLCD commands here if it worked")
+
+def takePicture():
+    takePicture.counter += 1
+    counter = takePicture.counter
+    camera.start_preview()
+    time.sleep(5)
+    camera.capture("/home/pi/Pictures/image"+str(counter)+".jpg")
+    camera.stop_preview()
+    print("Photo taken /home/pi/Pictures/image"+str(counter)+".jpg")
+
+# static attributes must be initalized
+takePicture.counter = 0 
+
+# start of Dewey Program	
 ser.isOpen()
 print("First Action - Stopping Dewey\r")
 ser.write('S'.encode('utf-8'))
@@ -95,7 +142,7 @@ print(' ')
 # clear serial buffer so no bad characters come out and crash the program.
 # Should see hello from Pi
 
-# probably nothign to read now if not the first time since Arduino is fixed
+# probably nothing to read now if not the first time since Arduino is fixed
 #print("First read from Pi")
 #a= ser.read(44)
 # if this is the first time
@@ -205,7 +252,7 @@ while 1:
     #            print("inputValUpper is in "),
     #            print(inputValUpper in ['X','V','Q','D','E'] )
 
-    if inputValUpper in ['X','V','Q','D','E','H','P'] or inputVal == chr(27):
+    if inputValUpper in ['X','V','Q','D','E','H','P', 'T', 'I'] or inputVal == chr(27):
 #        print("Late inputValUpper is="),
 #        print(inputValUpper)
 
@@ -246,14 +293,15 @@ while 1:
 
         if inputValUpper == 'H':
             printHelpMenu()
+			
+	if inputValUpper == 'T':
+            playSound(2)
+		
+        if inputValUpper == 'I':
+            runGLCD()
 
         if inputValUpper == 'P':
-            counter = counter+1
-            camera.start_preview()
-            time.sleep(5)
-            camera.capture("/home/pi/Pictures/image"+str(counter)+".jpg")
-            camera.stop_preview()
-            print("Photo taken /home/pi/Pictures/image"+str(counter)+".jpg")
+            takePicture()
 
         if inputValUpper == 'Q':
             # Q Means stop recording
