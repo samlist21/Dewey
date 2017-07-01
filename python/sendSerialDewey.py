@@ -80,12 +80,16 @@ x='z'
 
 soundCode =1
 
-#try:
-ser = serial.Serial('/dev/ttyACM0',115200)
+# try to find and use serial for GLCD.  If not there just set value. 
+try:
+    ser = serial.Serial('/dev/ttyACM0',115200)
+    setGLCD = True 
 
-#except Exception, e:
-#    print "error open serail port: "+ str(e)
-#    exit()
+except e:
+    print ("error open serail port: "+ str(e) + "\r")
+    print ("Can't use GLCD\r")
+    setGLD = False
+    
 
 # Call the record function so that it is ready to record when called. 
 deweyRecord = record.record()
@@ -96,7 +100,7 @@ def playback ():
         print (step)
         print(step['command'] +" will run for "+ str(step['time']) + " seconds\r")
         # convert string to byte and write out
-        ser.write(step['command'].encode('utf-8'))
+        ser.write(step['command'].encode(encoding='utf-8'))
         print("Wrote out a "  + step['command'])
 
         time.sleep(step['time'])
@@ -107,7 +111,7 @@ def printHelpMenu ():
 	print('Enter your commands below.\r')
 	print('Available Commands:(uppercase preferred but not necessary)\r')
 	print('No need to hit enter - Just the key\r')
-        print('A = Autonomous\r')
+	print('A = Autonomous\r')
 	print('F = Forward\r')
 	print('B = Backward\r')
 	print('R = Turn Right\r')
@@ -141,7 +145,10 @@ def playSound( sound):
 # GLCD Function  Called when user hits I
 # Used to show stuff on the GLCD display - Does nothing now.
 def runGLCD():
-	print("Would be sending GLCD commands here if it worked.  This code needs python3\r")
+    if setGLCD:
+        print("Would be sending GLCD commands here if it worked.  This code needs python3\r")
+    else:
+        print("GLCD can not be run.  No Serial port. \r")
 
 # Funciton to find highest image number
 def findLastImageNumber():
@@ -150,15 +157,15 @@ def findLastImageNumber():
     maxNumber = 0
     intNumber = 0
     for filename in os.listdir('./Pictures/'):
-        print("Found Filename="+filename+"\r")
+        #print("Found Filename="+filename+"\r")
         if filename.endswith(".jpg") and filename[:2]=="im":
-            print("Acting on Filename="+filename+"\r")
+            #print("Acting on Filename="+filename+"\r")
             #print('Found File='+filename)
             number = os.path.splitext(filename)[0]
             intNumber = int(number[5:])
-            print('Found Number='+ number[5:]+"\r")
-            #print('Found int Number='+ int(number[5:])"\r")
-            print('Found int Number='+ str(intNumber)+"\r")
+            #print('Found Number='+ number[5:]+"\r")
+            
+            #print('Found int Number='+ str(intNumber)+"\r")
             if intNumber > maxNumber:
                 #print("Previous Max Number was"+ str(maxNumber))
                 maxNumber = intNumber
@@ -193,7 +200,7 @@ takePicture.counter = findLastImageNumber()
 # start of Dewey Program	
 ser.isOpen()
 print("First Action - Stopping Dewey\r")
-ser.write('S'.encode('utf-8'))
+ser.write('S'.encode(encoding='utf-8'))
 print(' \r')
 # clear serial buffer so no bad characters come out and crash the program.
 # Should see hello from Pi
@@ -211,8 +218,8 @@ printHelpMenu()
 
 
 
-inputVal = "z" # used to start Arduino in known state.  Do not use A since it is now autonomous mode. 
-inputValUpper = 'Z'
+inputVal = b"z" # used to start Arduino in known state.  Do not use A since it is now autonomous mode. 
+inputValUpper = b'Z'
 while 1:
 
     #else:
@@ -229,7 +236,7 @@ while 1:
             # need to strip this off
                         #read and convert bytes to string
 
-            out += a.decode('utf-8')
+            out += a.decode(encoding='utf-8')
         else:
             print ("Bad Character="),
             print (a)
@@ -264,8 +271,11 @@ while 1:
     #    stdscr.clear()
     #    stdscr.addstr("Key Detected")
     #    stdscr.addstr(str(c))
-        inputVal = x.encode('utf-8')
-#        print(inputVal),
+    # Testing not encoding with Python 3
+        #inputVal = x.encode(encoding='utf-8')
+    # this next line works with python3
+        inputVal = x
+        #print(inputVal)
     #    inputVal1 = int(inputVal)
     #    print(inputVal1),
 #        inputValUpper = inputVal.upper()
@@ -293,7 +303,12 @@ while 1:
 
         # convert string to byte and write out
         #ser.write(inputValUpper.encode('utf-8'))
-        ser.write(inputValUpper.encode('utf-8'))
+        ## verison for python2
+        ##ser.write(inputValUpper.encode('utf-8'))
+        # update for python3
+        ser.write(inputValUpper.encode(encoding='utf-8'))
+        # Testing remove encode for python 3
+        #ser.write(inputValUpper)
         # Print to screen to verify what was sent and that it was an Upper
         #print("Wrote out a "  + inputValUpper)
         deweyRecord.command_store(inputValUpper)
@@ -318,7 +333,7 @@ while 1:
 #        break:
             # could send an X to Arduino but it would kill any restart
             # So now just sending an 'S'
-            ser.write('S'.encode('utf-8'))
+            ser.write('S'.encode(encoding='utf-8'))
             # if recording was not stopped end recording.
             print("Dewey Record Ending - if it was going\r")
             deweyRecord.rec_stop()

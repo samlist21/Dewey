@@ -68,7 +68,8 @@ The old addres, above, will work until they do.
 2. open a terminal window
 3. Type> cd     - this step gets you to the /home/pi directory
 4. type> cd dewey  OR skip step 3 and just type> cd /home/pi/dewey
-5. type> sudo python python/sendSerialDewey.py
+5. type> sudo python python/sendSerialDewey.py OR 
+type> sudo python3 python/sendSerialDewey.py - Dewey should work both ways
 6. Enter a command to control Dewey 
 - Remember don't hit enter just the key.
 - Type H if you forget the available commands.
@@ -85,20 +86,21 @@ The old addres, above, will work until they do.
 - [X]Get Motor run working without delay() code
 - [X]Dewey needs a re-charge.  Batteries were at 11.98VDC - Plug in for a day
 - [ ]Put Drive.c Back into MotorRun and figure out why it is not compiling
-- [ ]Get sendSerialDewey.py working with python3
+- [X]Get sendSerialDewey.py working with python3 - 
 - [ ]Get GLCD working with when python3 is available. GLCD only works with python3
 - [ ]Setup a DHCP server on the Ethernet port for automatic connecting via Ethernet Cable
 - [X]Fix image program to not overwrite images but figure out what the next image number is and store that number.
 - [ ]Find out why the camera turns on and stays on through the whole running of sendSerialDewey.py
 - [ ]Rename sendSerialDewey.py to Dewey.py.  Clean up git code
 - [ ]Remove all test and demonstration code that is not used. 
-- [ ]Get autonomous mode working. Dewey drives around by itself. 
-- [ ]Add voice files for "Hello, I'm Dewey", "Excuse Me", "What is your Name?", "Can I take your picture?", "Bye, Bye - Dewey Sleeping now",etc.
-- [ ]Should do a sudo apt-get upgrade. Possibly will break some things so need to be careful when we want to do this. Test on home Pi setup first, before library setup. 
-- [ ]Get Dewey Video working
-- [ ]Add Microphone to Dewey
-- [ ]Get Dewey voice recognition working
-- [ ]Figure out how to break this file into multiple files.  It is getting too long.
+- [ ] Get autonomous mode working. Dewey drives around by itself. 
+- [ ] Add voice files for "Hello, I'm Dewey", "Excuse Me", "What is your Name?", "Can I take your picture?", "Bye, Bye - Dewey Sleeping now",etc.
+- [ ] Should do a sudo apt-get upgrade. Possibly will break some things so need to be careful when we want to do this. Test on home Pi setup first, before library setup. 
+- [ ] Get Dewey Video working
+- [ ] Add Microphone to Dewey
+- [ ] Get Dewey voice recognition working
+- [ ] Figure out how to break this file into multiple files.  It is getting too long.
+- [ ] Fix rogue acrrige returns from Arduino.
 
 
 ## Wish List 
@@ -131,6 +133,15 @@ And perhaps most importantly:
 Too many to list - Volunteers to document?
 
 ## New Discussions - only on github
+
+## Dewey Day July 3, 2017 Ken Samuelson 
+- minor fixes to get python updates (image) working on robot.
+- Updated sendSerialDewey.py to use both python (2) and python3.   
+Any Dewey Testing always needs to include both python and python3 
+- Continue to update and fix README.md
+- Noticed some stray carrige returns and formatting problems coming back from arduino
+Added to the task list.
+
 
 ## Dewey Day July 1, 2017 Ken Samuelson 
 - Updated sendSerialDewey.py to include Help Menu, Talk, Picture capability
