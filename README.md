@@ -20,7 +20,18 @@ Location of Dewey Code
 https://github.com/jwilliams506/Dewey 
 
 
-## New Discussions
+# Photos
+
+The Robot (Dewey)
+![Dewey](images/Dewey.jpg)
+ 
+ Dewey Out For A Drive
+![Dewey Out For A Drive](images/DeweyDrive.jpeg)
+ 
+ Dewey Photo of Sonar Sensor
+![Dewey Photo of Sonar Sensor](images/DeweySonar.jpg)
+
+## New Discussions - only on github
 
 ## Dewey Day July 1, 2017 Ken Samuelson 
 - Updated sendSerialDewey.py to include Help Menu, Talk, Picture capability
@@ -37,18 +48,7 @@ What I did fix:
  - Added Picture capability when you hit P to sendSerialDewey.py - See Git update
  
 - got the SketchBook motorRun Program working. The problem was the Drive.c Program which was causing compile errors.  The drive.c program was not needed.  I think John added that in.  We need to work on it to see what's worng with the compiling.  
-- 
 
-# Photos
-
-The Robot (Dewey)
-![Dewey](images/dewey.jpg)
- 
- Dewey Out For A Drive
-![Dewey Out For A Drive](images/DeweyDrive.jpg)
- 
- Dewey Photo of Sonar Sensor
-![Dewey Photo of Sonar Sensor](images/DeweySonar.jpg)
 
 # Past Discussions
 Below is basically the Discussion Messages from the Meetup. 
