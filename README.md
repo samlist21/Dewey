@@ -22,12 +22,12 @@ https://github.com/jwilliams506/Dewey
 
 ## New Discussions
 
-##Dewey Day July 1, 2017 Ken Samuelson 
+## Dewey Day July 1, 2017 Ken Samuelson 
 - Updated sendSerialDewey.py to include Help Menu, Talk, Picture capability
 Talk seems to only work for mpg123 files.  The alsa and .wav files do not seem to work yet.
 Tested on Dewey and the images, help menu and Sound works. 
 
-##Dewey Day June 30, 2017 Ken Samuelson 
+## Dewey Day June 30, 2017 Ken Samuelson 
 The library changed thier WiFi so I was not able to log into when i first arrived Dewey today.  I setup a static IP address on the Etehrnet port so that you can directly connect to Dewey for VNC and programming.  The Ethernet por tis now setup at 192.168.1.199.  Set your computer to 192.168.1.xx where xx is anything but 199.  I set my computer to 192.168.1.50 and direclty connected to be able to work.  this took quite a bit of time to debug and fix so I didnt' get too much done.
 
 With the change to the WiFi the Date on Dewey is now being updated from the Internet so you don't need to update the date everytime you come in.  We do need a static IP address.  i talked to the library about gettign a static IP address for Dewey.  hopefully they are working on it. 
@@ -39,20 +39,23 @@ What I did fix:
 - got the SketchBook motorRun Program working. The problem was the Drive.c Program which was causing compile errors.  The drive.c program was not needed.  I think John added that in.  We need to work on it to see what's worng with the compiling.  
 - 
 
-# Photoos
+# Photos
 
- ![Dewey](/images/dewey.jpg)
+The Robot (Dewey)
+![Dewey](images/dewey.jpg)
  
- ![Dewey Out For A Drive](/images/DeweyDrive.jpg)
+ Dewey Out For A Drive
+![Dewey Out For A Drive](images/DeweyDrive.jpg)
  
-  ![Dewey Out For A Drive](/images/DeweySonar.jpg)
+ Dewey Photo of Sonar Sensor
+![Dewey Photo of Sonar Sensor](images/DeweySonar.jpg)
 
 # Past Discussions
 Below is basically the Discussion Messages from the Meetup. 
 I'm not sure if the Discusison capability of Meetup will remain, like they removed the files upload section.  Therefore I copies all the discussion messages here so all the data could be kept in one place. (Some content of the messages have been remove dif it wasn't relevant to the buld, running, test or oepration of Dewey )
 https://www.meetup.com/CNY-Makers-Meetup/messages/boards/ 
 
-##Dewey Day June 25, 2017 Ken Samuelson 
+## Dewey Day June 25, 2017 Ken Samuelson 
 I plan to be at the library at about 1:00 today Sunday June 25. Join me if you like. I may stay until 4. My plan is to integrate all the Dewey code to Git. Work on getting the Photo, audio and LCD screen code into the baseline. If John shows up we may work on getting the compass device working on the Arduino.
 I spent a little time at the library this Sunday afternoon.
 
@@ -77,7 +80,7 @@ The board that Joe gave me looks like a navigation (heading) board using SPI. I�
 We can also figure out what Bob Lawler’s Flask code does and see if we want to use it. It seems to have a web server and other useful stuff. Possibly Flask will help us remove the alphabet problem. 
 
 
-##Dewey Tasks for Electronics Club 10/17
+## Dewey Tasks for Electronics Club 10/17
 Some of this was entered in the Electronics club site.
 See here: https://www.meetup.co...­
 Hopefully I'll be able to make it next week. If you're not on both of these lists I suggest you join.
