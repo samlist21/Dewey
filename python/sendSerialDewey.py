@@ -1,6 +1,6 @@
 # Need to run the program with python (2)
 # from the dewey directory run command 
-#   sudo python/sendSerialDewey.py
+#   sudo python python/sendSerialDewey.py
 
 # must have serial to use serial functions
 # use sudo apt-get install pyserial
@@ -148,13 +148,17 @@ def findLastImageNumber():
 # does not handle if low numebrs and high number images are in the directory
 # possibly a better was is to check date first. then latest date and begin after that number
     maxNumber = 0
-    for filename in os.listdir('./Pictures'):
-        if filename.endswith(".jpg"):
+    intNumber = 0
+    for filename in os.listdir('./Pictures/'):
+        print("Found Filename="+filename+"\r")
+        if filename.endswith(".jpg") and filename[:2]=="im":
+            print("Acting on Filename="+filename+"\r")
             #print('Found File='+filename)
             number = os.path.splitext(filename)[0]
             intNumber = int(number[5:])
-            #print('Found Number='+ number[5:])
-            #print('Found int Number='+ str(intNumber))
+            print('Found Number='+ number[5:]+"\r")
+            #print('Found int Number='+ int(number[5:])"\r")
+            print('Found int Number='+ str(intNumber)+"\r")
             if intNumber > maxNumber:
                 #print("Previous Max Number was"+ str(maxNumber))
                 maxNumber = intNumber
