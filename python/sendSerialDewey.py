@@ -112,7 +112,7 @@ def printHelpMenu ():
 def playSound( sound):
 	if (sound == 1 ):
 		print("Playing Sound - /usr/share/sounds/asla/Front_Center.wav")
-		os.system("aplay /usr/share/sounds/asla/Front_Center.wav &")
+		os.system("aplay /home/pi/dewey/sounds/Front_Center.wav &")
 		
 	if (sound == 2 ):
 		print("Playing Sound -  /home/pi/dewey/sounds/bizarre-guitar-daniel_simon.mp3")
@@ -295,7 +295,7 @@ while 1:
             printHelpMenu()
 			
 	if inputValUpper == 'T':
-            playSound(2)
+            playSound(1)
 		
         if inputValUpper == 'I':
             runGLCD()
