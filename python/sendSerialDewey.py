@@ -7,6 +7,9 @@
 
 # Other funcitons that need tobe installed to use this code.
 # use sudo apt-get install <none specified yet>
+# sudo apt-get install python-picamera   OR
+# sudo apt-get install python3-picamera
+
 
 
 
@@ -58,6 +61,8 @@ camera = picamera.PiCamera()
 os.chdir("/home/pi")
 camera.hflip=True
 camera.vflip=True
+camera.stop_preview()
+
 
 print("Starting Dewey Program ")
 
@@ -257,6 +262,7 @@ while 1:
 #        print(inputValUpper)
 
         if inputValUpper =='X' or inputVal == chr(27):
+            
 #        print("you pressed ESC will exit",x)
 #        break:
             # could send an X to Arduino but it would kill any restart
@@ -267,6 +273,7 @@ while 1:
             deweyRecord.rec_stop()
             print("Stopping Dewey\r")
             ser.close()
+            camera.close()
             #print("Pygame Display closed")
             #pygame.display.quit()
             #print("Pygame closed")
@@ -293,10 +300,10 @@ while 1:
 
         if inputValUpper == 'H':
             printHelpMenu()
-			
-	if inputValUpper == 'T':
+
+        if inputValUpper == 'T':
             playSound(1)
-		
+
         if inputValUpper == 'I':
             runGLCD()
 
