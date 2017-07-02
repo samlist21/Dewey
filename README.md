@@ -42,33 +42,110 @@ Dewey - The old Photo
  Dewey Photo of GLCD Display - With Library Logo
 ![Dewey Photo of Sonar Sensor](images/Dewey_GLCD_Display.jpg)
 
+## Reminders
+- Dewey Ethernet IP address is  192.168.1.199
+- Dewey FFlAir WiFi Static IP address is  10.100.1.199 - Subject to change 
+- VNC connection is either of the above IP addresses and port :5901, depending on the link used.
+- Dewey Password - email or message Ken Samuelson - See meetup for my contact info. 
+- Make sure to power off Dewey eachnight cleanly - sudo shutdown -h now or menu shutdown and password. 
+- Watch handling the Pi.  If your not careful you will pop out the spring loaded microSD card and you will trash the card.  This is very bad. 
+- Turn off the speaker before shuttign Dewey down so that you won't wear down the batteries.  
+- Turn off both power switches after a clean shutdown.
+- Robot club has a keyboard and mouse in the containers if you can't access Dewey.  you will need an HDMI monitor, cable or HDMI to VGA converter. See Ken Samuelson I have all (any) of them.
+- The Fayettville Free library is closed Sunday's in July and August and only open 10-1 on Saturday.  Remnder if you are planning to work on Dewey.  
+- Pull and push Git code always and often so you don't lose any of your changes.  If you need git training see Ken Samuelson 
+- All changes msut be documented here or they will be removed unless or until validated.  
+- You can remote into Dewey using an SSH client like Putty at the IP address above
+- You can FTP into Dewey at an IP address above. Anonymous gets you limited file access.  SCP gets you fill directory access. 
+
+## Current Task List 
+- Dewey needs a re-charge.  Batteries were at 11.98VDC - Plug in for a day
+- Get Motor run working without delay() code
+- Put Drive.c Back into MotorRun and figure out why it is not compiling
+- Get sendSerialDewey.py workign with python3
+- Get GLCD working with when python3 is avialble. GLCD only works with python3
+- Setup a DHCP server on the Ethernet port for automatic connecting via Ethernet Cable
+- Fix image program to not overwrite images but figure out whatt he next image numerb is and store that.
+- Find out why the camera turns on and stays on through the whole running fo sendSerialDewey.py
+- Rename sendSerialDewey.py to Dewey.py.  Clean up git codde
+- Remove all test and demonstration code that is not used. 
+- Get autonomous mode working. Dewey drives around by itself. 
+- Add voice files for "Hello, I'm Dewey", "Excuse Me", "What is your Name?", "Can I take your picture?", "Bye, Bye - Dewey Sleeping now",etc.
+- Should do a sudo apt-get upgrade. Possibly will break some things so need to be careful when we want to do this. 
+- Get Dewey Video working
+- Add Microphone to Dewey
+- Get Dewey voice recognition working
+- Figure out how to break this file into multiple files.  It is getting too long.
+
+
+## Wish List 
+- Wiring 5V supply to the breadboard and better wiring in general.
+- Incorporate encoders and perform testing
+- Incorporate Heading (possibly acceleration) and see if Dewey can track straight and make better 90 degree turns . 
+- Arduino code - Work on wheel tracking via heading. Incorporate code into baseline.
+- Arduino code - Work on Sonar sensor (probably wiring)
+- If any of the stuff I requested comes in work on that (eyes, LED string)
+- Create an updated Schematic of Dewey.
+- Figure out Flask code and implement in Dewey
+- Speed/PID control on drive motors
+- Streaming video via web interface
+- Real-time robot control via web interface
+- Integrated display
+- Collision detection (contact/skirt)
+- Collision avoidance (non-contact/Kinect/ultrasonics/laser)
+- Floor/stair detection
+- Navigation (compass/GPS/SLAM/inertial/encoders)
+- VR interface
+- Alexa/voice recognition
+- Closer integration with library services (book look-up/database)
+- Facial recognition
+- Person tracking/following
+
+And perhaps most importantly:
+- Super rad lighting effects - LED string (Cylon)
+
+## Implemented Functions
+Too many to list - Volunteers to document?
+
 ## New Discussions - only on github
 
 ## Dewey Day July 1, 2017 Ken Samuelson 
 - Updated sendSerialDewey.py to include Help Menu, Talk, Picture capability
-Talk seems to only work for mpg123 files.  The alsa and .wav files do not seem to work yet.
+Talk works for both aplay and mpg123 files when files are in the sounds directory.  The alsa and .wav files do not seem to work yet.
 Tested on Dewey and the images, help menu and Sound works. 
+Fixed Motor Run code to compile and be downloaded to the Arduino.  Drive .c was removed because it wouel nto allow compiling. 
+Autonomous mode is compiled in but may or may not work.  Still needs testing
+
+Working on:
+1. Getting sendSerialDewey.py to run on Python3  - so GLCD code can be added. 
+2. Clean up some carrige returns and text formatting for cleaner debug output
+3. Would like a debug mode so the screen stays clean unless needed
+4. Fix motor run to not use any  delays but use millis. Better mulit-Tasking
+
 
 ## Dewey Day June 30, 2017 Ken Samuelson 
-The library changed thier WiFi so I was not able to log into when i first arrived Dewey today.  I setup a static IP address on the Etehrnet port so that you can directly connect to Dewey for VNC and programming.  The Ethernet por tis now setup at 192.168.1.199.  Set your computer to 192.168.1.xx where xx is anything but 199.  I set my computer to 192.168.1.50 and direclty connected to be able to work.  this took quite a bit of time to debug and fix so I didnt' get too much done.
+The library changed their WiFi so I was not able to log into when I first arrived Dewey today.  I setup a static IP address on the Ethernet port so that you can directly connect to Dewey for VNC and programming.  The Ethernet port is now setup static at 192.168.1.199.  Set your computer to 192.168.1.xx where xx is anything but 199.  I set my computer to 192.168.1.50 and directly connected Ethernet cable to be able to work. Apparently one of the ports switches the wires so that it acts as a crossover Ethernedt cable.  Your mileage may vary.  
+This took quite a bit of time to debug and fix so I didn't get too much done.
+Suggest Dewey be setup as a DHCP server so that whent he computer is connected Dewey provides the IP address.  
 
-With the change to the WiFi the Date on Dewey is now being updated from the Internet so you don't need to update the date everytime you come in.  We do need a static IP address.  i talked to the library about gettign a static IP address for Dewey.  hopefully they are working on it. 
+With the change to the WiFi the Date on Dewey is now being updated from the Internet so you don't need to update the date everytime you come in.  
+We do need a static library IP address.  I talked to the library tech supprot about gettign a static IP address for Dewey.  
+Hopefully they are working on it. 
 
 What I did fix:
- - Added help menu when you hit H to sendSerialDewey.py - See Git update
- - Added Picture capability when you hit P to sendSerialDewey.py - See Git update
- 
-- got the SketchBook motorRun Program working. The problem was the Drive.c Program which was causing compile errors.  The drive.c program was not needed.  I think John added that in.  We need to work on it to see what's worng with the compiling.  
+- Added help menu when you hit H to sendSerialDewey.py - See Git update
+- Added Picture capability when you hit P to sendSerialDewey.py - See Git update
+- Got the SketchBook motorRun Program working. The problem was the Drive.c program and autonomous mode function prototype which was causing compile errors.  
+The drive.c program was not needed at this time.  I think John added that in.  We need to work on it to see what's wrong with the compiling.  
 
 
 # Past Discussions
-Below is basically the Discussion Messages from the Meetup. 
+Below is basically the Discussion Messages from the CNY Makers Meetup Discussion board. 
 I'm not sure if the Discusison capability of Meetup will remain, like they removed the files upload section.  Therefore I copies all the discussion messages here so all the data could be kept in one place. (Some content of the messages have been remove dif it wasn't relevant to the buld, running, test or oepration of Dewey )
 https://www.meetup.com/CNY-Makers-Meetup/messages/boards/ 
 
 ## Dewey Day June 25, 2017 Ken Samuelson 
-I plan to be at the library at about 1:00 today Sunday June 25. Join me if you like. I may stay until 4. My plan is to integrate all the Dewey code to Git. Work on getting the Photo, audio and LCD screen code into the baseline. If John shows up we may work on getting the compass device working on the Arduino.
-I spent a little time at the library this Sunday afternoon.
+My plan is to integrate all the Dewey code to Git. Work on getting the Photo, audio and LCD screen code into the baseline. If John shows up we may work on getting the compass device working on the Arduino.
 
 I cleaned up the Dewey python directory removing all the interim builds. I tested it to show that it all works. I also put the GLCD directory in the python directory so when we get there it is ready to be built into the Dewey baseline. I figured out the python camera program that we can add on Thursday. It is all in your Git and updated now.
 
@@ -93,7 +170,6 @@ We can also figure out what Bob Lawler’s Flask code does and see if we want to
 
 ## Dewey Tasks for Electronics Club 10/17
 Some of this was entered in the Electronics club site.
-See here: https://www.meetup.co...­
 Hopefully I'll be able to make it next week. If you're not on both of these lists I suggest you join.
 We need :
 
@@ -112,14 +188,10 @@ Other ideas? Please post them below.
 Also, if we had an accelerometer we could create a PID controller instead of using the wheel encoder to balance out the torque. We just need to find out base coordinates in relation to world coordinates to calculate error, which could be calculated with an accelerometer on the delta change in values (only one of x, y, or z since his movement is technically 2D).
 
 ### Adam S. 
-# I would also be interested in working #7. Get NTP to work. I found a post here:
+# I would also be interested in working #7. Get NTP to work. I found a post here: (sorry link broke when copying.  See origional discussion in CNY Maker Meetup)
 
 
-    http://raspberrypi.st...­
-
-
-
-mentioning using openntpd instead of ntp (both located in the repos), due to routers restricting ntp using port 123. There are some other suggestions as well.
+Mentioning using openntpd instead of ntp (both located in the repos), due to routers restricting ntp using port 123. There are some other suggestions as well.
 
 Does Dewey live at the FFL, or does he go home with someone? I don't have a nnnnPi yet, but am working on that part. I will bring a list of things to try to the next meeting I can attend, if no one has solved this yet (it would also be useful to hear what has already been done).
 
@@ -161,7 +233,7 @@ Selecting the correct card and hitting ok worked well. It took about 20minutes b
 
 FYI the adapter device that I used came from China (from Amazon). I found it here.
 ABC® MINI 5Gbps Super Speed USB 3.0+OTG Micro SD/SDXC TF Card Reader Adapter
-https://www.amazon.co...­
+Link broken see origional CNY Makers Meetup Discussion)
 
 I also figured out if the date is wrong you can use the command
 sudo rdate time.nist.gov
@@ -583,16 +655,12 @@ If you want to get together this weekend at the library let me know. I'd like to
 This meetup was great tonight. WE got to see the robot in it's current form. it runs manually with the control panel see the pictures and video in the files area. I'm told there is a Google Group for this project called fflfablabrobot or ffl_ucontrol_soc but I could not access them.
 
 I think we need:
--
-
-
-    A requirements or design document (what the robot is intended to do/ what we would like it to do)
-    A parts list
-    A schematic
-    A place to store code revisions (GIT hub or other version controlled repository)
-    A list of who is doing what to what parts
-    A list of who has parts and what parts they can donate
-
+- A requirements or design document (what the robot is intended to do/ what we would like it to do)
+- A parts list
+- A schematic
+- A place to store code revisions (GIT hub or other version controlled repository)
+- A list of who is doing what to what parts
+- A list of who has parts and what parts they can donate
 
 As I understand it we have a small budget so we can buy some stuff we need but donations are gladly accepted.
 
