@@ -28,16 +28,16 @@ The Robot (Dewey)
 ![Dewey](images/Dewey_FullLenght.jpg)
 
 Dewey - The old Photo
-<img src="images/Dewey.jpg" alt="Dewey Old Photo" width=240" height="320">
+<img src="images/Dewey.jpg" alt="Dewey Old Photo" width="240" height="320">
 
 Dewey Out For A Drive
 ![Dewey Out For A Drive](images/DeweyDrive.jpeg)
  
-Dewey - Raspberyy Pi - The Brain
+Dewey - Raspberry Pi - The Brain
 <img src="images/Dewey_RaspberryPi.jpg" alt="Dewey Old Photo" width="320" height="240">
  
 The Robot Electronics - The Motion Control, Sonar Sensor, Voltage Measurment, etc
-<img="images/DeweyCircuitry.jpg" alt="Dewey Electronics" "width="240" height="320">
+<img src="images/DeweyCircuitry.jpg" alt="Dewey Electronics" "width="240" height="320">
  
  Dewey Photo of Sonar Sensor
 <img src="images/DeweySonar.jpg" alt="Dewey Sonar Sensor" width="320" height="240">
