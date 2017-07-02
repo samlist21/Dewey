@@ -5,6 +5,8 @@
 #include "voltage.h"
 #include "def.h"
 
+// #include "timer.h"  // thought this was needed for millis() but it seems to work anyway
+
 const int oneSecInUsec = 1000000; // a second in micro second units
 
 /*
@@ -40,6 +42,10 @@ char currentSpeed = '7';
 char oldMove = 'd';
 char currentMove = 'S';
 
+unsigned long previousMillis = millis();
+unsigned long currentMillis = millis();
+
+
 byte oldSensorSpeed;
 boolean flagSensorGo = false;
 boolean flagSensorStop = false;
@@ -62,12 +68,24 @@ void setup()
 
 void loop()
 {
+  
+  currentMillis = millis();
+  
   if (Serial.available())
   {
     readVal = Serial.read();
     dewey.checkValue(readVal);
   }
-  delay(250);
+  // delay(250);
+  
+  if (currentMillis -previousMillis >= 250){
+    previousMillis = currentMillis;
+    
+    // for debug
+//    Serial.print("  PreviousMillis=");
+//    Serial.print(previousMillis);
+//    Serial.print(" currentMillis=");
+//    Serial.println(currentMillis);
 
   currentSpeed = dewey.readSpeed();
   if (currentSpeed != oldSpeed) {
@@ -127,6 +145,8 @@ void loop()
   }
   
   autonomous = dewey.isAutonomous();
+  
+  } // currentMills is greater than time
   
 }
 
