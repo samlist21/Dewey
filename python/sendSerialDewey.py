@@ -73,7 +73,9 @@ print("Starting Dewey Program\r")
 # get on with Dewey code
 
 i=0
-x='a'
+x='z'
+
+soundCode =1
 
 #try:
 ser = serial.Serial('/dev/ttyACM0',115200)
@@ -119,6 +121,9 @@ def printHelpMenu ():
 	print('I = Run GLCD program - Currently needs Python3\r')
 	print('\r')
 	print('Press ESC, "x", or "X" to Exit (leave application) and STOP Dewey.\r')
+	print('\r')
+	print('If the Terminal program does not work after running this code,\r')
+	print('Try the reset command in the Terminal Window\r')
 
 # Play Sound Function  Called when user hits T
 def playSound( sound):
@@ -133,7 +138,7 @@ def playSound( sound):
 # GLCD Function  Called when user hits I
 # Used to show stuff on the GLCD display - Does nothing now.
 def runGLCD():
-	print("Would be sending GLCD commands here if it worked\r")
+	print("Would be sending GLCD commands here if it worked.  This code needs python3\r")
 
 # Photo Function  Called when user hits P
 # Currently takes 640x480.  Not sure why but okay to be small.
@@ -142,11 +147,12 @@ def runGLCD():
 def takePicture():
     takePicture.counter += 1
     counter = takePicture.counter
+    print("Taking Photo /home/pi/Pictures/image"+str(counter)+".jpg\r")
     camera.start_preview()
     time.sleep(5)
-    camera.capture("/home/pi/Pictures/image"+str(counter)+".jpg\r")
+    camera.capture("/home/pi/Pictures/image"+str(counter)+".jpg")
     camera.stop_preview()
-    print("Photo taken /home/pi/Pictures/image"+str(counter)+".jpg\r")
+    print("Photo complete\r")
 
 # static attributes must be initalized
 # attribute to hold the next picture number
@@ -173,8 +179,8 @@ printHelpMenu()
 
 
 
-inputVal = "a"
-inputValUpper = 'A'
+inputVal = "z" # used to start Arduino in known state.  Do not use A since it is now autonomous mode. 
+inputValUpper = 'Z'
 while 1:
 
     #else:
@@ -186,7 +192,7 @@ while 1:
     while ser.inWaiting()>0:
 
         a = ser.read(1)
-        # first time Dewey sends an 0x87 ot sure why.
+        # first time Dewey sends an 0x87 not sure why.
         if a < b'\x7F':
             # need to strip this off
                         #read and convert bytes to string
@@ -315,7 +321,12 @@ while 1:
             printHelpMenu()
 
         if inputValUpper == 'T':
-            playSound(1)
+            if soundCode == 1:
+                playSound(1)
+                soundCode = 2
+            else:
+                playSound(2)
+                soundCode = 1
 
         if inputValUpper == 'I':
             runGLCD()
@@ -358,15 +369,15 @@ while 1:
             tty.setraw(sys.stdin)
             print("-- Running Playback from File -- ")
             playback()
-    inputVal = "a"
-    inputValUpper = 'A'
+    inputVal = "z"
+    inputValUpper = 'Z'
 
 termios.tcsetattr(sys.stdin,termios.TCSADRAIN, orig_settings)
 #curses.nocbreak()
 #curses.endwin()
 
  #       else:
- #           inputValUpper = 'a'
+ #           inputValUpper = 'z'
  #           print('Not Sent')
 
 

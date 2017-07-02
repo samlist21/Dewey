@@ -20,6 +20,7 @@ class Drive {
   public:
     Drive();
     void driveAutonomous(long);
+    byte isAutonomous();
     void driveUpdate();
     byte driveStatus();
     void runSpeed(byte );
@@ -229,4 +230,9 @@ void Drive::driveLEFT () {
   analogWrite(Rigth_CW, driveSpeed / 2);
   driveDirection = 'L';
 };
+
+byte Drive:: isAutonomous() {
+  return autonomous;
+};
+
 
