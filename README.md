@@ -7,7 +7,8 @@ git pull
 
 To push everything to the repository (DO NOT PUSH OR ADD IF THERE ARE ERRORS)
 ```
-git add .    - This adds all changed files in the directory recusively
+git add .    - This adds all changed files in the directory recusively 
+use git add . -v   If you want to see the files that will be added (verbose mode)
 OR git add <filename with path if necessary>  this will add just the file you specify
 git commit -m "Your message here"
 git push
@@ -23,21 +24,21 @@ https://github.com/jwilliams506/Dewey
 # Photos
 
 The Robot (Dewey)
-![Dewey](images/Dewey_FullLenght.jpg)
+![Dewey](images/Dewey_Full Lenght.jpg)
 Dewey - The old Photo
-![Dewey](images/Dewey.jpg)
+![Dewey](images/Dewey.jpg =640x480)
 
  Dewey Out For A Drive
 ![Dewey Out For A Drive](images/DeweyDrive.jpeg)
  
   Dewey - Raspberyy Pi - The Brain
-![Dewey](images/Dewey_RaspberryPi.jpg)
+![Dewey](images/Dewey_RaspberryPi.jpg =320x240)
  
  The Robot Electronics - The Motion Control, Sonar Sensor, Voltage Measurment, etc
-![Dewey](images/DeweyCircuitry.jpg)
+![Dewey](images/DeweyCircuitry.jpg style="width:320;height:240")
  
  Dewey Photo of Sonar Sensor
-![Dewey Photo of Sonar Sensor](images/DeweySonar.jpg)
+![Dewey Photo of Sonar Sensor](images/DeweySonar.jpg style="width:320;height:240")
 
  Dewey Photo of GLCD Display - With Library Logo
 ![Dewey Photo of Sonar Sensor](images/Dewey_GLCD_Display.jpg)
