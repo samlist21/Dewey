@@ -86,7 +86,7 @@ Dewey Photo of Sonar Sensor
 - [ ]Get sendSerialDewey.py working with python3
 - [ ]Get GLCD working with when python3 is avialble. GLCD only works with python3
 - [ ]Setup a DHCP server on the Ethernet port for automatic connecting via Ethernet Cable
-- [ ]Fix image program to not overwrite images but figure out what the next image number is and store that number.
+- [X]Fix image program to not overwrite images but figure out what the next image number is and store that number.
 - [ ]Find out why the camera turns on and stays on through the whole running of sendSerialDewey.py
 - [ ]Rename sendSerialDewey.py to Dewey.py.  Clean up git codde
 - [ ]Remove all test and demonstration code that is not used. 

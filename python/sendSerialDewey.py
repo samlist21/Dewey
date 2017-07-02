@@ -56,16 +56,19 @@ tty.setraw(sys.stdin)
 
 #curses.cbreak()
 
+# make sure this is in the Pi Directory so the files can be accessed
+os.chdir("/home/pi")
+
 # Setup Camera Stuff
 camera = picamera.PiCamera()
-os.chdir("/home/pi")
+
 camera.hflip=True
 camera.vflip=True
 # attempt to turn off the camera until needed.
 # Does not seem to work at this time.  Camera light stays on.
-camera.stop_preview()
-time.sleep(5)
-camera.stop_preview()
+#camera.stop_preview()
+#time.sleep(5)
+#camera.stop_preview()
 
 
 print("Starting Dewey Program\r")
@@ -140,23 +143,48 @@ def playSound( sound):
 def runGLCD():
 	print("Would be sending GLCD commands here if it worked.  This code needs python3\r")
 
+# Funciton to find highest image number
+def findLastImageNumber():
+# does not handle if low numebrs and high number images are in the directory
+# possibly a better was is to check date first. then latest date and begin after that number
+    maxNumber = 0
+    for filename in os.listdir('./Pictures'):
+        if filename.endswith(".jpg"):
+            #print('Found File='+filename)
+            number = os.path.splitext(filename)[0]
+            intNumber = int(number[5:])
+            #print('Found Number='+ number[5:])
+            #print('Found int Number='+ str(intNumber))
+            if intNumber > maxNumber:
+                #print("Previous Max Number was"+ str(maxNumber))
+                maxNumber = intNumber
+    print("Last Image Number in Pictures Directory was:"+ str(maxNumber) +"\r")
+    return maxNumber  
+
+
+
 # Photo Function  Called when user hits P
 # Currently takes 640x480.  Not sure why but okay to be small.
 # increments image numbers and over writes any images
 # with the same number in the Pictures directory 
 def takePicture():
-    takePicture.counter += 1
+    takePicture.counter += 1  #increment prior to taking the picture
+    if takePicture.counter > 254:  #handle image rollover
+        takePicture.counter =1  # restart image counter if greater than 254
+        # this will begin to over write the previous files and begin at 1
+        #on next start unless images are removed.
     counter = takePicture.counter
+    # if filename is changed make sure to change findLastImageNumber function too 
     print("Taking Photo /home/pi/Pictures/image"+str(counter)+".jpg\r")
-    camera.start_preview()
-    time.sleep(5)
+    #camera.start_preview()
+    #time.sleep(5)
     camera.capture("/home/pi/Pictures/image"+str(counter)+".jpg")
-    camera.stop_preview()
+    #camera.stop_preview()
     print("Photo complete\r")
 
 # static attributes must be initalized
 # attribute to hold the next picture number
-takePicture.counter = 0 
+takePicture.counter = findLastImageNumber() 
 
 # start of Dewey Program	
 ser.isOpen()
