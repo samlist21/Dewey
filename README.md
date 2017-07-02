@@ -24,7 +24,7 @@ https://github.com/jwilliams506/Dewey
 # Photos
 
 The Robot (Dewey)
-<img src="images/Dewey_FullLenght.jpg" alt="Dewey Old Photo" width="480" height="640">
+<img src="images/Dewey_FullLenght.jpg" alt="Dewey Old Photo" width="400" height="640">
 
 Dewey - The old Photo
 <img src="images/Dewey.jpg" alt="Dewey Old Photo" width="240" height="320">
@@ -33,15 +33,19 @@ Dewey Out For A Drive
 ![Dewey Out For A Drive](images/DeweyDrive.jpeg)
  
 Dewey - Raspberry Pi - The Brain
+
 <img src="images/Dewey_RaspberryPi.jpg" alt="Dewey Old Photo" width="320" height="240">
  
 The Robot Electronics - The Motion Control, Sonar Sensor, Voltage Measurment, etc
+
 <img src="images/DeweyCircuitry.jpg" alt="Dewey Electronics" width="240" height="320">
  
- Dewey Photo of Sonar Sensor
+Dewey Photo of Sonar Sensor
+
 <img src="images/DeweySonar.jpg" alt="Dewey Sonar Sensor" width="320" height="240">
 
  Dewey Photo of GLCD Display - With Library Logo
+ 
 ![Dewey Photo of Sonar Sensor](images/Dewey_GLCD_Display.jpg)
 
 ## Reminders
@@ -60,11 +64,13 @@ The Robot Electronics - The Motion Control, Sonar Sensor, Voltage Measurment, et
 ## Running Dewey 
 1. Logon to Pi locally or through VNC
 2. open a terminal window
-3. Type> cd
-4. type> cd dewey
+3. Type> cd     - this step gets you to the /home/pi directory
+4. type> cd dewey  OR skip step 3 and just type> cd /home/pi/dewey
 5. type> sudo python python/sendSerialDewey.py
-6. Enter command to control Dewey - Remeber dont' hit enter just the key.
-7. When finished hit X 
+6. Enter a command to control Dewey 
+- Remeber don't hit enter just the key.
+- Type H if you forget the available commands.
+7. When finished hit X   This stops running the python program
 
 ## Shutting Down Dewey Cleanly 
 - Make sure to power off Dewey each night cleanly - 
@@ -74,22 +80,23 @@ The Robot Electronics - The Motion Control, Sonar Sensor, Voltage Measurment, et
 
 
 ## Current Task List 
-- Dewey needs a re-charge.  Batteries were at 11.98VDC - Plug in for a day
-- Put Drive.c Back into MotorRun and figure out why it is not compiling
-- Get sendSerialDewey.py working with python3
-- Get GLCD working with when python3 is avialble. GLCD only works with python3
-- Setup a DHCP server on the Ethernet port for automatic connecting via Ethernet Cable
-- Fix image program to not overwrite images but figure out what the next image number is and store that number.
-- Find out why the camera turns on and stays on through the whole running of sendSerialDewey.py
-- Rename sendSerialDewey.py to Dewey.py.  Clean up git codde
-- Remove all test and demonstration code that is not used. 
-- Get autonomous mode working. Dewey drives around by itself. 
-- Add voice files for "Hello, I'm Dewey", "Excuse Me", "What is your Name?", "Can I take your picture?", "Bye, Bye - Dewey Sleeping now",etc.
-- Should do a sudo apt-get upgrade. Possibly will break some things so need to be careful when we want to do this. Test on home Pi setup first, before library setup. 
-- Get Dewey Video working
-- Add Microphone to Dewey
-- Get Dewey voice recognition working
-- Figure out how to break this file into multiple files.  It is getting too long.
+- [X]Get Motor run working without delay() code
+- [ ]Dewey needs a re-charge.  Batteries were at 11.98VDC - Plug in for a day
+- [ ]Put Drive.c Back into MotorRun and figure out why it is not compiling
+- [ ]Get sendSerialDewey.py working with python3
+- [ ]Get GLCD working with when python3 is avialble. GLCD only works with python3
+- [ ]Setup a DHCP server on the Ethernet port for automatic connecting via Ethernet Cable
+- [ ]Fix image program to not overwrite images but figure out what the next image number is and store that number.
+- [ ]Find out why the camera turns on and stays on through the whole running of sendSerialDewey.py
+- [ ]Rename sendSerialDewey.py to Dewey.py.  Clean up git codde
+- [ ]Remove all test and demonstration code that is not used. 
+- [ ]Get autonomous mode working. Dewey drives around by itself. 
+- [ ]Add voice files for "Hello, I'm Dewey", "Excuse Me", "What is your Name?", "Can I take your picture?", "Bye, Bye - Dewey Sleeping now",etc.
+- [ ]Should do a sudo apt-get upgrade. Possibly will break some things so need to be careful when we want to do this. Test on home Pi setup first, before library setup. 
+- [ ]Get Dewey Video working
+- [ ]Add Microphone to Dewey
+- [ ]Get Dewey voice recognition working
+- [ ]Figure out how to break this file into multiple files.  It is getting too long.
 
 
 ## Wish List 
@@ -119,7 +126,6 @@ And perhaps most importantly:
 - Super rad lighting effects - LED string (Cylon)
 
 ## Implemented Functions
-- Done, Get Motor run working without delay() code
 Too many to list - Volunteers to document?
 
 ## New Discussions - only on github
