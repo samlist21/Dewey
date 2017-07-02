@@ -24,21 +24,22 @@ https://github.com/jwilliams506/Dewey
 # Photos
 
 The Robot (Dewey)
-![Dewey](images/Dewey_Full Lenght.jpg)
+![Dewey] (images/Dewey_Full Lenght.jpg)
 Dewey - The old Photo
-![Dewey](images/Dewey.jpg =640x480)
+![Dewey]<img src="images/Dewey.jpg" alt="Dewey Old Photo" width="640" height="480">
 
  Dewey Out For A Drive
 ![Dewey Out For A Drive](images/DeweyDrive.jpeg)
  
   Dewey - Raspberyy Pi - The Brain
-![Dewey](images/Dewey_RaspberryPi.jpg =320x240)
+![Dewey](images/Dewey_RaspberryPi.jpg)
+![Dewey] <img src="images/Dewey_RaspberryPi.jpg" alt="Dewey Old Photo" width="320" height="240">
  
  The Robot Electronics - The Motion Control, Sonar Sensor, Voltage Measurment, etc
-![Dewey](images/DeweyCircuitry.jpg style="width:320;height:240")
+![Dewey]<img="images/DeweyCircuitry.jpg" style="width:320;height:240">
  
  Dewey Photo of Sonar Sensor
-![Dewey Photo of Sonar Sensor](images/DeweySonar.jpg style="width:320;height:240")
+![Dewey Photo of Sonar Sensor]<img src="images/DeweySonar.jpg" alt="Dewey Sonar Sensor" style="width:320;height:240">
 
  Dewey Photo of GLCD Display - With Library Logo
 ![Dewey Photo of Sonar Sensor](images/Dewey_GLCD_Display.jpg)
