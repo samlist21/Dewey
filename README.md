@@ -47,31 +47,43 @@ Dewey - The old Photo
 - Dewey FFlAir WiFi Static IP address is  10.100.1.199 - Subject to change 
 - VNC connection is either of the above IP addresses and port :5901, depending on the link used.
 - Dewey Password - email or message Ken Samuelson - See meetup for my contact info. 
-- Make sure to power off Dewey eachnight cleanly - sudo shutdown -h now or menu shutdown and password. 
-- Watch handling the Pi.  If your not careful you will pop out the spring loaded microSD card and you will trash the card.  This is very bad. 
-- Turn off the speaker before shuttign Dewey down so that you won't wear down the batteries.  
-- Turn off both power switches after a clean shutdown.
-- Robot club has a keyboard and mouse in the containers if you can't access Dewey.  you will need an HDMI monitor, cable or HDMI to VGA converter. See Ken Samuelson I have all (any) of them.
+- Watch handling the Pi.  If you're not careful you will pop out the spring loaded microSD card and you will trash the card.  This is very bad. 
+- Robot club has a keyboard and mouse in the containers. If you can't access Dewey, you will need the keyboard, mouse, and an HDMI monitor, cable or HDMI to VGA converter. See Ken Samuelson I have all (any) of them.
 - The Fayettville Free library is closed Sunday's in July and August and only open 10-1 on Saturday.  Remnder if you are planning to work on Dewey.  
 - Pull and push Git code always and often so you don't lose any of your changes.  If you need git training see Ken Samuelson 
-- All changes msut be documented here or they will be removed unless or until validated.  
+- All changes must be documented here or they will be removed unless or until validated.  
 - You can remote into Dewey using an SSH client like Putty at the IP address above
 - You can FTP into Dewey at an IP address above. Anonymous gets you limited file access.  SCP gets you fill directory access. 
 
+## Running Dewey 
+1. Logon to Pi locally or through VNC
+2. open a terminal window
+3. Type> cd
+4. type> cd dewey
+5. type> sudo python python/sendSerialDewey.py
+6. Enter command to control Dewey - Remeber dont' hit enter just the key.
+7. When finished hit X 
+
+## Shutting Down Dewey Cleanly 
+- Make sure to power off Dewey each night cleanly - 
+- Type> sudo shutdown -h now OR go to the menu shutdown and type the password. 
+- Turn off the speaker before shuttign Dewey down so that you won't wear down the batteries.  
+- Turn off both power switches ONLY after a clean shutdown.
+
+
 ## Current Task List 
 - Dewey needs a re-charge.  Batteries were at 11.98VDC - Plug in for a day
-- Get Motor run working without delay() code
 - Put Drive.c Back into MotorRun and figure out why it is not compiling
-- Get sendSerialDewey.py workign with python3
+- Get sendSerialDewey.py working with python3
 - Get GLCD working with when python3 is avialble. GLCD only works with python3
 - Setup a DHCP server on the Ethernet port for automatic connecting via Ethernet Cable
-- Fix image program to not overwrite images but figure out whatt he next image numerb is and store that.
-- Find out why the camera turns on and stays on through the whole running fo sendSerialDewey.py
+- Fix image program to not overwrite images but figure out what the next image number is and store that number.
+- Find out why the camera turns on and stays on through the whole running of sendSerialDewey.py
 - Rename sendSerialDewey.py to Dewey.py.  Clean up git codde
 - Remove all test and demonstration code that is not used. 
 - Get autonomous mode working. Dewey drives around by itself. 
 - Add voice files for "Hello, I'm Dewey", "Excuse Me", "What is your Name?", "Can I take your picture?", "Bye, Bye - Dewey Sleeping now",etc.
-- Should do a sudo apt-get upgrade. Possibly will break some things so need to be careful when we want to do this. 
+- Should do a sudo apt-get upgrade. Possibly will break some things so need to be careful when we want to do this. Test on home Pi setup first, before library setup. 
 - Get Dewey Video working
 - Add Microphone to Dewey
 - Get Dewey voice recognition working
@@ -85,12 +97,12 @@ Dewey - The old Photo
 - Arduino code - Work on wheel tracking via heading. Incorporate code into baseline.
 - Arduino code - Work on Sonar sensor (probably wiring)
 - If any of the stuff I requested comes in work on that (eyes, LED string)
-- Create an updated Schematic of Dewey.
+- Create an updated Schematic of Dewey. Store on Git
 - Figure out Flask code and implement in Dewey
 - Speed/PID control on drive motors
 - Streaming video via web interface
 - Real-time robot control via web interface
-- Integrated display
+- Integrated display - GLCD
 - Collision detection (contact/skirt)
 - Collision avoidance (non-contact/Kinect/ultrasonics/laser)
 - Floor/stair detection
@@ -105,6 +117,7 @@ And perhaps most importantly:
 - Super rad lighting effects - LED string (Cylon)
 
 ## Implemented Functions
+- Done, Get Motor run working without delay() code
 Too many to list - Volunteers to document?
 
 ## New Discussions - only on github
@@ -113,14 +126,14 @@ Too many to list - Volunteers to document?
 - Updated sendSerialDewey.py to include Help Menu, Talk, Picture capability
 Talk works for both aplay and mpg123 files when files are in the sounds directory.  The alsa and .wav files do not seem to work yet.
 Tested on Dewey and the images, help menu and Sound works. 
-Fixed Motor Run code to compile and be downloaded to the Arduino.  Drive .c was removed because it wouel nto allow compiling. 
+Fixed Motor Run code to compile and be downloaded to the Arduino.  Drive.c was removed because it wouel nto allow compiling. 
 Autonomous mode is compiled in but may or may not work.  Still needs testing
 
 Working on:
 1. Getting sendSerialDewey.py to run on Python3  - so GLCD code can be added. 
-2. Clean up some carrige returns and text formatting for cleaner debug output
+2. Clean up some carriage returns and text formatting for cleaner debug output
 3. Would like a debug mode so the screen stays clean unless needed
-4. Fix motor run to not use any  delays but use millis. Better mulit-Tasking
+4. Done - Fix motor run to not use any delays but use millis. Better multi-Tasking
 
 
 ## Dewey Day June 30, 2017 Ken Samuelson 
