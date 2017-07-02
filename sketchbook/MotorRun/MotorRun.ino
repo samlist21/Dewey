@@ -51,6 +51,9 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println("Dewey Alive and ready to take commands");
+  //Edit this line wheen a significant chnag eis made so that the user knows
+ //  what veersion fo Motor Run theyy are using 
+  Serial.println("Dewey Drive Code Version 12");
 
   //Define sensor inputs and outputs
   pinMode(trigPin, OUTPUT);

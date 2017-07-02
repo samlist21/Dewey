@@ -19,7 +19,7 @@ class Drive {
 
   public:
     Drive();
-    void driveAutonomous();
+    void driveAutonomous(long);
     void driveUpdate();
     byte driveStatus();
     void runSpeed(byte );
@@ -92,9 +92,9 @@ void Drive::driveAutonomous (long cm)
 {
   if (autonomous)
   {
-    if (cm = < 15)
+    if (cm <= 15)
     {
-      if (cm < cmPrev)
+      if (cm < prevCm)
       {
         driveRight = false;
       }
@@ -112,7 +112,7 @@ void Drive::driveAutonomous (long cm)
       driveRight = 0;
       driveDirection = 'F';
     }
-    cmPrev = cm;
+    prevCm = cm;
   }
 };
 
@@ -181,7 +181,7 @@ void Drive::checkValue (byte value) {
       case 'a':
       case 'A':
         autonomous = true;
-        driveAutonomous();
+        driveAutonomous(15);
         break;
       default:
         break;

@@ -61,11 +61,14 @@ camera = picamera.PiCamera()
 os.chdir("/home/pi")
 camera.hflip=True
 camera.vflip=True
+# attempt to turn off the camera until needed.
+# Does not seem to work at this time.  Camera light stays on.
+camera.stop_preview()
+time.sleep(5)
 camera.stop_preview()
 
 
-print("Starting Dewey Program ")
-
+print("Starting Dewey Program\r")
 
 # get on with Dewey code
 
@@ -75,13 +78,14 @@ x='a'
 #try:
 ser = serial.Serial('/dev/ttyACM0',115200)
 
-
-deweyRecord = record.record()
-
 #except Exception, e:
 #    print "error open serail port: "+ str(e)
 #    exit()
 
+# Call the record function so that it is ready to record when called. 
+deweyRecord = record.record()
+
+#  Playback Function for recorded track data
 def playback ():
     for step in runList:
         print (step)
@@ -93,10 +97,12 @@ def playback ():
         time.sleep(step['time'])
     print("-- Done running Playback -- \r")
 
-
+#Ability to Print the Help Menu at any time by pressing H
 def printHelpMenu ():
 	print('Enter your commands below.\r')
 	print('Available Commands:(uppercase preferred but not necessary)\r')
+	print('No need to hit enter - Just the key\r')
+        print('A = Autonomous\r')
 	print('F = Forward\r')
 	print('B = Backward\r')
 	print('R = Turn Right\r')
@@ -114,36 +120,43 @@ def printHelpMenu ():
 	print('\r')
 	print('Press ESC, "x", or "X" to Exit (leave application) and STOP Dewey.\r')
 
+# Play Sound Function  Called when user hits T
 def playSound( sound):
 	if (sound == 1 ):
-		print("Playing Sound - /usr/share/sounds/asla/Front_Center.wav")
+		print("Playing Sound - /usr/share/sounds/asla/Front_Center.wav\r")
 		os.system("aplay /home/pi/dewey/sounds/Front_Center.wav &")
 		
 	if (sound == 2 ):
-		print("Playing Sound -  /home/pi/dewey/sounds/bizarre-guitar-daniel_simon.mp3")
+		print("Playing Sound -  /home/pi/dewey/sounds/bizarre-guitar-daniel_simon.mp3\r")
 		os.system("mpg123 /home/pi/dewey/sounds/bizarre-guitar-daniel_simon.mp3 &")
 	
-	
+# GLCD Function  Called when user hits I
+# Used to show stuff on the GLCD display - Does nothing now.
 def runGLCD():
-	print("Would be sending GLCD commands here if it worked")
+	print("Would be sending GLCD commands here if it worked\r")
 
+# Photo Function  Called when user hits P
+# Currently takes 640x480.  Not sure why but okay to be small.
+# increments image numbers and over writes any images
+# with the same number in the Pictures directory 
 def takePicture():
     takePicture.counter += 1
     counter = takePicture.counter
     camera.start_preview()
     time.sleep(5)
-    camera.capture("/home/pi/Pictures/image"+str(counter)+".jpg")
+    camera.capture("/home/pi/Pictures/image"+str(counter)+".jpg\r")
     camera.stop_preview()
-    print("Photo taken /home/pi/Pictures/image"+str(counter)+".jpg")
+    print("Photo taken /home/pi/Pictures/image"+str(counter)+".jpg\r")
 
 # static attributes must be initalized
+# attribute to hold the next picture number
 takePicture.counter = 0 
 
 # start of Dewey Program	
 ser.isOpen()
 print("First Action - Stopping Dewey\r")
 ser.write('S'.encode('utf-8'))
-print(' ')
+print(' \r')
 # clear serial buffer so no bad characters come out and crash the program.
 # Should see hello from Pi
 
