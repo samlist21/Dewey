@@ -90,12 +90,13 @@ x='z'
 
 soundCode =1
 GLCDcode =1
-setGLCD =1
+
 
 
 # try to find and use serial for Arduino.  If not there quit since need serial to move. 
 try:
     ser = serial.Serial('/dev/ttyACM0',115200)
+    print("Done opening Serial to Arduino\r")
      
 
 except:
@@ -104,6 +105,50 @@ except:
     print ("Sorry, Can't use Dewey without motors \r")
     exit(0)
     
+
+
+
+def loadFFLImage(imageFile):
+    # Load Data
+    try:
+            image = lcd.loadImage(imageFile)      # Load splash screen image
+            #img_sm = lcd.loadImage("/home/pi/dewey/python/GLCD/ffl_logomultismall_BW_64x27.png")       # Load small icon
+            # Seems to need absolute path.  Needs work. 
+    except (KeyboardInterrupt, SystemExit):
+            raise
+    except Exception as e:
+            print("Resource loading exception: " + str(e) +"\r")
+    return image        
+
+def setFFLLogoGLCD():
+    # Send FFl Logo to GLCD display
+
+    print("Sending image to Display..... \r") 
+    lcd.drawFullscreenImage(loadFFLImage("/home/pi/dewey/python/GLCD/ffl_logomultismall_BW_128x64.png"))
+
+    # Set write position and write initial text 
+    lcd.setPosition(int((lcd.getMaxCharactersPerRow() - len(s)) / 2) + 1, 8)        # Center text on bottom row
+    lcd.writeString(s)      # Write text
+
+
+    # end GLCD first image
+
+
+# Setup GLCD
+setGLCD = lcd.init()
+if setGLCD:
+    print("LCD Initialized...\r")
+    quit = False
+    WriteToScreen = False
+    WriteToScreen = True
+    s = "FFL Robotics!"     # Set text
+    lcd.setSmallText()     # Set small text size
+    #lcd.setLargeText()      # Set large text size
+    print("LCD Set...\r")
+    lcd.clearScreen()
+    print("LCD Cleared...\r")
+    setFFLLogoGLCD()
+
 
 # Call the record function so that it is ready to record when called. 
 deweyRecord = record.record()
@@ -158,22 +203,40 @@ def playSound( sound):
         print("Playing Sound -  /home/pi/dewey/sounds/bizarre-guitar-daniel_simon.mp3\r")
         os.system("mpg123 /home/pi/dewey/sounds/bizarre-guitar-daniel_simon.mp3 &")
         soundCode = 1
+
+def randomCirclesTextGLCD():
+    lcd.clearScreen()
+    img_sm = loadFFLImage("/home/pi/dewey/python/GLCD/ffl_logomultismall_BW_64x27.png")
+    # Clear display
+    if (lcd.TEXT_SIZE == lcd.TEXT.LARGE): # Position range for large text
+            lcd.setPosition(random.randint(1,22-len(s)), random.randint(1,8))       # Set random position
+    else:   # Position range for small text
+            lcd.setPosition(random.randint(1,33-len(s)), random.randint(1,8))       # Set random position
+    lcd.writeString(s)      # Write text
+    print("Sending circles to Display..... \r")       
+    # Draw random circles
+    lcd.drawCircle(random.randint(0,127), random.randint(0,63), random.randint(2,20), lcd.COLOR.BLACK)
+    lcd.drawCircle(random.randint(0,127), random.randint(0,63), random.randint(2,20), lcd.COLOR.BLACK)
+    print("Sending small icon to Display....\r")     
+    # Draw small icon
+    lcd.drawImage(random.randint(0,127-img_sm.size[0]), random.randint(0,63-img_sm.size[1]), img_sm)
+
 	
 # GLCD Function  Called when user hits I
 # Used to show stuff on the GLCD display - Does nothing now.
 def runGLCD():
     global setGLCD
     if setGLCD:
-        print("Would be sending GLCD commands here if it worked.  This code needs python3\r")
+        #print("Sending set of GLCD commands\r")
         global GLCDcode
         if (GLCDcode == 1 ):
             print("Showing GLCD 1 - FFL Logo\r")
-            
+            setFFLLogoGLCD()
             GLCDcode = 2
             
         elif (GLCDcode == 2 ):
             print("Showing GLCD 2 - Circles, small FFL Logo, and text \r")
-            
+            randomCirclesTextGLCD()
             GLCDcode = 1
         
     else:
@@ -378,9 +441,13 @@ while 1:
             termios.tcsetattr(sys.stdin,termios.TCSADRAIN, orig_settings)
             print("Stdin closed\r")
 
+            print("GLCD Port closed")
+            lcd.stop()
 
 
             print("Port and program closed")
+            
+
             # Exit if desired
             break
             #exit()

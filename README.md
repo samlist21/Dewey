@@ -88,7 +88,7 @@ type> sudo python3 python/sendSerialDewey.py - Dewey should work both ways
 - [X] Dewey needs a re-charge.  Batteries were at 11.98VDC - Plug in for a day
 - [ ] Put Drive.c Back into MotorRun and figure out why it is not compiling
 - [X] Get sendSerialDewey.py working with python3 - 
-- [ ] Get GLCD working with when python3 is available. GLCD only works with python3
+- [X] Get GLCD working with when python3 is available. GLCD only works with python3
 - [ ] Setup a DHCP server on the Ethernet port for automatic connecting via Ethernet Cable
 - [X] Fix image program to not overwrite images but figure out what the next image number is and store that number.
 - [ ] Find out why the camera turns on and stays on through the whole running of sendSerialDewey.py
@@ -101,8 +101,9 @@ type> sudo python3 python/sendSerialDewey.py - Dewey should work both ways
 - [ ] Add Microphone to Dewey
 - [ ] Get Dewey voice recognition working
 - [ ] Figure out how to break this file into multiple files.  It is getting too long.
-- [ ] Fix rogue acrrige returns from Arduino.
-- [X]  Fixed Dewey so that if Arduino serial port is not working then the program exits gracefully 
+- [ ] Fix rogue carrige returns from Arduino.
+- [X] Fixed Dewey so that if Arduino serial port is not working then the program exits gracefully 
+- [ ] Fix GLCD need for absolute path 
 
 
 ## Wish List 
@@ -117,7 +118,7 @@ type> sudo python3 python/sendSerialDewey.py - Dewey should work both ways
 - Speed/PID control on drive motors
 - Streaming video via web interface
 - Real-time robot control via web interface
-- Integrated display - GLCD
+- Integrated display - GLCD  - DONE
 - Collision detection (contact/skirt)
 - Collision avoidance (non-contact/Kinect/ultrasonics/laser)
 - Floor/stair detection
@@ -143,6 +144,11 @@ Any Dewey Testing always needs to include both python and python3
 - Continue to update and fix README.md
 - Noticed some stray carrige returns and formatting problems coming back from arduino
 Added to the task list.
+- Got GLCD working inside the dewey program
+- GLCD FFL Logo pops up first on program run.
+- GLCD circles, Text and small logo pops up on hitting I key
+- Created functions for showing each type of GLCD picture
+
 
 
 ## Dewey Day July 1, 2017 Ken Samuelson 

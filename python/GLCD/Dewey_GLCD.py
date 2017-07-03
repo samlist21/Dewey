@@ -27,12 +27,13 @@ posX = 1                                                                        
 posY = 1                                                                        # Text y position
 
 def init():             # Set-up GLCD functions
-        _initSerial()                                   # Initialize serial connection
+        returnValue = _initSerial()                                   # Initialize serial connection
         global TEXT_SIZE
         TEXT_SIZE = TEXT.LARGE          # Initialize to default text size (large)
+        return returnValue 
 
 def _initSerial():
-        print("Opening serial connection...")
+        print("Opening GLCD serial connection...\r")
         # Set default comms parameters
         #ser = serial.Serial()
         ser.port = "/dev/ttyUSB0"                       # Linux
@@ -56,17 +57,20 @@ def _initSerial():
         # Open port
         try:
                 ser.open()
-                print("Serial Port Open...")
+                print("GLCD Serial Port Open...\r")
                 _writeToPort(bytes([191]))
-                print("Serial Port set to 57600...")
+                print("GLCD Serial Port set to 57600...\r")
+                returnValue  = True
         except (KeyboardInterrupt, SystemExit):
                 raise
         except Exception as e:
                 print ("Error opening serial port: " + str(e))
-                exit()
+                #exit()
+                returnValue = False
+        return returnValue        
 
 def stop():             # Stop GLCS functions
-        print("Closing serial connection...")
+        print("Closing GLCD serial connection...\r")
         _closeSerial()
         
 def _closeSerial():
