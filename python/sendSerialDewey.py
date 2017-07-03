@@ -28,6 +28,16 @@ import select
 import os
 import picamera
 
+# add path to GLCD files - needed since it is not in this directory
+sys.path.insert(0,'python/GLCD/')
+
+# includes for GLCD
+from PIL import Image                           # Image processing module
+import random                                           # Random number generation
+import time                                                     # Used for sleep delay
+import sys					# to teest for non-blockign input 
+
+import Dewey_GLCD as lcd                        # GLCD control module
 
 
 orig_settings = termios.tcgetattr(sys.stdin)
@@ -79,16 +89,20 @@ i=0
 x='z'
 
 soundCode =1
+GLCDcode =1
+setGLCD =1
 
-# try to find and use serial for GLCD.  If not there just set value. 
+
+# try to find and use serial for Arduino.  If not there quit since need serial to move. 
 try:
     ser = serial.Serial('/dev/ttyACM0',115200)
-    setGLCD = True 
+     
 
-except e:
-    print ("error open serail port: "+ str(e) + "\r")
-    print ("Can't use GLCD\r")
-    setGLD = False
+except:
+    e = sys.exc_info()[0]
+    print ("Error opening serial port to Arduino, Error: "+ str(e) + "\r")
+    print ("Sorry, Can't use Dewey without motors \r")
+    exit(0)
     
 
 # Call the record function so that it is ready to record when called. 
@@ -134,19 +148,34 @@ def printHelpMenu ():
 
 # Play Sound Function  Called when user hits T
 def playSound( sound):
-	if (sound == 1 ):
-		print("Playing Sound - /usr/share/sounds/asla/Front_Center.wav\r")
-		os.system("aplay /home/pi/dewey/sounds/Front_Center.wav &")
-		
-	if (sound == 2 ):
-		print("Playing Sound -  /home/pi/dewey/sounds/bizarre-guitar-daniel_simon.mp3\r")
-		os.system("mpg123 /home/pi/dewey/sounds/bizarre-guitar-daniel_simon.mp3 &")
+    global soundCode
+    if (soundCode == 1 ):
+        print("Playing Sound - /usr/share/sounds/asla/Front_Center.wav\r")
+        os.system("aplay /home/pi/dewey/sounds/Front_Center.wav &")
+        soundCode = 2
+        
+    elif (soundCode == 2 ):
+        print("Playing Sound -  /home/pi/dewey/sounds/bizarre-guitar-daniel_simon.mp3\r")
+        os.system("mpg123 /home/pi/dewey/sounds/bizarre-guitar-daniel_simon.mp3 &")
+        soundCode = 1
 	
 # GLCD Function  Called when user hits I
 # Used to show stuff on the GLCD display - Does nothing now.
 def runGLCD():
+    global setGLCD
     if setGLCD:
         print("Would be sending GLCD commands here if it worked.  This code needs python3\r")
+        global GLCDcode
+        if (GLCDcode == 1 ):
+            print("Showing GLCD 1 - FFL Logo\r")
+            
+            GLCDcode = 2
+            
+        elif (GLCDcode == 2 ):
+            print("Showing GLCD 2 - Circles, small FFL Logo, and text \r")
+            
+            GLCDcode = 1
+        
     else:
         print("GLCD can not be run.  No Serial port. \r")
 
@@ -368,12 +397,7 @@ while 1:
             printHelpMenu()
 
         if inputValUpper == 'T':
-            if soundCode == 1:
-                playSound(1)
-                soundCode = 2
-            else:
-                playSound(2)
-                soundCode = 1
+            playSound(1)
 
         if inputValUpper == 'I':
             runGLCD()

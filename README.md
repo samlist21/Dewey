@@ -62,6 +62,7 @@ The old addres, above, will work until they do.
 - All changes must be documented here or they will be removed unless or until validated.  
 - You can remote into Dewey using an SSH client like Putty at the IP address above
 - You can FTP into Dewey at an IP address above. Anonymous gets you limited file access.  SCP gets you fill directory access. 
+- If Dewey crashes for some reason and the terminal window gets messed up (i.e. you can't see what you are typing) then use the command type> reset   in the terminal and it will fix the terminal display.
 
 ## Running Dewey 
 1. Logon to Pi locally or through VNC
@@ -83,24 +84,25 @@ type> sudo python3 python/sendSerialDewey.py - Dewey should work both ways
 
 
 ## Current Task List 
-- [X]Get Motor run working without delay() code
-- [X]Dewey needs a re-charge.  Batteries were at 11.98VDC - Plug in for a day
-- [ ]Put Drive.c Back into MotorRun and figure out why it is not compiling
-- [X]Get sendSerialDewey.py working with python3 - 
-- [ ]Get GLCD working with when python3 is available. GLCD only works with python3
-- [ ]Setup a DHCP server on the Ethernet port for automatic connecting via Ethernet Cable
-- [X]Fix image program to not overwrite images but figure out what the next image number is and store that number.
-- [ ]Find out why the camera turns on and stays on through the whole running of sendSerialDewey.py
-- [ ]Rename sendSerialDewey.py to Dewey.py.  Clean up git code
-- [ ]Remove all test and demonstration code that is not used. 
+- [X] Get Motor run working without delay() code
+- [X] Dewey needs a re-charge.  Batteries were at 11.98VDC - Plug in for a day
+- [ ] Put Drive.c Back into MotorRun and figure out why it is not compiling
+- [X] Get sendSerialDewey.py working with python3 - 
+- [ ] Get GLCD working with when python3 is available. GLCD only works with python3
+- [ ] Setup a DHCP server on the Ethernet port for automatic connecting via Ethernet Cable
+- [X] Fix image program to not overwrite images but figure out what the next image number is and store that number.
+- [ ] Find out why the camera turns on and stays on through the whole running of sendSerialDewey.py
+- [ ] Rename sendSerialDewey.py to Dewey.py.  Clean up git code
+- [ ] Remove all test and demonstration code that is not used. 
 - [ ] Get autonomous mode working. Dewey drives around by itself. 
-- [ ] Add voice files for "Hello, I'm Dewey", "Excuse Me", "What is your Name?", "Can I take your picture?", "Bye, Bye - Dewey Sleeping now",etc.
+- [ ] Add voice files for "Hello, I'm Dewey", "Excuse Me", "What is your Name?", "Can I take your picture?", "Say Cheese!","Bye, Bye - Dewey Sleeping now",etc.
 - [ ] Should do a sudo apt-get upgrade. Possibly will break some things so need to be careful when we want to do this. Test on home Pi setup first, before library setup. 
 - [ ] Get Dewey Video working
 - [ ] Add Microphone to Dewey
 - [ ] Get Dewey voice recognition working
 - [ ] Figure out how to break this file into multiple files.  It is getting too long.
 - [ ] Fix rogue acrrige returns from Arduino.
+- [X]  Fixed Dewey so that if Arduino serial port is not working then the program exits gracefully 
 
 
 ## Wish List 
