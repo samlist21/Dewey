@@ -64,7 +64,7 @@ def _initSerial():
         except (KeyboardInterrupt, SystemExit):
                 raise
         except Exception as e:
-                print ("Error opening serial port: " + str(e))
+                print ("Error opening serial port: " + str(e)+"\r")
                 #exit()
                 returnValue = False
         return returnValue        

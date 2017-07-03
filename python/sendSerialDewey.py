@@ -5,13 +5,10 @@
 # must have serial to use serial functions
 # use sudo apt-get install pyserial
 
-# Other funcitons that need tobe installed to use this code.
+# Other functions that need tobe installed to use this code.
 # use sudo apt-get install <none specified yet>
 # sudo apt-get install python-picamera   OR
 # sudo apt-get install python3-picamera
-
-
-
 
 import time
 import serial
@@ -44,12 +41,9 @@ orig_settings = termios.tcgetattr(sys.stdin)
 
 tty.setraw(sys.stdin)
 
-
 # must have aplay and/ or mpg123 to use sound functions
 # use sudo apt-get install asla-utils   OR
 # use sudo apt-get install mpg123 
-
-
 
 # setup pygame to use key press
 #pygame.init()
@@ -97,16 +91,12 @@ GLCDcode =1
 try:
     ser = serial.Serial('/dev/ttyACM0',115200)
     print("Done opening Serial to Arduino\r")
-     
 
 except:
     e = sys.exc_info()[0]
     print ("Error opening serial port to Arduino, Error: "+ str(e) + "\r")
     print ("Sorry, Can't use Dewey without motors \r")
     exit(0)
-    
-
-
 
 def loadFFLImage(imageFile):
     # Load Data
@@ -129,8 +119,6 @@ def setFFLLogoGLCD():
     # Set write position and write initial text 
     lcd.setPosition(int((lcd.getMaxCharactersPerRow() - len(s)) / 2) + 1, 8)        # Center text on bottom row
     lcd.writeString(s)      # Write text
-
-
     # end GLCD first image
 
 
@@ -148,6 +136,8 @@ if setGLCD:
     lcd.clearScreen()
     print("LCD Cleared...\r")
     setFFLLogoGLCD()
+else:
+	print("No GLCD Serial port found GLCD may not be used...\r")
 
 
 # Call the record function so that it is ready to record when called. 
@@ -455,7 +445,7 @@ while 1:
 
         if inputValUpper == 'V':
             # V Means start recording
-            print("Dewey Record Beginning.....")
+            print("Dewey Record Beginning.....\r")
             termios.tcsetattr(sys.stdin,termios.TCSADRAIN, orig_settings)
             deweyRecord.rec_start()
             tty.setraw(sys.stdin)
@@ -476,7 +466,7 @@ while 1:
             # Q Means stop recording
 
             # Stop the recording
-            print("....Dewey Record Ending")
+            print("....Dewey Record Ending\r")
             deweyRecord.rec_stop()
 
 
