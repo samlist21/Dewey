@@ -250,17 +250,17 @@ if setGLCD:
     setGLCD = lcd.init()
     # get second chance to see if GLCD can be initialized
     if setGLCD:
-		print("LCD Initialized...\r")
-		quit = False
-		WriteToScreen = False
-		WriteToScreen = True
-		s = "FFL Robotics!"     # Set text
-		lcd.setSmallText()     # Set small text size
-		#lcd.setLargeText()      # Set large text size
-		print("LCD Set...\r")
-		lcd.clearScreen()
-		print("LCD Cleared...\r")
-		setFFLLogoGLCD()        # send first screen image 
+        print("LCD Initialized...\r")
+        quit = False
+        WriteToScreen = False
+        WriteToScreen = True
+        s = "FFL Robotics!"     # Set text
+        lcd.setSmallText()     # Set small text size
+        #lcd.setLargeText()      # Set large text size
+        print("LCD Set...\r")
+        lcd.clearScreen()
+        print("LCD Cleared...\r")
+        setFFLLogoGLCD()        # send first screen image 
 else:
     # No serail port so nothing to send.
     print("No GLCD Serial port found GLCD may not be used...\r")
