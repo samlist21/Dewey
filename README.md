@@ -63,6 +63,7 @@ The old addres, above, will work until they do.
 - You can remote into Dewey using an SSH client like Putty at the IP address above
 - You can FTP into Dewey at an IP address above. Anonymous gets you limited file access.  SCP gets you fill directory access. 
 - If Dewey crashes for some reason and the terminal window gets messed up (i.e. you can't see what you are typing) then use the command type> reset   in the terminal and it will fix the terminal display.
+- Power off to Charge the Batteries. Dewey's batteries are not charged while switches are up.  This may or may not be a good things but is the way it is.  
 
 ## Running Dewey 
 1. Logon to Pi locally or through VNC
