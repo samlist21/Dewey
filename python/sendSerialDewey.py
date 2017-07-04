@@ -1,5 +1,5 @@
 # Need to run the program with python, Currenlty uses python3 
-# but also seems to work with python (2)
+# but also seems to work with python (2) with the exception of GLCD which uses enum not support by python (2)
 # from the dewey directory run command 
 #   sudo python3 python/sendSerialDewey.py
 
@@ -33,7 +33,15 @@ sys.path.insert(0,'python/GLCD/')
 # includes for GLCD
 from PIL import Image                           # Image processing module
 import random                                   # Random number generation
-import Dewey_GLCD as lcd                        # GLCD control module
+
+# find version number
+version = sys.version_info[0]
+print("Running from python version " + str(version) +" ...\r")
+setGLCD = False 
+if version >2:
+	import Dewey_GLCD as lcd                        # GLCD control module
+	setGLCD = True
+	
 
 # ALL def functions up here
 #  Playback Function for recorded track data
@@ -209,7 +217,7 @@ camera.stop_preview()
 i=0
 x='z'
 
-# soudn and GLCD toggle values 
+# sound and GLCD toggle values 
 soundCode =1
 GLCDcode =1
 
@@ -231,19 +239,20 @@ except:
 
 
 # Setup GLCD serial port and clear screen
-setGLCD = lcd.init()
+
 if setGLCD:
-    print("LCD Initialized...\r")
-    quit = False
-    WriteToScreen = False
-    WriteToScreen = True
-    s = "FFL Robotics!"     # Set text
-    lcd.setSmallText()     # Set small text size
-    #lcd.setLargeText()      # Set large text size
-    print("LCD Set...\r")
-    lcd.clearScreen()
-    print("LCD Cleared...\r")
-    setFFLLogoGLCD()		# send first screen image 
+	setGLCD = lcd.init()
+	print("LCD Initialized...\r")
+	quit = False
+	WriteToScreen = False
+	WriteToScreen = True
+	s = "FFL Robotics!"     # Set text
+	lcd.setSmallText()     # Set small text size
+	#lcd.setLargeText()      # Set large text size
+	print("LCD Set...\r")
+	lcd.clearScreen()
+	print("LCD Cleared...\r")
+	setFFLLogoGLCD()		# send first screen image 
 else:
 	# No serail port so nothing to send.
 	print("No GLCD Serial port found GLCD may not be used...\r")
@@ -380,8 +389,10 @@ while 1:
             termios.tcsetattr(sys.stdin,termios.TCSADRAIN, orig_settings)
             print("Stdin closed\r")
 
-            print("GLCD Port closed")
-            lcd.stop()
+            
+            if setGLCD:
+				print("GLCD Port closed")
+				lcd.stop()
 
             print("Port and program closed")
 

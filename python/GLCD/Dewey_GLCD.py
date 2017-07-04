@@ -5,7 +5,8 @@
 
 # Additional modules
 #from collections import namedtuple     # Named tuple objects
-from enum import Enum                           # Enum module
+from enum import Enum                           # Enum module - only supported in python3
+
 from enum import IntEnum                        # Integer Enum module
 from PIL import Image                           # Image processing module
 from PIL import ImageOps                        # Image manipulation operations

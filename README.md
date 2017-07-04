@@ -70,12 +70,13 @@ The old addres, above, will work until they do.
 2. open a terminal window
 3. Type> cd     - this step gets you to the /home/pi directory
 4. type> cd dewey  OR skip step 3 and just type> cd /home/pi/dewey
-5. type> sudo python python/sendSerialDewey.py OR 
-type> sudo python3 python/sendSerialDewey.py - Dewey should work both ways
+5. type> sudo python3 python/sendSerialDewey.py 
+- DO NOT USE type> sudo python python/sendSerialDewey.py 
+- This does not work with the GLCD functions.  Dewey should work with both versions
 6. Enter a command to control Dewey 
 - Remember don't hit enter just the key.
 - Type H if you forget the available commands.
-7. When finished hit X   This stops running the python program
+7. When finished hit X or ESC.  This stops running the python program
 
 ## Shutting Down Dewey Cleanly 
 - Make sure to power off Dewey each night cleanly - 
@@ -88,7 +89,7 @@ type> sudo python3 python/sendSerialDewey.py - Dewey should work both ways
 - [X] Get Motor run working without delay() code
 - [X] Dewey needs a re-charge.  Batteries were at 11.98VDC - Plug in for a day
 - [ ] Put Drive.c Back into MotorRun and figure out why it is not compiling
-- [X] Get sendSerialDewey.py working with python3 - 
+- [X] Get sendSerialDewey.py working with python3 
 - [X] Get GLCD working with when python3 is available. GLCD only works with python3
 - [ ] Setup a DHCP server on the Ethernet port for automatic connecting via Ethernet Cable
 - [X] Fix image program to not overwrite images but figure out what the next image number is and store that number.
@@ -149,7 +150,10 @@ Added to the task list.
 - GLCD FFL Logo pops up first on program run.
 - GLCD circles, Text and small logo pops up on hitting I key
 - Created functions for showing each type of GLCD picture
-
+- Cleaned up all comments and got rid of ncurses and pygame non-blocking functions
+- Moved all functions to the top
+- Moved settings below functions and in front of code. 
+- Tested and fixed to work with python2 by disabling the GLCD when using python (2)
 
 
 ## Dewey Day July 1, 2017 Ken Samuelson 
