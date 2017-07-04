@@ -1,148 +1,41 @@
-# Need to run the program with python (2)
+# Need to run the program with python, Currenlty uses python3 
+# but also seems to work with python (2)
 # from the dewey directory run command 
-#   sudo python python/sendSerialDewey.py
+#   sudo python3 python/sendSerialDewey.py
 
-# must have serial to use serial functions
+# Must have serial to use serial functions
 # use sudo apt-get install pyserial
 
-# Other functions that need tobe installed to use this code.
-# use sudo apt-get install <none specified yet>
+# Other functions that need to be installed to use this code.
+# Will keep adding here as they get discovered or included.
+# use sudo apt-get install <specified file/ function>
 # sudo apt-get install python-picamera   OR
 # sudo apt-get install python3-picamera
-
-import time
-import serial
-import record
-#import pygame, sys
-# import pygame.locals()
-#import curses
-
-import tty
-import sys
-import termios
-import select
-
-import os
-import picamera
-
-# add path to GLCD files - needed since it is not in this directory
-sys.path.insert(0,'python/GLCD/')
-
-# includes for GLCD
-from PIL import Image                           # Image processing module
-import random                                           # Random number generation
-import time                                                     # Used for sleep delay
-import sys					# to teest for non-blockign input 
-
-import Dewey_GLCD as lcd                        # GLCD control module
-
-
-orig_settings = termios.tcgetattr(sys.stdin)
-
-tty.setraw(sys.stdin)
 
 # must have aplay and/ or mpg123 to use sound functions
 # use sudo apt-get install asla-utils   OR
 # use sudo apt-get install mpg123 
 
-# setup pygame to use key press
-#pygame.init()
-#BLACK = (0,0,0)
-#WIDTH = 1280
-#HEIGHT = 1024
-#windowSurface = pygame.display.set_mode((100, 50), 0,32)
-#windowSurface.fill(BLACK)
+import time
+import serial
+import record
+import tty
+import sys
+import termios
+import select
+import os
+import picamera
 
-# this window must have the focus
+# add path to GLCD files - needed since it is not in this directory
+# this is the way to use .py code in other directories.
+sys.path.insert(0,'python/GLCD/')
 
-# set up curses
-#stdscr = curses.initscr()
+# includes for GLCD
+from PIL import Image                           # Image processing module
+import random                                   # Random number generation
+import Dewey_GLCD as lcd                        # GLCD control module
 
-#curses.cbreak()
-
-# make sure this is in the Pi Directory so the files can be accessed
-os.chdir("/home/pi")
-
-# Setup Camera Stuff
-camera = picamera.PiCamera()
-
-camera.hflip=True
-camera.vflip=True
-# attempt to turn off the camera until needed.
-# Does not seem to work at this time.  Camera light stays on.
-#camera.stop_preview()
-#time.sleep(5)
-#camera.stop_preview()
-
-
-print("Starting Dewey Program\r")
-
-# get on with Dewey code
-
-i=0
-x='z'
-
-soundCode =1
-GLCDcode =1
-
-
-
-# try to find and use serial for Arduino.  If not there quit since need serial to move. 
-try:
-    ser = serial.Serial('/dev/ttyACM0',115200)
-    print("Done opening Serial to Arduino\r")
-
-except:
-    e = sys.exc_info()[0]
-    print ("Error opening serial port to Arduino, Error: "+ str(e) + "\r")
-    print ("Sorry, Can't use Dewey without motors \r")
-    exit(0)
-
-def loadFFLImage(imageFile):
-    # Load Data
-    try:
-            image = lcd.loadImage(imageFile)      # Load splash screen image
-            #img_sm = lcd.loadImage("/home/pi/dewey/python/GLCD/ffl_logomultismall_BW_64x27.png")       # Load small icon
-            # Seems to need absolute path.  Needs work. 
-    except (KeyboardInterrupt, SystemExit):
-            raise
-    except Exception as e:
-            print("Resource loading exception: " + str(e) +"\r")
-    return image        
-
-def setFFLLogoGLCD():
-    # Send FFl Logo to GLCD display
-
-    print("Sending image to Display..... \r") 
-    lcd.drawFullscreenImage(loadFFLImage("/home/pi/dewey/python/GLCD/ffl_logomultismall_BW_128x64.png"))
-
-    # Set write position and write initial text 
-    lcd.setPosition(int((lcd.getMaxCharactersPerRow() - len(s)) / 2) + 1, 8)        # Center text on bottom row
-    lcd.writeString(s)      # Write text
-    # end GLCD first image
-
-
-# Setup GLCD
-setGLCD = lcd.init()
-if setGLCD:
-    print("LCD Initialized...\r")
-    quit = False
-    WriteToScreen = False
-    WriteToScreen = True
-    s = "FFL Robotics!"     # Set text
-    lcd.setSmallText()     # Set small text size
-    #lcd.setLargeText()      # Set large text size
-    print("LCD Set...\r")
-    lcd.clearScreen()
-    print("LCD Cleared...\r")
-    setFFLLogoGLCD()
-else:
-	print("No GLCD Serial port found GLCD may not be used...\r")
-
-
-# Call the record function so that it is ready to record when called. 
-deweyRecord = record.record()
-
+# ALL def functions up here
 #  Playback Function for recorded track data
 def playback ():
     for step in runList:
@@ -213,7 +106,7 @@ def randomCirclesTextGLCD():
 
 	
 # GLCD Function  Called when user hits I
-# Used to show stuff on the GLCD display - Does nothing now.
+# Used to show stuff on the GLCD display.
 def runGLCD():
     global setGLCD
     if setGLCD:
@@ -234,7 +127,7 @@ def runGLCD():
 
 # Funciton to find highest image number
 def findLastImageNumber():
-# does not handle if low numebrs and high number images are in the directory
+# does not handle if low numbers and high number images are in the directory. Will pick highest.
 # possibly a better was is to check date first. then latest date and begin after that number
     maxNumber = 0
     intNumber = 0
@@ -254,26 +147,109 @@ def findLastImageNumber():
     print("Last Image Number in Pictures Directory was:"+ str(maxNumber) +"\r")
     return maxNumber  
 
-
-
 # Photo Function  Called when user hits P
 # Currently takes 640x480.  Not sure why but okay to be small.
-# increments image numbers and over writes any images
+# Increments image numbers and over writes any images after a 254 rollover 
+# imagexxx.jpg is the result
 # with the same number in the Pictures directory 
 def takePicture():
     takePicture.counter += 1  #increment prior to taking the picture
     if takePicture.counter > 254:  #handle image rollover
-        takePicture.counter =1  # restart image counter if greater than 254
-        # this will begin to over write the previous files and begin at 1
+        takePicture.counter = 1  # restart image counter if greater than 254
+        # this will begin to overwrite the previous files and begin at 1
         #on next start unless images are removed.
     counter = takePicture.counter
-    # if filename is changed make sure to change findLastImageNumber function too 
-    print("Taking Photo /home/pi/Pictures/image"+str(counter)+".jpg\r")
+    # if filename (lenght or identification) is changed make sure to change findLastImageNumber function too 
+    print("Taking Photo /home/pi/Pictures/image"+ str("{0:03}".format(counter))+".jpg\r")
     #camera.start_preview()
     #time.sleep(5)
-    camera.capture("/home/pi/Pictures/image"+str(counter)+".jpg")
+    camera.capture("/home/pi/Pictures/image"+str("{0:03}".format(counter))+".jpg")
     #camera.stop_preview()
     print("Photo complete\r")
+
+
+def loadFFLImage(imageFile):
+    # Load Data
+    try:
+            image = lcd.loadImage(imageFile)      # Load splash screen image
+            # Seems to need absolute path to work. 
+    except Exception as e:
+            print("Resource loading exception: " + str(e) +"\r")
+    return image        
+
+def setFFLLogoGLCD():
+    # Send FFl Logo to GLCD display
+
+    print("Sending image to Display..... \r") 
+    lcd.drawFullscreenImage(loadFFLImage("/home/pi/dewey/python/GLCD/ffl_logomultismall_BW_128x64.png"))
+
+    # Set write position and write initial text 
+    lcd.setPosition(int((lcd.getMaxCharactersPerRow() - len(s)) / 2) + 1, 8)        # Center text on bottom row
+    lcd.writeString(s)      # Write text
+    # end GLCD first image
+
+# Dewey Setup Code
+#Setup System to read keys
+orig_settings = termios.tcgetattr(sys.stdin)
+
+tty.setraw(sys.stdin)
+
+# make sure this is in the Pi Directory so the files can be accessed
+os.chdir("/home/pi")
+
+# Setup Camera Stuff
+camera = picamera.PiCamera()
+
+camera.hflip=True
+camera.vflip=True
+# attempt to turn off the camera until needed.
+# Does not seem to work at this time.  Camera light stays on.
+camera.stop_preview()
+
+i=0
+x='z'
+
+# soudn and GLCD toggle values 
+soundCode =1
+GLCDcode =1
+
+print("Starting Dewey Program\r")
+
+# get on with Dewey code
+
+# try to find and use serial port for Arduino.  
+#If not there quit since need serial to move. 
+try:
+    ser = serial.Serial('/dev/ttyACM0',115200)
+    print("Done opening Serial to Arduino\r")
+
+except:
+    e = sys.exc_info()[0]  # anohter way to get the exception
+    print ("Error opening serial port to Arduino, Error: "+ str(e) + "\r")
+    print ("Sorry, Can't use Dewey without Serial port to Arduino \r")
+    exit(0)
+
+
+# Setup GLCD serial port and clear screen
+setGLCD = lcd.init()
+if setGLCD:
+    print("LCD Initialized...\r")
+    quit = False
+    WriteToScreen = False
+    WriteToScreen = True
+    s = "FFL Robotics!"     # Set text
+    lcd.setSmallText()     # Set small text size
+    #lcd.setLargeText()      # Set large text size
+    print("LCD Set...\r")
+    lcd.clearScreen()
+    print("LCD Cleared...\r")
+    setFFLLogoGLCD()		# send first screen image 
+else:
+	# No serail port so nothing to send.
+	print("No GLCD Serial port found GLCD may not be used...\r")
+
+# Call the record function so that it is ready to record when called. 
+deweyRecord = record.record()
 
 # static attributes must be initalized
 # attribute to hold the next picture number
@@ -281,97 +257,75 @@ takePicture.counter = findLastImageNumber()
 
 # start of Dewey Program	
 ser.isOpen()
-print("First Action - Stopping Dewey\r")
+print("First Action - Stoping Dewey in case moving\r")
 ser.write('S'.encode(encoding='utf-8'))
 print(' \r')
 # clear serial buffer so no bad characters come out and crash the program.
-# Should see hello from Pi
+# Should see "Hello from Arduino, alive and well"
 
 # probably nothing to read now if not the first time since Arduino is fixed
 #print("First read from Pi")
-#a= ser.read(44)
-# if this is the first time
-#Should read back "Dewey is Alive and Ready to take commands"
-#if everything is okay
-# print(a)
+bytesAtPort = ser.inWaiting()
+if bytesAtPort >0:
+	a= ser.read(bytesAtPort)
+	# if this is the first time
+	#Should read back "Dewey is Alive and Ready to take commands"
+	#if everything is okay
+	print(a)
 
-printHelpMenu()
+printHelpMenu()	# Print first help menu.
 
-
-
-
-inputVal = b"z" # used to start Arduino in known state.  Do not use A since it is now autonomous mode. 
+inputVal = b"z" # used to start Arduino in known state, byte "z" character.  
+#Do not use A (anymore) since it is now autonomous mode. 
 inputValUpper = b'Z'
 while 1:
 
-    #else:
-
-    out = ''
-    #let's wait one second before reading output
-    #(give device time to read and respond.
+    out = ''  # clear the out buffer 
+    #let's wait one quarter of a second between reading output
+    #give device time to read and respond.
     time.sleep(0.25)
     while ser.inWaiting()>0:
 
         a = ser.read(1)
         # first time Dewey sends an 0x87 not sure why.
+        # could be because of a leftover byte from the Arduino programming.
         if a < b'\x7F':
             # need to strip this off
-                        #read and convert bytes to string
+            #read and convert bytes to string
 
             out += a.decode(encoding='utf-8')
         else:
             print ("Bad Character="),
             print (a)
 
-
+# displays anythign coming back form the Arduino serial port
     if out != '':
-        print("< " +out),
-#    else:
-#        print('.'),
+        print("< " +out +"\r"),
+
 
     #get keyboard input
-    #inputVal = input(">> ")
-    # now using pygame
-#    for event in pygame.event.get():
-#        if (event.type == pygame.KEYDOWN):
-#            inputVal = char(event.key)
-#            inputVal1 = event.key
-#            print(inputVal1),
-#            inputVal = str(unichr(inputVal1))
-#            print(inputVal),
-#            inputValUpper = inputVal.upper()
-#            print(inputValUpper)
+    #inputVal = input(">> ")  # this is a blocking call which we do not want. 
+    # We want to see and status coming back from the Arduino serial port
 
     if select.select([sys.stdin,],[],[],0.0)[0]:
-#        print("have Data")
+        #print("have Data")
 
         x=sys.stdin.read(1)[0]
-#        print("you pressed ",x),
-#        print(" ESC will exit")
+       #print("you pressed ",x),
+       #print(" ESC will exit")
 
-    #    c= stdscr.getch()
-    #    stdscr.clear()
-    #    stdscr.addstr("Key Detected")
-    #    stdscr.addstr(str(c))
-    # Testing not encoding with Python 3
-        #inputVal = x.encode(encoding='utf-8')
-    # this next line works with python3
+       #c= stdscr.getch()
+       #stdscr.clear()
+       #stdscr.addstr("Key Detected")
+       #stdscr.addstr(str(c))
+
         inputVal = x
+        # Tests to figure out what key and what kind of key we receive
         #print(inputVal)
-    #    inputVal1 = int(inputVal)
-    #    print(inputVal1),
-#        inputValUpper = inputVal.upper()
-#        print(inputValUpper)
-
-
-    # .encode('utf-8')
-    #    presssed = pygame.key.get_pressed()
-    #    if pressed[pygame.K_x]:
-    #        inputVal = 'x'
-    #        print (pressed.name())
-    #    if pressed[pygame.K_f]:
-    #        inputVal = 'f'
-    #        print (pressed.name())
+        #inputVal1 = int(inputVal)
+        #print(inputVal1),
+        #inputValUpper = inputVal.upper()
+        #print(inputValUpper)
 
         inputValUpper = inputVal.upper()
         print('Received inputVal='+ str(inputVal) + ",Sending=" + str(inputValUpper)+ " \r")
@@ -380,8 +334,8 @@ while 1:
             #note that I could append a \n\r carriage return and linefeed characters
             # to the end of the sent charaterto the device
             # ser.write(input + '\r\n')
-     #       if inputVal == 'V':
-     #           print ("In here with a V but should not be")
+            #if inputVal == 'V':
+                #print ("In here with a V but should not be")
 
         # convert string to byte and write out
         #ser.write(inputValUpper.encode('utf-8'))
@@ -411,8 +365,8 @@ while 1:
 
         if inputValUpper =='X' or inputVal == chr(27):
             
-#        print("you pressed ESC will exit",x)
-#        break:
+	        #print("you pressed ESC will exit",x)  # ESC key works. No need to print
+
             # could send an X to Arduino but it would kill any restart
             # So now just sending an 'S'
             ser.write('S'.encode(encoding='utf-8'))
@@ -422,26 +376,21 @@ while 1:
             print("Stopping Dewey\r")
             ser.close()
             camera.close()
-            #print("Pygame Display closed")
-            #pygame.display.quit()
-            #print("Pygame closed")
-            #pygame.quit()
-#            curses.nocbreak()
-#            curses.endwin()
+
             termios.tcsetattr(sys.stdin,termios.TCSADRAIN, orig_settings)
             print("Stdin closed\r")
 
             print("GLCD Port closed")
             lcd.stop()
 
-
             print("Port and program closed")
-            
 
             # Exit if desired
-            break
             #exit()
             #sys.exit()
+            # don't exit because we need to run the termios command below or the one above. 
+            break
+
 
         if inputValUpper == 'V':
             # V Means start recording
@@ -501,12 +450,7 @@ while 1:
     inputValUpper = 'Z'
 
 termios.tcsetattr(sys.stdin,termios.TCSADRAIN, orig_settings)
-#curses.nocbreak()
-#curses.endwin()
 
- #       else:
- #           inputValUpper = 'z'
- #           print('Not Sent')
 
 
 
