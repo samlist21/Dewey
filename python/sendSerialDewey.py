@@ -39,9 +39,9 @@ version = sys.version_info[0]
 print("Running from python version " + str(version) +" ...\r")
 setGLCD = False 
 if version >2:
-	import Dewey_GLCD as lcd                        # GLCD control module
-	setGLCD = True
-	
+    import Dewey_GLCD as lcd                        # GLCD control module
+    setGLCD = True
+    
 
 # ALL def functions up here
 #  Playback Function for recorded track data
@@ -58,29 +58,29 @@ def playback ():
 
 #Ability to Print the Help Menu at any time by pressing H
 def printHelpMenu ():
-	print('Enter your commands below.\r')
-	print('Available Commands:(uppercase preferred but not necessary)\r')
-	print('No need to hit enter - Just the key\r')
-	print('A = Autonomous\r')
-	print('F = Forward\r')
-	print('B = Backward\r')
-	print('R = Turn Right\r')
-	print('L = Turn Left\r')
-	print('S or 0 = Stop\r')
-	print('Available Speeds 1, 2, 3, 4...9\r')
-	print('V = Start Recording steps\r')
-	print('Q = Stop Recording steps\r')
-	print('D = Playback Recorded steps\r')
-	print('E = Playback Recorded steps from a file\r')
-	print('P = Take a picture\r')
-	print('H = Print Help Menu\r')
-	print('T = Print Talk - Play Sound\r')
-	print('I = Run GLCD program - Currently needs Python3\r')
-	print('\r')
-	print('Press ESC, "x", or "X" to Exit (leave application) and STOP Dewey.\r')
-	print('\r')
-	print('If the Terminal program does not work after running this code,\r')
-	print('Try the reset command in the Terminal Window\r')
+    print('Enter your commands below.\r')
+    print('Available Commands:(uppercase preferred but not necessary)\r')
+    print('No need to hit enter - Just the key\r')
+    print('A = Autonomous\r')
+    print('F = Forward\r')
+    print('B = Backward\r')
+    print('R = Turn Right\r')
+    print('L = Turn Left\r')
+    print('S or 0 = Stop\r')
+    print('Available Speeds 1, 2, 3, 4...9\r')
+    print('V = Start Recording steps\r')
+    print('Q = Stop Recording steps\r')
+    print('D = Playback Recorded steps\r')
+    print('E = Playback Recorded steps from a file\r')
+    print('P = Take a picture\r')
+    print('H = Print Help Menu\r')
+    print('T = Print Talk - Play Sound\r')
+    print('I = Run GLCD program - Currently needs Python3\r')
+    print('\r')
+    print('Press ESC, "x", or "X" to Exit (leave application) and STOP Dewey.\r')
+    print('\r')
+    print('If the Terminal program does not work after running this code,\r')
+    print('Try the reset command in the Terminal Window\r')
 
 # Play Sound Function  Called when user hits T
 def playSound( sound):
@@ -112,7 +112,7 @@ def randomCirclesTextGLCD():
     # Draw small icon
     lcd.drawImage(random.randint(0,127-img_sm.size[0]), random.randint(0,63-img_sm.size[1]), img_sm)
 
-	
+    
 # GLCD Function  Called when user hits I
 # Used to show stuff on the GLCD display.
 def runGLCD():
@@ -241,21 +241,21 @@ except:
 # Setup GLCD serial port and clear screen
 
 if setGLCD:
-	setGLCD = lcd.init()
-	print("LCD Initialized...\r")
-	quit = False
-	WriteToScreen = False
-	WriteToScreen = True
-	s = "FFL Robotics!"     # Set text
-	lcd.setSmallText()     # Set small text size
-	#lcd.setLargeText()      # Set large text size
-	print("LCD Set...\r")
-	lcd.clearScreen()
-	print("LCD Cleared...\r")
-	setFFLLogoGLCD()		# send first screen image 
+    setGLCD = lcd.init()
+    print("LCD Initialized...\r")
+    quit = False
+    WriteToScreen = False
+    WriteToScreen = True
+    s = "FFL Robotics!"     # Set text
+    lcd.setSmallText()     # Set small text size
+    #lcd.setLargeText()      # Set large text size
+    print("LCD Set...\r")
+    lcd.clearScreen()
+    print("LCD Cleared...\r")
+    setFFLLogoGLCD()        # send first screen image 
 else:
-	# No serail port so nothing to send.
-	print("No GLCD Serial port found GLCD may not be used...\r")
+    # No serail port so nothing to send.
+    print("No GLCD Serial port found GLCD may not be used...\r")
 
 # Call the record function so that it is ready to record when called. 
 deweyRecord = record.record()
@@ -264,7 +264,7 @@ deweyRecord = record.record()
 # attribute to hold the next picture number
 takePicture.counter = findLastImageNumber() 
 
-# start of Dewey Program	
+# start of Dewey Program    
 ser.isOpen()
 print("First Action - Stoping Dewey in case moving\r")
 ser.write('S'.encode(encoding='utf-8'))
@@ -276,13 +276,13 @@ print(' \r')
 #print("First read from Pi")
 bytesAtPort = ser.inWaiting()
 if bytesAtPort >0:
-	a= ser.read(bytesAtPort)
-	# if this is the first time
-	#Should read back "Dewey is Alive and Ready to take commands"
-	#if everything is okay
-	print(a)
+    a= ser.read(bytesAtPort)
+    # if this is the first time
+    #Should read back "Dewey is Alive and Ready to take commands"
+    #if everything is okay
+    print(a)
 
-printHelpMenu()	# Print first help menu.
+printHelpMenu() # Print first help menu.
 
 inputVal = b"z" # used to start Arduino in known state, byte "z" character.  
 #Do not use A (anymore) since it is now autonomous mode. 
@@ -374,7 +374,7 @@ while 1:
 
         if inputValUpper =='X' or inputVal == chr(27):
             
-	        #print("you pressed ESC will exit",x)  # ESC key works. No need to print
+            #print("you pressed ESC will exit",x)  # ESC key works. No need to print
 
             # could send an X to Arduino but it would kill any restart
             # So now just sending an 'S'
@@ -389,11 +389,10 @@ while 1:
             termios.tcsetattr(sys.stdin,termios.TCSADRAIN, orig_settings)
             print("Stdin closed\r")
 
-            
             if setGLCD:
-				print("GLCD Port closed")
-				lcd.stop()
-
+                print("GLCD Port closed")
+                lcd.stop()
+                
             print("Port and program closed")
 
             # Exit if desired
