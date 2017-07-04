@@ -1,7 +1,13 @@
-# Need to run the program with python, Currenlty uses python3 
+# Dewey_WebServer.py
+# Console interface to control/monitor Dewey
+# Fayetteville Free Library Robotics Club
+# July 2017, Ken Samuelson 
+
+# Need to run the program with python, Currently uses python3 
 # but also seems to work with python (2) with the exception of GLCD which uses enum not support by python (2)
 # from the dewey directory run command 
 #   sudo python3 python/sendSerialDewey.py
+# You may use python (2) but won't have the GLCD functions
 
 # Must have serial to use serial functions
 # use sudo apt-get install pyserial
@@ -30,15 +36,15 @@ import picamera
 # this is the way to use .py code in other directories.
 sys.path.insert(0,'python/GLCD/')
 
-# includes for GLCD
-from PIL import Image                           # Image processing module
-import random                                   # Random number generation
-
 # find version number
 version = sys.version_info[0]
 print("Running from python version " + str(version) +" ...\r")
-setGLCD = False 
-if version >2:
+
+setGLCD = False   # start with false and see if can be changed to true
+if version > 2:
+    # includes for GLCD
+    from PIL import Image                           # Image processing module
+    import random                                   # Random number generation
     import Dewey_GLCD as lcd                        # GLCD control module
     setGLCD = True
     
@@ -242,17 +248,19 @@ except:
 
 if setGLCD:
     setGLCD = lcd.init()
-    print("LCD Initialized...\r")
-    quit = False
-    WriteToScreen = False
-    WriteToScreen = True
-    s = "FFL Robotics!"     # Set text
-    lcd.setSmallText()     # Set small text size
-    #lcd.setLargeText()      # Set large text size
-    print("LCD Set...\r")
-    lcd.clearScreen()
-    print("LCD Cleared...\r")
-    setFFLLogoGLCD()        # send first screen image 
+    # get second chance to see if GLCD can be initialized
+    if setGLCD:
+		print("LCD Initialized...\r")
+		quit = False
+		WriteToScreen = False
+		WriteToScreen = True
+		s = "FFL Robotics!"     # Set text
+		lcd.setSmallText()     # Set small text size
+		#lcd.setLargeText()      # Set large text size
+		print("LCD Set...\r")
+		lcd.clearScreen()
+		print("LCD Cleared...\r")
+		setFFLLogoGLCD()        # send first screen image 
 else:
     # No serail port so nothing to send.
     print("No GLCD Serial port found GLCD may not be used...\r")
