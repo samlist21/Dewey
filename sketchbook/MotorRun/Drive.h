@@ -10,12 +10,16 @@ class Drive {
     const byte Left_Comp = 0;
     const byte RightBack_Comp = 0;
     const byte LeftBack_Comp = 15;
+    
 
     byte holdCommand;
     byte slowSpeed;
     long prevCm;
     int driveRight = 0;
     bool autonomous = false;
+    float setHeading = 0;
+    float driveHeading = 0;
+
 
   public:
     Drive();
@@ -118,7 +122,10 @@ void Drive::driveAutonomous (long cm)
 };
 
 void Drive::driveUpdate () {
+  // read compass
+  
   if (driveDirection == 'F' ) {
+    
     driveFWD();
   }
 
