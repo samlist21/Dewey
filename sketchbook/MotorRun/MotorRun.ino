@@ -5,6 +5,13 @@
 #include "voltage.h"
 #include "def.h"
 
+// Include for compass
+#include <Wire.h>
+#include <Adafruit_Sensor.h>
+#include <Adafruit_LSM303_U.h>
+/* Assign a unique ID to this sensor at the same time */
+Adafruit_LSM303_Mag_Unified mag = Adafruit_LSM303_Mag_Unified(12345);
+
 // #include "timer.h"  // thought this was needed for millis() but it seems to work anyway
 
 const int oneSecInUsec = 1000000; // a second in micro second units
@@ -50,6 +57,9 @@ byte oldSensorSpeed;
 boolean flagSensorGo = false;
 boolean flagSensorStop = false;
 
+boolean compassEnabled = true;
+float heading = 0;
+
 Drive dewey;
 byte voltCount = 0;
 
@@ -65,6 +75,21 @@ void setup()
   //Define sensor inputs and outputs
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
+  
+  // Detect Compass
+    
+  /* Initialise the sensor */
+  if (!mag.begin())
+  {
+    /* There was a problem detecting the LSM303 ... check your connections */
+    Serial.println("Ooops, no LSM303 detected ... Check your wiring!");
+    compassEnabled = false;
+    
+  } else {
+    Serial.println("Magnetometer Test -X -Z"); Serial.println("");
+    compassEnabled = true;
+  }
+  
 }
 
 void loop()
@@ -81,6 +106,9 @@ void loop()
   
   if (currentMillis -previousMillis >= 250){
     previousMillis = currentMillis;
+    // when compass available print 
+  if (compassEnabled)
+      heading = compass();
     
     // for debug
 //    Serial.print("  PreviousMillis=");
@@ -175,4 +203,24 @@ void printDistance(long duration) {
   Serial.print("in, ");
   Serial.print(cm);
   Serial.print("cm  ");
+}
+
+float compass(){
+   /* Get a new sensor event */
+  sensors_event_t event;
+  mag.getEvent(&event);
+  float Pi = 3.14159;
+  // Calculate the angle of the vector y,x
+  float heading = (atan2(-event.magnetic.y, event.magnetic.x) * 180) / Pi;
+  // Normalize to 0-360
+  //Serial.print("Pre- Compass Heading: ");
+  //Serial.print(heading);
+  
+  if (heading < 0)
+  {
+    heading = 360 + heading;
+  }
+  Serial.print("   Compass Heading: ");
+  Serial.println(heading);
+  return heading;
 }
