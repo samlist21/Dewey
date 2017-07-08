@@ -55,6 +55,7 @@ byte voltCount = 0;
 
 void setup()
 {
+  delay (2000);
   Serial.begin(115200);
   Serial.println("Dewey Alive and ready to take commands");
   //Edit this line wheen a significant chnag eis made so that the user knows
