@@ -113,7 +113,7 @@ void loop()
       headingArray[headingCounter] = heading;
       
         //Serial.print("   Compass Heading: ");
-        //Serial.println(heading);
+        //Serial.println(heading); 
 
         
         if (headingCounter<2)

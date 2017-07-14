@@ -2,7 +2,7 @@ const int trigPin = 2;    //Trig - green Jumper
 const int echoPin = 4;    //Echo - yellow Jumper
 long duration, cm, inches;
 
-  long convertCM(long);
+  long convertCM(long); 
   long convertIN(long);
   void printDistance(long);
   void setupSonar();

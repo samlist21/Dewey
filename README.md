@@ -68,7 +68,7 @@ With the new IP address the date was updated over the Internet to the above was 
 - You can FTP into Dewey at an IP address above. Anonymous gets you limited file access.  SCP gets you fill directory access. 
 - If Dewey crashes for some reason and the terminal window gets messed up (i.e. you can't see what you are typing) then use the command type> reset   in the terminal and it will fix the terminal display.
 - Power off to Charge the Batteries. Dewey's batteries are not charged while switches are up.  This may or may not be a good things but is the way it is.  
-- If you are writing or changing any Arduino code that uses the serial pport make sure to put in a delay of 2 seconds delay(2000); so that the Arduino has time to switch to programming mode before the program runs. 
+- If you are writing or changing any Arduino code that uses the serial port make sure to put in a delay of 2 seconds delay(2000); so that the Arduino has time to switch to programming mode before the program runs. 
 This will help if you are trying to download a program while the Arduino is sending serial information out the port. 
 Also if that does not work try loading in the example Blinky program and possibly hitting the reset button while programming to get a "default" program in before loading real code. 
 - The rest button may be useed while loadign programs if you have trouble.  Remember the serial port is shared with the programming port on the Arduino.
@@ -124,15 +124,22 @@ Also if that does not work try loading in the example Blinky program and possibl
 - [ ] Replace wiring for Sonar sensor. 
 - [ ] Move Sonar sensor functions to seperate file. 
 - [ ] Remove other accelerometer board when satisfied with heading. 
-
+- [X] Fixed Dewey so that if Arduino serial port is not working then the program exits gracefully 
+- [ ] Fix GLCD need for absolute path 
+- [X] Get Sonar Sensor working -- Arduino code - Work on Sonar sensor (probably wiring)
+- [X] Wiring 5V supply to the breadboard and better wiring in general.
+- [X] Encoders wired to 5 V
+- [ ] Wire Encoders to Arduino
+- [ ]Incorporate encoders and perform testing
+- [ ] Solder and wire up Cylon LED Strip
+- [ ] Solder and wire up Googly eyes. 
+- [ ] Get Cyon eyes (LED string)working (Pi or Arduino). - Super rad lighting effects
+- [ ] Get Googly eyes working. (Pi)
 
 ## Wish List 
-- Wiring 5V supply to the breadboard and better wiring in general.
-- Incorporate encoders and perform testing
+
 - Incorporate Heading (possibly acceleration) and see if Dewey can track straight and make better 90 degree turns . 
 - Arduino code - Work on wheel tracking via heading. Incorporate code into baseline.
-- Arduino code - Work on Sonar sensor (probably wiring)
-- If any of the stuff I requested comes in work on that (eyes, LED string)
 - Create an updated Schematic of Dewey. Store on Git
 - Figure out Flask code and implement in Dewey
 - Speed/PID control on drive motors
@@ -149,13 +156,19 @@ Also if that does not work try loading in the example Blinky program and possibl
 - Facial recognition
 - Person tracking/following
 
-And perhaps most importantly:
-- Super rad lighting effects - LED string (Cylon)
 
 ## Implemented Functions
 Too many to list - Volunteers to document?
 
 ## New Discussions - only on github
+
+
+## Dewey Day July 14, 2017 Ken Samuelson 
+- fixed wiring to GLCD panel so that it does not hang around edges. 
+- Put 5V to terminal strip and to Breadboard for powering things.  Gounded to Arduino 
+- Re-wired Sonar sensor. now working.  This was the cause of the time delay in the 
+sending and receiving of messages to Dewey.  it was in the Sonar loop that timed out after a long time. 
+- Dewey operates much faster now. 
 
 ## Dewey Day July 8, 2017 Ken Samuelson and John W.
 - Installed LSM303 board
@@ -163,7 +176,6 @@ Too many to list - Volunteers to document?
 - Added delay(2000); as first line in startup() function
 - Tested the heading and acceleration functions, printout, and update.  They seem to be working. 
 - Began commenting the Drive.h file, DriveFWD for updates that could use compass functions.
-
 
 ## Dewey Day July 3, 2017 Ken Samuelson 
 - minor fixes to get python updates (image) working on robot.
