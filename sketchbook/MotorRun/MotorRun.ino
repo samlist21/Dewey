@@ -4,6 +4,7 @@
 #include "Drive.h"
 #include "voltage.h"
 #include "def.h"
+#include "sonar.h"
 
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
@@ -28,9 +29,7 @@ const int oneSecInUsec = 1000000; // a second in micro second units
         GND: GND
 */
 
-const int trigPin = 2;    //Trig - green Jumper
-const int echoPin = 4;    //Echo - yellow Jumper
-long duration, cm, inches;
+
 
 char readVal = '$';
 byte bytVal = 74;
@@ -62,6 +61,10 @@ float heading = 0;
 
 Drive dewey;
 byte voltCount = 0;
+float headingArray[3];
+byte headingCounter =0;
+
+
 
 void setup()
 {
@@ -72,11 +75,8 @@ void setup()
  //  what version fo Motor Run theyy are using 
   Serial.println("Dewey Drive Code Version 12");
 
-  //Define sensor inputs and outputs
-  pinMode(trigPin, OUTPUT);
-  pinMode(echoPin, INPUT);
-  
-  
+setupSonar();  
+
   
   compassEnabled = compassInit();
   if (compassEnabled)
@@ -110,9 +110,19 @@ void loop()
     // when compass available print 
   if (compassEnabled){
       heading = compass();
-        Serial.print("   Compass Heading: ");
-        Serial.println(heading);
+      headingArray[headingCounter] = heading;
+      
+        //Serial.print("   Compass Heading: ");
+        //Serial.println(heading);
+
         
+        if (headingCounter<2)
+        headingCounter++;
+        else
+        headingCounter=0;
+        float headingAvg = (headingArray[0]+headingArray[1]+headingArray[2])/3;
+        Serial.print("   average: ");
+        Serial.println(headingAvg);
         getAccel();
         }
     
@@ -158,20 +168,15 @@ void loop()
   }
 
   duration =  getSensor();
-  cm = (duration / 2) / 29.1;
-  inches = (duration / 2) / 74;
+  cm = convertCM(duration);
+  inches = convertIN(duration);
 
   if (autonomous)
   {
     dewey.driveAutonomous(cm);
   }
 
-  if (duration == 0) {
-    Serial.print("Duration=");
-    Serial.println(duration);
-    printDistance(duration);
-    Serial.print(" Dewey Stopped because of Sensor 0 ");
-  }
+
   if (!autonomous && cm < 15 && duration > 0) { // about 6 inches
     dewey.driveHold();
   }
@@ -185,29 +190,5 @@ void loop()
   
 }
 
-long getSensor() {
-  // The sensor is triggered by a HIGH pulse of 10 or more microseconds.
-  // Give a short LOW pulse beforehand to ensure a clean HIGH pulse:
-  digitalWrite(trigPin, LOW);
-  delayMicroseconds(5);
-  digitalWrite(trigPin, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(trigPin, LOW);
 
-  // Read the signal from the sensor: a HIGH pulse whose
-  // duration is the time (in microseconds) from the sending
-  // of the ping to the reception of its echo off of an object.
-  pinMode(echoPin, INPUT);
-  duration = pulseIn(echoPin, HIGH);
-  return duration;
-}
-
-void printDistance(long duration) {
-  cm = (duration / 2) / 29.1;
-  inches = (duration / 2) / 74;
-  Serial.print(inches);
-  Serial.print("in, ");
-  Serial.print(cm);
-  Serial.print("cm  ");
-}
 
