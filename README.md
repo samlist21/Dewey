@@ -51,10 +51,14 @@ Dewey Photo of Sonar Sensor
 ## Reminders
 - Dewey Ethernet IP address is  192.168.1.199
 - Dewey FFlAir WiFi Static IP address is  10.100.1.199 - Subject to change. 
+- With this IP address the Date needs to be updated upon startup
+to do this type> date   - to check the date 
+If not up to date type> sudo date -s "2017-07-08 10:44:00"  - Example July 7 at 10:44 am
 The Library has put things back for a little while until they figure out the routing that they want.  
 The old addres, above, will work until they do. 
+With the new IP address the date was updated over the Internet to the above was not necessary but the IP address was not known.
 - VNC connection is either of the above IP addresses and port :5901, depending on the link used.
-- Dewey Password - email or message Ken Samuelson - See meetup for my contact info. 
+- Dewey Password - email or message Ken Samuelson .  This can be done through the meetup group message. - See meetup for my contact info. 
 - Watch handling the Pi.  If you're not careful you will pop out the spring loaded microSD card and you will trash the card.  This is very bad. 
 - Robot club has a keyboard and mouse in the containers. If you can't access Dewey, you will need the keyboard, mouse, and an HDMI monitor, cable or HDMI to VGA converter. See Ken Samuelson I have all (any) of them.
 - The Fayetteville Free library is closed Sunday's in July and August and only open 10-1 on Saturday.  Reminder if you are planning to work on Dewey.  
@@ -64,6 +68,13 @@ The old addres, above, will work until they do.
 - You can FTP into Dewey at an IP address above. Anonymous gets you limited file access.  SCP gets you fill directory access. 
 - If Dewey crashes for some reason and the terminal window gets messed up (i.e. you can't see what you are typing) then use the command type> reset   in the terminal and it will fix the terminal display.
 - Power off to Charge the Batteries. Dewey's batteries are not charged while switches are up.  This may or may not be a good things but is the way it is.  
+- If you are writing or changing any Arduino code that uses the serial pport make sure to put in a delay of 2 seconds delay(2000); so that the Arduino has time to switch to programming mode before the program runs. 
+This will help if you are trying to download a program while the Arduino is sending serial information out the port. 
+Also if that does not work try loading in the example Blinky program and possibly hitting the reset button while programming to get a "default" program in before loading real code. 
+- The rest button may be useed while loadign programs if you have trouble.  Remember the serial port is shared with the programming port on the Arduino.
+- Raspberry Pi inputs and outputs can be up to 5V - no analog 
+- Arduino inputs and outputs can be up to 3.3V, sometimes 5 but be careful. 
+- Don't plug in or remove components without disabling the power first.  
 
 ## Running Dewey 
 1. Logon to Pi locally or through VNC
@@ -106,6 +117,13 @@ The old addres, above, will work until they do.
 - [ ] Fix rogue carrige returns from Arduino.
 - [X] Fixed Dewey so that if Arduino serial port is not working then the program exits gracefully 
 - [ ] Fix GLCD need for absolute path 
+- [X] Get heading working with LSM303 board.  
+- [X] Get acceleration working with LSM303 board. 
+- [ ] Clean up motorrun code into smaller more suable functions.
+- [ ] Get forward and backward to work on heading (or encoder) to keep it tracking straight. Possibly turn or mke new functions for 90 degrees on R or L
+- [ ] Replace wiring for Sonar sensor. 
+- [ ] Move Sonar sensor functions to seperate file. 
+- [ ] Remove other accelerometer board when satisfied with heading. 
 
 
 ## Wish List 
@@ -138,6 +156,14 @@ And perhaps most importantly:
 Too many to list - Volunteers to document?
 
 ## New Discussions - only on github
+
+## Dewey Day July 8, 2017 Ken Samuelson and John W.
+- Installed LSM303 board
+- created a comppass.h file to hold all Compass and acceleration funcitons. needed to put the header files in MotorRun.ino.  Not sure why. 
+- Added delay(2000); as first line in startup() function
+- Tested the heading and acceleration functions, printout, and update.  They seem to be working. 
+- Began commenting the Drive.h file, DriveFWD for updates that could use compass functions.
+
 
 ## Dewey Day July 3, 2017 Ken Samuelson 
 - minor fixes to get python updates (image) working on robot.
