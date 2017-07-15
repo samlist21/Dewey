@@ -203,15 +203,18 @@ def setFFLLogoGLCD():
     # end GLCD first image
 
 def setLastImageGLCD():
-    # Send last picture taken to GLCD display
+    if setGLCD:
+        # Send last picture taken to GLCD display
 
-    print("Sending picture image to Display..... \r") 
-    lcd.drawFullscreenImage(loadFFLImage("/home/pi/dewey/Pictures/image."+ str("{0:03}".format(takePicture.counter))+"jpg"))
+        print("Sending picture image to Display..... \r")
+        print("/home/pi/dewey/Pictures/image."+ str("{0:03}".format(takePicture.counter))+"jpg") 
+        lcd.drawFullscreenImage(loadFFLImage("/home/pi/dewey/Pictures/image."+ str("{0:03}".format(takePicture.counter))+"jpg"))
 
-    # Set write position and write initial text 
-    lcd.setPosition(int((lcd.getMaxCharactersPerRow() - len(s)) / 2) + 1, 8)        # Center text on bottom row
-    lcd.writeString(s)      # Write text
-    # end GLCD first image
+        # Set write position and write initial text
+        # coudl put persons name here
+        #lcd.setPosition(int((lcd.getMaxCharactersPerRow() - len(s)) / 2) + 1, 8)        # Center text on bottom row
+        #lcd.writeString(s)      # Write text
+        # end GLCD last image
 
 
 # Dewey Setup Code
@@ -443,9 +446,10 @@ while 1:
 
         if inputValUpper == 'P':
             os.system("mpg123 /home/pi/dewey/sounds/CanTakePicture.mp3")
-            os.system("mpg123 /home/pi/dewey/sounds/SayCheese.mp3 &")
+            os.system("mpg123 /home/pi/dewey/sounds/SayCheese1.mp3")
             takePicture()
             os.system("mpg123 /home/pi/dewey/sounds/ThankYou.mp3 &")
+            setLastImageGLCD()
             
 
         if inputValUpper == 'Q':

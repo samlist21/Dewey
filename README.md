@@ -77,6 +77,7 @@ Also if that does not work try loading in the example Blinky program and possibl
 - Arduino inputs and outputs can be up to 3.3V, sometimes 5 but be careful. 
 - Don't plug in or remove components without disabling the power first.
 - Put Arduino libraries in /usr/share/arduino/libraries/  Don't use any "-" dashes.  Chang ethemt o underscores. You can't load libraries via the zip file, like on Windows.   
+- If Sonar sensor is blocked on startup of Arduino it will be disabled for the rest of the time.  Possibly allow a reset/ retry later in operation. 
 
 ## Running Dewey 
 1. Logon to Pi locally or through VNC
@@ -121,7 +122,7 @@ Also if that does not work try loading in the example Blinky program and possibl
 - [ ] Fix GLCD need for absolute path 
 - [X] Get heading working with LSM303 board.  
 - [X] Get acceleration working with LSM303 board. 
-- [ ] Clean up motorrun code into smaller more suitable functions.
+- [ ] Clean up MotorRun code into smaller more suitable functions.
 - [ ] Get forward and backward to work on heading (or encoder) to keep it tracking straight. Possibly turn or make new functions for 90 degrees on R or L
 - [X] Replace wiring for Sonar sensor. 
 - [ ] Move Sonar sensor functions to separate file. 
@@ -131,7 +132,7 @@ Also if that does not work try loading in the example Blinky program and possibl
 - [X] Get Sonar Sensor working -- Arduino code - Work on Sonar sensor (probably wiring)
 - [X] Wiring 5V supply to the breadboard and better wiring in general.
 - [X] Encoders wired to 5 V
-- [ ] Wire Encoders to Arduino. Wired to power but not arduino
+- [ ] Wire Encoders to Arduino. Wired to power, but not Arduino input
 - [ ] Incorporate encoders and perform testing
 - [X] Solder and wire up Cylon LED Strip
 - [X] Solder and wire up Googly eyes. 
@@ -143,7 +144,8 @@ Also if that does not work try loading in the example Blinky program and possibl
 - [ ] Attach LED Strip to head. Fix wiring to input 7 - Super rad lighting effects
 - [ ] Run a sudo apt-get dist-update
 - [ ] Incorporate more Dewey voice files into operation. 
-- [ ] After Dewey takes a picture have it displayed on LCD screen.
+- [X] After Dewey takes a picture have it displayed on LCD screen.
+- [ ] Put in a reset or timeout to try the Sonar sensor at a later time if it was not found on startup.  
 
 ## Wish List 
 
@@ -255,7 +257,7 @@ Hopefully they are working on it.
 What I did fix:
 - Added help menu when you hit H to sendSerialDewey.py - See Git update
 - Added Picture capability when you hit P to sendSerialDewey.py - See Git update
-- Got the SketchBook motorRun Program working. The problem was the Drive.c program and autonomous mode function prototype which was causing compile errors.  
+- Got the SketchBook MotorRun Program working. The problem was the Drive.c program and autonomous mode function prototype which was causing compile errors.  
 The drive.c program was not needed at this time.  I think John added that in.  We need to work on it to see what's wrong with the compiling.  
 
 
