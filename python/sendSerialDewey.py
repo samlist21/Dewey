@@ -1,4 +1,4 @@
-# Dewey_WebServer.py
+# Dewey_Operation.py
 # Console interface to control/monitor Dewey
 # Fayetteville Free Library Robotics Club
 # July 2017, Ken Samuelson 
@@ -202,6 +202,18 @@ def setFFLLogoGLCD():
     lcd.writeString(s)      # Write text
     # end GLCD first image
 
+def setLastImageGLCD():
+    # Send last picture taken to GLCD display
+
+    print("Sending picture image to Display..... \r") 
+    lcd.drawFullscreenImage(loadFFLImage("/home/pi/dewey/Pictures/image."+ str("{0:03}".format(takePicture.counter))+"jpg"))
+
+    # Set write position and write initial text 
+    lcd.setPosition(int((lcd.getMaxCharactersPerRow() - len(s)) / 2) + 1, 8)        # Center text on bottom row
+    lcd.writeString(s)      # Write text
+    # end GLCD first image
+
+
 # Dewey Setup Code
 #Setup System to read keys
 orig_settings = termios.tcgetattr(sys.stdin)
@@ -229,7 +241,7 @@ GLCDcode =1
 
 print("Starting Dewey Program\r")
 
-os.system("mpg123 /home/pi/dewey/sounds/HelloNameIsDeweyLoud.mp3 &")
+os.system("mpg123 /home/pi/dewey/sounds/HelloNameIsDeweyLoud.mp3")
 
 # get on with Dewey code
 
@@ -392,7 +404,7 @@ while 1:
             # if recording was not stopped end recording.
             print("Dewey Record Ending - if it was going\r")
             deweyRecord.rec_stop()
-            os.system("mpg123 /home/pi/dewey/sounds/DeweyTiredRestNow.mp3 &")
+            os.system("mpg123 /home/pi/dewey/sounds/DeweyTiredRestNow.mp3")
             print("Stopping Dewey\r")
             ser.close()
             camera.close()
@@ -430,7 +442,11 @@ while 1:
             runGLCD()
 
         if inputValUpper == 'P':
+            os.system("mpg123 /home/pi/dewey/sounds/CanTakePicture.mp3")
+            os.system("mpg123 /home/pi/dewey/sounds/SayCheese.mp3 &")
             takePicture()
+            os.system("mpg123 /home/pi/dewey/sounds/ThankYou.mp3 &")
+            
 
         if inputValUpper == 'Q':
             # Q Means stop recording

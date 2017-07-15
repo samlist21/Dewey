@@ -25,7 +25,7 @@ Adafruit_LSM303_Accel_Unified accel = Adafruit_LSM303_Accel_Unified(54321);
   } else {
     Serial.println("Magnetometer Test -X -Z"); Serial.println("");
     localCompassEnabled = true;
-  }
+  
   
     /* Initialise the sensor */
   if(!accel.begin())
@@ -35,6 +35,7 @@ Adafruit_LSM303_Accel_Unified accel = Adafruit_LSM303_Accel_Unified(54321);
     localAccelEnabled = false;
   } 
   
+  }
   return localCompassEnabled;
 }
 
@@ -60,7 +61,7 @@ float compass(){
   return heading;
 }
 
-void displaySensorDetails(void)
+void displayCompassDetails(void)
 {
   sensor_t sensor;
   accel.getSensor(&sensor);

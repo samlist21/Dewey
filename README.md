@@ -9,9 +9,10 @@ To push everything to the repository (DO NOT PUSH OR ADD IF THERE ARE ERRORS)
 ```
 git add .    - This adds all changed files in the directory recursively 
 use git add . -v   If you want to see the files that will be added (verbose mode)
-OR git add <filename with path if necessary>  this will add just the file you specify
+OR git add <filename with path if necessary>  This will add just the file you specify
 git commit -m "Your message here"
 git push
+git status    Helps you figure out where you are in the versions
 ```
 
 
@@ -55,10 +56,10 @@ Dewey Photo of Sonar Sensor
 to do this type> date   - to check the date 
 If not up to date type> sudo date -s "2017-07-08 10:44:00"  - Example July 7 at 10:44 am
 The Library has put things back for a little while until they figure out the routing that they want.  
-The old addres, above, will work until they do. 
+The old address, above, will work until they do. 
 With the new IP address the date was updated over the Internet to the above was not necessary but the IP address was not known.
 - VNC connection is either of the above IP addresses and port :5901, depending on the link used.
-- Dewey Password - email or message Ken Samuelson .  This can be done through the meetup group message. - See meetup for my contact info. 
+- Dewey Password - email or message Ken Samuelson.  This can be done through the meetup group message. - See meetup for my contact info. 
 - Watch handling the Pi.  If you're not careful you will pop out the spring loaded microSD card and you will trash the card.  This is very bad. 
 - Robot club has a keyboard and mouse in the containers. If you can't access Dewey, you will need the keyboard, mouse, and an HDMI monitor, cable or HDMI to VGA converter. See Ken Samuelson I have all (any) of them.
 - The Fayetteville Free library is closed Sunday's in July and August and only open 10-1 on Saturday.  Reminder if you are planning to work on Dewey.  
@@ -71,10 +72,11 @@ With the new IP address the date was updated over the Internet to the above was 
 - If you are writing or changing any Arduino code that uses the serial port make sure to put in a delay of 2 seconds delay(2000); so that the Arduino has time to switch to programming mode before the program runs. 
 This will help if you are trying to download a program while the Arduino is sending serial information out the port. 
 Also if that does not work try loading in the example Blinky program and possibly hitting the reset button while programming to get a "default" program in before loading real code. 
-- The rest button may be useed while loadign programs if you have trouble.  Remember the serial port is shared with the programming port on the Arduino.
+- The reset button may be used while loading programs if you have trouble.  Remember the serial port is shared with the programming port on the Arduino.
 - Raspberry Pi inputs and outputs can be up to 5V - no analog 
 - Arduino inputs and outputs can be up to 3.3V, sometimes 5 but be careful. 
-- Don't plug in or remove components without disabling the power first.  
+- Don't plug in or remove components without disabling the power first.
+- Put Arduino libraries in /usr/share/arduino/libraries/  Don't use any "-" dashes.  Chang ethemt o underscores. You can't load libraries via the zip file, like on Windows.   
 
 ## Running Dewey 
 1. Logon to Pi locally or through VNC
@@ -108,38 +110,46 @@ Also if that does not work try loading in the example Blinky program and possibl
 - [ ] Rename sendSerialDewey.py to Dewey.py.  Clean up git code
 - [ ] Remove all test and demonstration code that is not used. 
 - [ ] Get autonomous mode working. Dewey drives around by itself. 
-- [ ] Add voice files for "Hello, I'm Dewey", "Excuse Me", "What is your Name?", "Can I take your picture?", "Say Cheese!","Bye, Bye - Dewey Sleeping now",etc.
-- [ ] Should do a sudo apt-get upgrade. Possibly will break some things so need to be careful when we want to do this. Test on home Pi setup first, before library setup. 
+- [X] Add voice files for "Hello, I'm Dewey", "Excuse Me", "What is your Name?", "Can I take your picture?", "Say Cheese!","Bye, Bye - Dewey Sleeping now",etc.
+- [X] Should do a sudo apt-get upgrade. Done when Googly eyes installed. 
 - [ ] Get Dewey Video working
 - [ ] Add Microphone to Dewey
 - [ ] Get Dewey voice recognition working
-- [ ] Figure out how to break this file into multiple files.  It is getting too long.
-- [ ] Fix rogue carrige returns from Arduino.
+- [ ] Figure out how to break this README.md file into multiple files.  It is getting too long.
+- [ ] Fix rogue carriage returns from Arduino.
 - [X] Fixed Dewey so that if Arduino serial port is not working then the program exits gracefully 
 - [ ] Fix GLCD need for absolute path 
 - [X] Get heading working with LSM303 board.  
 - [X] Get acceleration working with LSM303 board. 
-- [ ] Clean up motorrun code into smaller more suable functions.
-- [ ] Get forward and backward to work on heading (or encoder) to keep it tracking straight. Possibly turn or mke new functions for 90 degrees on R or L
-- [ ] Replace wiring for Sonar sensor. 
-- [ ] Move Sonar sensor functions to seperate file. 
-- [ ] Remove other accelerometer board when satisfied with heading. 
+- [ ] Clean up motorrun code into smaller more suitable functions.
+- [ ] Get forward and backward to work on heading (or encoder) to keep it tracking straight. Possibly turn or make new functions for 90 degrees on R or L
+- [X] Replace wiring for Sonar sensor. 
+- [ ] Move Sonar sensor functions to separate file. 
+- [X] Remove other accelerometer board when satisfied with heading. 
 - [X] Fixed Dewey so that if Arduino serial port is not working then the program exits gracefully 
 - [ ] Fix GLCD need for absolute path 
 - [X] Get Sonar Sensor working -- Arduino code - Work on Sonar sensor (probably wiring)
 - [X] Wiring 5V supply to the breadboard and better wiring in general.
 - [X] Encoders wired to 5 V
-- [ ] Wire Encoders to Arduino
-- [ ]Incorporate encoders and perform testing
-- [ ] Solder and wire up Cylon LED Strip
-- [ ] Solder and wire up Googly eyes. 
-- [ ] Get Cyon eyes (LED string)working (Pi or Arduino). - Super rad lighting effects
-- [ ] Get Googly eyes working. (Pi)
+- [ ] Wire Encoders to Arduino. Wired to power but not arduino
+- [ ] Incorporate encoders and perform testing
+- [X] Solder and wire up Cylon LED Strip
+- [X] Solder and wire up Googly eyes. 
+- [ ] Get Cyon eyes (LED string)working (Pi or Arduino). 
+- [ ] Get Googly eyes working. (Pi) Plug in and they should work.
+- [ ] Get Googly eyes to look at something, like where Dewey is going. 
+- [ ] Get Googly eyes to close when hitting X, exit
+- [ ] Attach Googly eyes to head
+- [ ] Attach LED Strip to head. Fix wiring to input 7 - Super rad lighting effects
+- [ ] Run a sudo apt-get dist-update
+- [ ] Incorporate more Dewey voice files into operation. 
+- [ ] After Dewey takes a picture have it displayed on LCD screen.
 
 ## Wish List 
 
-- Incorporate Heading (possibly acceleration) and see if Dewey can track straight and make better 90 degree turns . 
+- Incorporate Heading (possibly acceleration) and see if Dewey can track straight and make better 90 degree turns. 
 - Arduino code - Work on wheel tracking via heading. Incorporate code into baseline.
+- Have Dewey use camera to follow a tape line on the floor. 
 - Create an updated Schematic of Dewey. Store on Git
 - Figure out Flask code and implement in Dewey
 - Speed/PID control on drive motors
@@ -156,11 +166,36 @@ Also if that does not work try loading in the example Blinky program and possibl
 - Facial recognition
 - Person tracking/following
 
+### Python Libraries - Required
+ - time
+ - picamera
+ - serial
+ - termios
+ - os
+ - select
+ - PIL
+ - random 
+
+### Arduino Libraries - Required
+ - Adafruit_NeoPixel_master
+ - Adafruit_LSM303DLHC_master
+
 
 ## Implemented Functions
 Too many to list - Volunteers to document?
 
 ## New Discussions - only on github
+
+## Dewey Day July 15, 2017 Ken Samuelson 
+- Got LED strip and Googly eyes soldered
+- Tested LED strip and Googly eyes.  Both work.   
+- Updated Arduino MotorRun to ignore compass if it powers up and can't find the sensor. 
+- Updated Arduino MotorRun to ignore sensor if it powers up and reads 0 distance.  It will now skip reading the sensor at all and keep the interaction speed high. 
+- Downloaded Googly eyes software and ran script
+- Put Arduino Adafruit_NeoPixel_master library in /usr/share/arduino/libraries.  Had to remove the dash.
+- Enabled I2C interfaced for Googly eyes.
+- Added Hello voice on startup and Goodbye voice on shutdown.
+- Adding in many sound byte files for Dewey voices. 
 
 
 ## Dewey Day July 14, 2017 Ken Samuelson 
@@ -172,17 +207,17 @@ sending and receiving of messages to Dewey.  it was in the Sonar loop that timed
 
 ## Dewey Day July 8, 2017 Ken Samuelson and John W.
 - Installed LSM303 board
-- created a comppass.h file to hold all Compass and acceleration funcitons. needed to put the header files in MotorRun.ino.  Not sure why. 
+- created a compass.h file to hold all Compass and acceleration functions. Needed to put the header files in MotorRun.ino.  Not sure why. 
 - Added delay(2000); as first line in startup() function
 - Tested the heading and acceleration functions, printout, and update.  They seem to be working. 
 - Began commenting the Drive.h file, DriveFWD for updates that could use compass functions.
 
 ## Dewey Day July 3, 2017 Ken Samuelson 
-- minor fixes to get python updates (image) working on robot.
+- Minor fixes to get python updates (image) working on robot.
 - Updated sendSerialDewey.py to use both python (2) and python3.   
 Any Dewey Testing always needs to include both python and python3 
 - Continue to update and fix README.md
-- Noticed some stray carrige returns and formatting problems coming back from arduino
+- Noticed some stray carriage returns and formatting problems coming back from arduino
 Added to the task list.
 - Got GLCD working inside the dewey program
 - GLCD FFL Logo pops up first on program run.
@@ -209,12 +244,12 @@ Working on:
 
 
 ## Dewey Day June 30, 2017 Ken Samuelson 
-The library changed their WiFi so I was not able to log into when I first arrived Dewey today.  I setup a static IP address on the Ethernet port so that you can directly connect to Dewey for VNC and programming.  The Ethernet port is now setup static at 192.168.1.199.  Set your computer to 192.168.1.xx where xx is anything but 199.  I set my computer to 192.168.1.50 and directly connected Ethernet cable to be able to work. Apparently one of the ports switches the wires so that it acts as a crossover Ethernedt cable.  Your mileage may vary.  
+The library changed their WiFi so I was not able to log into when I first arrived Dewey today.  I setup a static IP address on the Ethernet port so that you can directly connect to Dewey for VNC and programming.  The Ethernet port is now setup static at 192.168.1.199.  Set your computer to 192.168.1.xx where xx is anything but 199.  I set my computer to 192.168.1.50 and directly connected Ethernet cable to be able to work. Apparently one of the ports switches the wires so that it acts as a crossover Ethernet cable.  Your mileage may vary.  
 This took quite a bit of time to debug and fix so I didn't get too much done.
-Suggest Dewey be setup as a DHCP server so that whent he computer is connected Dewey provides the IP address.  
+Suggest Dewey be setup as a DHCP server so that when  the computer is connected Dewey provides the IP address.  
 
-With the change to the WiFi the Date on Dewey is now being updated from the Internet so you don't need to update the date everytime you come in.  
-We do need a static library IP address.  I talked to the library tech supprot about gettign a static IP address for Dewey.  
+With the change to the WiFi the Date on Dewey is now being updated from the Internet so you don't need to update the date every time you come in.  
+We do need a static library IP address.  I talked to the library tech support about getting a static IP address for Dewey.  
 Hopefully they are working on it. 
 
 What I did fix:
@@ -226,7 +261,7 @@ The drive.c program was not needed at this time.  I think John added that in.  W
 
 # Past Discussions
 Below is basically the Discussion Messages from the CNY Makers Meetup Discussion board. 
-I'm not sure if the Discusison capability of Meetup will remain, like they removed the files upload section.  Therefore I copies all the discussion messages here so all the data could be kept in one place. (Some content of the messages have been remove dif it wasn't relevant to the buld, running, test or oepration of Dewey )
+I'm not sure if the Discussion capability of Meetup will remain, like they removed the files upload section.  Therefore I copied all the discussion messages here so all the data could be kept in one place. (Some content of the messages have been removed if it wasn't relevant to the build, running, test or operation of Dewey)
 https://www.meetup.com/CNY-Makers-Meetup/messages/boards/ 
 
 ## Dewey Day June 25, 2017 Ken Samuelson 
@@ -256,25 +291,22 @@ We can also figure out what Bob Lawler’s Flask code does and see if we want to
 ## Dewey Tasks for Electronics Club 10/17
 Some of this was entered in the Electronics club site.
 Hopefully I'll be able to make it next week. If you're not on both of these lists I suggest you join.
-We need :
-
+We need:
 
     USB powered speakers - we can work on Dewey's voice.
     If Joe remembers to bring the optical sensors and we can figure out how to wire them up and program them
     If someone wants to work on how to make the wheel encoder work that would be a good task.
     Someone could work on how to get the camera to sense movement. There are some cool image libraries (python) out there.
     Someone could work on getting the second battery voltage connected to the Arduino and implement the voltage measurement software on the Arduino.
-    I would be willing to donate my Real-Tiem Clock (RTC) to keep Dewey's time and Date updated (since we can't figure out how to get NTP to work)
+    I would be willing to donate my Real-Time Clock (RTC) to keep Dewey's time and Date updated (since we can't figure out how to get NTP to work)
     Get NTP to work
-
 
 Other ideas? Please post them below. 
 ### jwilliams
 Also, if we had an accelerometer we could create a PID controller instead of using the wheel encoder to balance out the torque. We just need to find out base coordinates in relation to world coordinates to calculate error, which could be calculated with an accelerometer on the delta change in values (only one of x, y, or z since his movement is technically 2D).
 
 ### Adam S. 
-# I would also be interested in working #7. Get NTP to work. I found a post here: (sorry link broke when copying.  See origional discussion in CNY Maker Meetup)
-
+I would also be interested in working #7. Get NTP to work. I found a post here: (sorry link broke when copying.  See origional discussion in CNY Maker Meetup)
 
 Mentioning using openntpd instead of ntp (both located in the repos), due to routers restricting ntp using port 123. There are some other suggestions as well.
 
@@ -303,7 +335,7 @@ An alternate command is:
 sudo date -s "2 Sept 2016 18:09:10"
 This will at least get you to a current date/ time so that you can get the right packages.
 
-I also disabled and uninstalled NTP and installed OpenNTP to see if this would help. OpenNTP is suppose to use high port numbers that routers do not disable. This is running but does not appear to be working either.
+I also disabled and uninstalled NTP and installed OpenNTP to see if this would help. OpenNTP is supposed to use high port numbers that routers do not disable. This is running but does not appear to be working either.
 
 I also was running Dewey and the Voltage Monitor came up as 5.8 volts. Confused as to why it would be so low I put the volt meter on the electronics bus and it was truly 5.8 volts. I plugged Dewey into the wall to get a recharge, but we need to watch this. We don't want the electronics to get shutdown while someone is working on either board. The motor voltage was still at 12 volts.
 

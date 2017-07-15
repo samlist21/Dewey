@@ -5,7 +5,11 @@
 #include "voltage.h"
 #include "def.h"
 #include "sonar.h"
+
+ //NeoPixel LED Digital Strip Cylon Eye v1.10 Created by EternalCore
+#include "Adafruit_NeoPixel.h"
 // #include "cylon.h"
+// #include <Adafruit_NeoPixel.h>
 
 
 #include <Wire.h>
@@ -31,18 +35,17 @@ const int oneSecInUsec = 1000000; // a second in micro second units
         GND: GND
 */
 
- //NeoPixel LED Digital Strip Cylon Eye v1.10 Created by EternalCore
-#include "Adafruit_NeoPixel.h"
+
 
 //Settings:
-#define PIN 5 //The Pin out your Neopixel DIN strip/stick is connected to (Default is 6)
-#define TPIXEL 12 //The total amount of pixel's/led's in your connected strip/stick (Default is 60)
-int wait_T=40; //This is the delay between moving back and forth and per pixel
-int PixelCount=12; //Set this to the AMOUNT of Led's/Pixels you have or want to use on your strip And It can be used to tell where to Stop then return the eye at in the strip
+#define PIN 7 //The Pin out your Neopixel DIN strip/stick is connected to (Default is 6)
+#define TPIXEL 29 //The total amount of pixel's/led's in your connected strip/stick (Default is 60)
+int wait_T=60; //This is the delay between moving back and forth and per pixel
+int PixelCount=29; //Set this to the AMOUNT of Led's/Pixels you have or want to use on your strip And It can be used to tell where to Stop then return the eye at in the strip
 int Pixel_Start_End=0; //Set this to where you want it to Start/End at
 boolean UsingBar = false; //Set this to true If you are using the 8x1 Neopixel Bar Or you want to only use 3 leds for the scanner. 
 
-byte cylonLED = false;
+byte cylonLED = true;
 byte up = true;
 
 
@@ -73,7 +76,11 @@ byte oldSensorSpeed;
 boolean flagSensorGo = false;
 boolean flagSensorStop = false;
 
+// Assume compass and Sonar are avaialble until proven otherwise
 boolean compassEnabled = true;
+boolean noCompass = false;
+boolean noSonar = false;
+
 float heading = 0;
 
 Drive dewey;
@@ -92,9 +99,9 @@ void setup()
   Serial.println("Dewey Alive and ready to take commands");
   //Edit this line wheen a significant chnag eis made so that the user knows
  //  what version fo Motor Run theyy are using 
-  Serial.println("Dewey Drive Code Version 12");
+  Serial.println("Dewey Drive Code Version 14");
 
-setupSonar();  
+noSonar = setupSonar();  
 
 // setupCylon();
   strip.begin();
@@ -103,15 +110,17 @@ setupSonar();
   compassEnabled = compassInit();
   if (compassEnabled)
     {
-    Serial.println("Magnetometer Test -X -Z"); Serial.println("");
+    Serial.println("Magnetometer Test -X -Z - Initialized"); Serial.println("");
+      /* Display some basic information on this sensor */
+  displayCompassDetails();
     
   } else {
       /* There was a problem detecting the LSM303 ... check your connections */
     Serial.println("Ooops, no LSM303 detected ... Check your wiring!");
+    noCompass = true;
       }
       
-  /* Display some basic information on this sensor */
-  displaySensorDetails();
+Serial.println("Sonar and Compass Check Complete.");
   
 }
 
@@ -127,6 +136,7 @@ void loop()
   }
   // delay(250);
   
+  // Every 250 milliseconds check these things - and Print when necessary
   if (currentMillis -previousMillis >= 250){
     previousMillis = currentMillis;
     // when compass available print 
@@ -141,29 +151,17 @@ void loop()
         if (headingCounter<2)
         headingCounter++;
         else
-        headingCounter=0;
-        float headingAvg = (headingArray[0]+headingArray[1]+headingArray[2])/3;
-        Serial.print("   average: ");
-        Serial.println(headingAvg);
-        getAccel();
+          {
+          headingCounter=0;
+          
+          float headingAvg = (headingArray[0]+headingArray[1]+headingArray[2])/3;
+          Serial.print("   Average: ");
+          Serial.println(headingAvg);
+          getAccel();
+          }
         }
     
-      if (currentMillis - cylonMillis >= wait_T) {
-    // save the last time you blinked the LED
-    cylonMillis = currentMillis;
 
-    if (up) {
-  //Example: CylonEyeUp(Center_Dot_Color, Second_Dot_color, Third_Dot_color, wait_T, PixelCount, Pixel_Start_End);
-  CylonEyeUp(strip.Color(175,0,0), strip.Color(25,0,0), strip.Color(10,0,0), wait_T, PixelCount, Pixel_Start_End);
-    
-    }
-  else{
-  //Example: CylonEyeDown(Center_Dot_Color, Second_Dot_color, Third_Dot_color, wait_T, PixelCount, Pixel_Start_End);
-  CylonEyeDown(strip.Color(0,0,175), strip.Color(0,0,25), strip.Color(0,0,10), wait_T, PixelCount, Pixel_Start_End);
-  
-  
-  }
-      }
     
     // for debug
 //    Serial.print("  PreviousMillis=");
@@ -193,10 +191,11 @@ void loop()
     oldMove = currentMove;
   }
 
+// Check voltage evry (12 * 250 s) or 3 seconds
   if (voltCount > 12) {
     readVoltage(ELECTRONICS);  // 0 is pin 0 for the Electronics - 1 will be for motors
 
-    printDistance(duration);
+    //printDistance(duration);
     Serial.println(" interim");
 
     voltCount = 0;
@@ -206,26 +205,50 @@ void loop()
     voltCount = voltCount + 1;
   }
 
-  duration =  getSensor();
+  duration =  getSensor(noSonar);
   cm = convertCM(duration);
   inches = convertIN(duration);
 
-  if (autonomous)
+ 
+ 
+  
+  } // currentMills - previousMills is less than than time
+  
+ // Check to see if we are in Autonomous mode.
+   autonomous = dewey.isAutonomous();
+  
+   if (autonomous)
   {
     dewey.driveAutonomous(cm);
   }
-
-
-  if (!autonomous && cm < 15 && duration > 0) { // about 6 inches
+  
+    if (!autonomous && cm < 15 && duration > 0) { // about 6 inches
     dewey.driveHold();
   }
   else {
     dewey.driveResume();
   }
   
-  autonomous = dewey.isAutonomous();
+
+  // check mills and do this every 40 ms.
+    if (currentMillis - cylonMillis >= wait_T) {
+    // save the last time you blinked the LED string
+    cylonMillis = currentMillis;
+
+        if (up) {
+      //Example: CylonEyeUp(Center_Dot_Color, Second_Dot_color, Third_Dot_color, wait_T, PixelCount, Pixel_Start_End);
+      CylonEyeUp(strip.Color(175,0,0), strip.Color(25,0,0), strip.Color(10,0,0), wait_T, PixelCount, Pixel_Start_End);
+        
+        }
+      else{
+      //Example: CylonEyeDown(Center_Dot_Color, Second_Dot_color, Third_Dot_color, wait_T, PixelCount, Pixel_Start_End);
+      CylonEyeDown(strip.Color(0,0,175), strip.Color(0,0,25), strip.Color(0,0,10), wait_T, PixelCount, Pixel_Start_End);
+      
+      
+      }
+    }
   
-  } // currentMills is greater than time
+  
   
 }
 

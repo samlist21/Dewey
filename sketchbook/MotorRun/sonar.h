@@ -5,14 +5,30 @@ long duration, cm, inches;
   long convertCM(long); 
   long convertIN(long);
   void printDistance(long);
-  void setupSonar();
-//  void getSensor();
+ long getSensor(boolean);
 
-void setupSonar()
+boolean setupSonar()
 {
+  boolean noSonar;
   //Define sensor inputs and outputs
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
+  
+  long thisDuration = getSensor(false);
+  Serial.print("thisDuration:");
+  Serial.println(thisDuration);
+  
+  if (thisDuration == 0)
+  {
+    noSonar = true;
+    Serial.println("No Sonar Sensor found or not working");
+    }
+    else 
+    {
+    noSonar = false;
+    Serial.println("Sonar Sensor found and working");
+        }
+    return noSonar;
   }
   
   long convertCM(long duration)
@@ -27,7 +43,9 @@ void setupSonar()
   return inches;
 }
 
-long getSensor() {
+long getSensor(boolean noSonar1) {
+  duration = 0;
+  if (noSonar1 == false){
   // The sensor is triggered by a HIGH pulse of 10 or more microseconds.
   // Give a short LOW pulse beforehand to ensure a clean HIGH pulse:
   digitalWrite(trigPin, LOW);
@@ -48,7 +66,7 @@ long getSensor() {
     printDistance(duration);
     Serial.print(" Dewey Stopped because of Sensor 0 ");
   }
-  
+  }
   return duration;
 }
 
