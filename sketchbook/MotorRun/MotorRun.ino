@@ -94,7 +94,7 @@ Adafruit_NeoPixel strip = Adafruit_NeoPixel(TPIXEL, PIN, NEO_GRB + NEO_KHZ800); 
 
 void setup()
 {
-  delay (2000);
+  delay (2000);  //leave a 2 seoncd delay before th eprogram starts.  used for program download time. 
   Serial.begin(115200);
   Serial.println("Dewey Alive and ready to take commands");
   //Edit this line wheen a significant chnag eis made so that the user knows
@@ -136,8 +136,8 @@ void loop()
   }
   // delay(250);
   
-  // Every 250 milliseconds check these things - and Print when necessary
-  if (currentMillis -previousMillis >= 250){
+  // Every 500 milliseconds (1/2 second)check these things - and Print when necessary
+  if (currentMillis -previousMillis >= 500){
     previousMillis = currentMillis;
     // when compass available print 
   if (compassEnabled){
@@ -191,8 +191,8 @@ void loop()
     oldMove = currentMove;
   }
 
-// Check voltage evry (12 * 250 s) or 3 seconds
-  if (voltCount > 12) {
+// Check voltage evry (50 * 250 s) or ~12.5 seconds
+  if (voltCount > 50) {
     readVoltage(ELECTRONICS);  // 0 is pin 0 for the Electronics - 1 will be for motors
 
     //printDistance(duration);

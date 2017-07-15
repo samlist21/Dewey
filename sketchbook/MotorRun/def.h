@@ -5,7 +5,8 @@
 // define an enum for the voltage (Analog) pins
 enum voltagePin : byte {
   ELECTRONICS = 0,
-  MOTORS
+  MOTORS,
+  PROCESSOR // 5V 
 };
 
 #endif

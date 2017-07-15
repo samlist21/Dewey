@@ -15,6 +15,9 @@ void readVoltage(byte reading) {
     case  MOTORS :
       name = "Motor ";
       break;
+    case  PROCESSOR :
+      name = "Processor ";
+      break;
     default :
       name = "Unknown ";
       break;
