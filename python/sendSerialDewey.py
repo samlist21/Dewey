@@ -229,6 +229,8 @@ GLCDcode =1
 
 print("Starting Dewey Program\r")
 
+os.system("mpg123 /home/pi/dewey/sounds/HelloNameIsDeweyLoud.mp3 &")
+
 # get on with Dewey code
 
 # try to find and use serial port for Arduino.  
@@ -390,6 +392,7 @@ while 1:
             # if recording was not stopped end recording.
             print("Dewey Record Ending - if it was going\r")
             deweyRecord.rec_stop()
+            os.system("mpg123 /home/pi/dewey/sounds/DeweyTiredRestNow.mp3 &")
             print("Stopping Dewey\r")
             ser.close()
             camera.close()
