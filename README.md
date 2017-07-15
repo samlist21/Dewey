@@ -168,7 +168,15 @@ Also if that does not work try loading in the example Blinky program and possibl
 - Facial recognition
 - Person tracking/following
 
-### Python Libraries - Required
+###Items needed:
+- 100-500 ohm resistor for LED string signal path
+- 1N4001 diode for LED string 5V path
+- 1000uf Cap (can) for pwoer leads of the LED string. 
+- Mounting hardware for Googly eyes. 
+- Mounting hardware for LED String, Cylon eye. 
+
+
+### Python3 Libraries - Required
  - time
  - picamera
  - serial
@@ -176,11 +184,14 @@ Also if that does not work try loading in the example Blinky program and possibl
  - os
  - select
  - PIL
- - random 
+ - random
+ - enum
 
 ### Arduino Libraries - Required
  - Adafruit_NeoPixel_master
  - Adafruit_LSM303DLHC_master
+ - Adafruit_Sensor
+ - Wire
 
 
 ## Implemented Functions
