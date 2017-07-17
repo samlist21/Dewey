@@ -207,8 +207,8 @@ def setLastImageGLCD():
         # Send last picture taken to GLCD display
 
         print("Sending picture image to Display..... \r")
-        print("/home/pi/dewey/Pictures/image."+ str("{0:03}".format(takePicture.counter))+"jpg") 
-        lcd.drawFullscreenImage(loadFFLImage("/home/pi/dewey/Pictures/image."+ str("{0:03}".format(takePicture.counter))+"jpg"))
+        print("/home/pi/Pictures/image"+ str("{0:03}".format(takePicture.counter))+".jpg") 
+        lcd.drawFullscreenImage(loadFFLImage("/home/pi/Pictures/image"+ str("{0:03}".format(takePicture.counter))+".jpg"))
 
         # Set write position and write initial text
         # coudl put persons name here
@@ -231,6 +231,11 @@ camera = picamera.PiCamera()
 
 camera.hflip=True
 camera.vflip=True
+# remove this comment to take pitures and send to the screen
+#camera.resolution = (128,64)
+
+# Also uncomment line 457 - works but poor resolution. 
+
 # attempt to turn off the camera until needed.
 # Does not seem to work at this time.  Camera light stays on.
 camera.stop_preview()
@@ -449,7 +454,7 @@ while 1:
             os.system("mpg123 /home/pi/dewey/sounds/SayCheese1.mp3")
             takePicture()
             os.system("mpg123 /home/pi/dewey/sounds/ThankYou.mp3 &")
-            setLastImageGLCD()
+            # setLastImageGLCD()
             
 
         if inputValUpper == 'Q':

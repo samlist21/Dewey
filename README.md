@@ -136,8 +136,8 @@ Also if that does not work try loading in the example Blinky program and possibl
 - [ ] Incorporate encoders and perform testing
 - [X] Solder and wire up Cylon LED Strip
 - [X] Solder and wire up Googly eyes. 
-- [ ] Get Cyon eyes (LED string)working (Pi or Arduino). 
-- [ ] Get Googly eyes working. (Pi) Plug in and they should work.
+- [X] Get Cyon eyes (LED string)working (Arduino). 
+- [X] Get Googly eyes working. (Pi) Plug in and they should work.
 - [ ] Get Googly eyes to look at something, like where Dewey is going. 
 - [ ] Get Googly eyes to close when hitting X, exit
 - [ ] Attach Googly eyes to head
