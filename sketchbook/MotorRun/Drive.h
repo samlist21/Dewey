@@ -2,8 +2,8 @@ class Drive {
     const int Left_CW = 5;
     const int Left_CCW = 6;
 
-    const int Rigth_CCW = 10;
-    const int Rigth_CW = 11;
+    const int Right_CCW = 10;
+    const int Right_CW = 11;
 
     const int ledPin = 13;
     const byte Right_Comp = 4;
@@ -51,8 +51,8 @@ Drive::Drive () {
   driveSpeed = 128;
   pinMode(Left_CW, OUTPUT);
   pinMode(Left_CCW, OUTPUT);
-  pinMode(Rigth_CCW, OUTPUT);
-  pinMode(Rigth_CW, OUTPUT);
+  pinMode(Right_CCW, OUTPUT);
+  pinMode(Right_CW, OUTPUT);
 };
 
 
@@ -201,40 +201,40 @@ void Drive::checkValue (byte value) {
 void Drive::driveFWD () {
   analogWrite(Left_CW, 0);
   analogWrite(Left_CCW, driveSpeed - Left_Comp);
-  analogWrite(Rigth_CCW, 0);
-  analogWrite(Rigth_CW, driveSpeed - Right_Comp);
+  analogWrite(Right_CCW, 0);
+  analogWrite(Right_CW, driveSpeed - Right_Comp);
   driveDirection = 'F';
 };
 
 void Drive::driveBACK () {
   analogWrite(Left_CW, driveSpeed - LeftBack_Comp);
   analogWrite(Left_CCW, 0);
-  analogWrite(Rigth_CCW, driveSpeed - RightBack_Comp);
-  analogWrite(Rigth_CW, 0);
+  analogWrite(Right_CCW, driveSpeed - RightBack_Comp);
+  analogWrite(Right_CW, 0);
   driveDirection = 'B';
 };
 
 void Drive::driveSTOP () {
   analogWrite(Left_CW, 0);
   analogWrite(Left_CCW, 0);
-  analogWrite(Rigth_CCW, 0);
-  analogWrite(Rigth_CW, 0);
+  analogWrite(Right_CCW, 0);
+  analogWrite(Right_CW, 0);
   driveDirection = 'S';
 };
 
 void Drive::driveRIGHT () {
   analogWrite(Left_CW, 0);
   analogWrite(Left_CCW, driveSpeed / 2);
-  analogWrite(Rigth_CCW, driveSpeed / 2);
-  analogWrite(Rigth_CW, 0);
+  analogWrite(Right_CCW, driveSpeed / 2);
+  analogWrite(Right_CW, 0);
   driveDirection = 'R';
 };
 
 void Drive::driveLEFT () {
   analogWrite(Left_CW, driveSpeed / 2);
   analogWrite(Left_CCW, 0);
-  analogWrite(Rigth_CCW, 0);
-  analogWrite(Rigth_CW, driveSpeed / 2);
+  analogWrite(Right_CCW, 0);
+  analogWrite(Right_CW, driveSpeed / 2);
   driveDirection = 'L';
 };
 

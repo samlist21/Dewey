@@ -140,7 +140,7 @@ Also if that does not work try loading in the example Blinky program and possibl
 - [X] Get Googly eyes working. (Pi) Plug in and they should work.
 - [ ] Get Googly eyes to look at something, like where Dewey is going. 
 - [ ] Get Googly eyes to close when hitting X, exit
-- [ ] Attach Googly eyes to head
+- [ ] Attach Googly eyes to head - Temporarily attached. 
 - [ ] Attach LED Strip to head. Fix wiring to input 7 - Super rad lighting effects
 - [ ] Run a sudo apt-get dist-update
 - [ ] Incorporate more Dewey voice files into operation. 
