@@ -1,3 +1,10 @@
+// Motor Run Program for FFL Dewey Robot
+// author Ken Samuelson 
+//  Date started 6/18/2016
+// Last update by Ken Samuelson 7/22/2017
+// Copyright Unpublished work Ken Samuelson 2017 all rights reserved.
+
+
 // Motor Run with pins 5,6,   10,11
 
 #include "Arduino.h"
@@ -9,9 +16,11 @@
 
 
  //NeoPixel LED Digital Strip Cylon Eye v1.10 Created by EternalCore
+ // Library in /usr/share/arduino/libraries so it needs to eb declared here 
+ // not sure why this is necessary
  #include "Adafruit_NeoPixel.h"
 #include "cylon.h"
-//#include <Adafruit_NeoPixel.h>
+
 
 
 #include <Wire.h>
@@ -38,20 +47,6 @@ const int oneSecInUsec = 1000000; // a second in micro second units
 */
 
 
-
-// Cylon Settings:
-//#define PIN 7 //The Pin out your Neopixel DIN strip/stick is connected to (Default is 6)
-//#define TPIXEL 29 //The total amount of pixel's/led's in your connected strip/stick (Default is 60)
-//int wait_T=60; //This is the delay between moving back and forth and per pixel
-//int PixelCount=29; //Set this to the AMOUNT of Led's/Pixels you have or want to use on your strip And It can be used to tell where to Stop then return the eye at in the strip
-//int Pixel_Start_End=0; //Set this to where you want it to Start/End at
-//boolean UsingBar = false; //Set this to true If you are using the 8x1 Neopixel Bar Or you want to only use 3 leds for the scanner. 
-//
-//byte cylonLED = true;
-//byte up = true;
-
-
-
 char readVal = '$';
 byte bytVal = 74;
 char buffer[20];
@@ -70,9 +65,6 @@ char oldMove = 'd';
 char currentMove = 'S';
 
 unsigned long previousMillis = millis();
-unsigned long currentMillis = millis();
-unsigned long cylonMillis = millis();
-
 
 byte oldSensorSpeed;
 boolean flagSensorGo = false;
@@ -86,17 +78,6 @@ boolean noSonar = false;
 float heading = 0;
 
 Drive dewey;
-
-Cylon cylon;
-
-byte voltCount = 0;
-// Moved to compass.h
-// float headingArray[3];
-// byte headingCounter =0;
-
-
-//Adafruit_NeoPixel strip = Adafruit_NeoPixel(TPIXEL, PIN, NEO_GRB + NEO_KHZ800); //Standered Strip function
-
 
 
 
@@ -112,9 +93,8 @@ void setup()
 noSonar = setupSonar();  
 
 // setupCylon();
-//  strip.begin();
-//  strip.show(); // Initialize all pixels to 'off'
-cylon.cylonSetup();
+initializeLED();
+clearLED();   // Initialize all pixels to 'off'
   
   compassEnabled = compassInit();
   if (compassEnabled)
@@ -136,8 +116,7 @@ Serial.println("Sonar and Compass Check Complete.");
 void loop()
 {
   
-  currentMillis = millis();
-  
+ 
   if (Serial.available())
   {
     readVal = Serial.read();
@@ -146,8 +125,8 @@ void loop()
   // delay(250);
   
   // Every 500 milliseconds (1/2 second)check these things - and Print when necessary
-  if (currentMillis -previousMillis >= 500){
-    previousMillis = currentMillis;
+  if (millis() -previousMillis >= 500){
+    previousMillis = millis();
     // when compass available print 
   if (compassEnabled){
       heading = compass();
@@ -160,11 +139,8 @@ void loop()
           Serial.println(headingAverage());
           getAccel();
           }
-        
     
-
-    
-    // for debug
+// for debug
 //    Serial.print("  PreviousMillis=");
 //    Serial.print(previousMillis);
 //    Serial.print(" currentMillis=");
@@ -192,26 +168,11 @@ void loop()
     oldMove = currentMove;
   }
 
-// Check voltage evry (50 * 250 s) or ~12.5 seconds
-  if (voltCount > 50) {
-    readVoltage(ELECTRONICS);  // 0 is pin 0 for the Electronics - 1 will be for motors
-
-    //printDistance(duration);
-    Serial.println(" interim");
-
-    voltCount = 0;
-  }
-  else
-  {
-    voltCount = voltCount + 1;
-  }
-
   duration =  getSensor(noSonar);
   cm = convertCM(duration);
   inches = convertIN(duration);
 
- 
- 
+
   
   } // currentMills - previousMills is less than than time
   
@@ -230,31 +191,16 @@ void loop()
     dewey.driveResume();
   }
   
+// Voltage check   
+    voltageCheck();
 
-  // check mills and do this every 60 ms.
-    if (currentMillis - cylonMillis >= 60) {
-//       wait_T was 40 ms
-    // save the last time you blinked the LED string
-    cylonMillis = currentMillis;
+// Run Cylon program 
 
-  cylon.runCylonEye();
-
-//        if (up) {
-//      //Example: CylonEyeUp(Center_Dot_Color, Second_Dot_color, Third_Dot_color, wait_T, PixelCount, Pixel_Start_End);
-//      up = CylonEyeUp(strip, strip.Color(175,0,0), strip.Color(25,0,0), strip.Color(10,0,0), wait_T, PixelCount, Pixel_Start_End);
-//        
-//        }
-//      else{
-//      //Example: CylonEyeDown(Center_Dot_Color, Second_Dot_color, Third_Dot_color, wait_T, PixelCount, Pixel_Start_End);
-//      up = CylonEyeDown(strip, strip.Color(0,0,175), strip.Color(0,0,25), strip.Color(0,0,10), wait_T, PixelCount, Pixel_Start_End);
-//      
-//      
-//      }
-    }
+    runCylon();    
   
   
   
-}
+}  // End of Loop
 
 
 

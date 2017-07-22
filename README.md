@@ -187,17 +187,35 @@ Also if that does not work try loading in the example Blinky program and possibl
  - random
  - enum
 
-### Arduino Libraries - Required
- - Adafruit_NeoPixel_master
+### Arduino Libraries - Required to run Dewey
+in /home/pi/dewey/sketchbook/libraries
  - Adafruit_LSM303DLHC_master
  - Adafruit_Sensor
- - Wire
 
+ in /usr/share/arduino/libraries
+ - Adafruit_NeoPixel_master
+ - Wire
+ - SPI
+ - Software Serial
+ - Servo
+ - SD
+ 
+ Locations could be consolidated
 
 ## Implemented Functions
 Too many to list - Volunteers to document?
 
 ## New Discussions - only on github
+
+## Dewey Day July 22, 2017 Ken Samuelson 
+- updated LED strip to clear between color sends
+- updated LED strip to wait for 60 ms in the cylon.h file not the loop()
+- Updated voltage to work like cylon wait time.    
+- Added more voice sound bytes to the T key
+- Set voice to "WatchOut.mp3" when Dewey moves forward
+- Removed libraries that were not beign used by Arduino
+- Tested picture taking while driving forward.  Pretty good results.
+- Added some header comment text to some Arduino files.
 
 ## Dewey Day July 15, 2017 Ken Samuelson 
 - Got LED strip and Googly eyes soldered

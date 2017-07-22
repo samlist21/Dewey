@@ -1,6 +1,8 @@
 #include "Arduino.h"
 #include "def.h"
 
+unsigned long voltageMillis = millis();
+
 
 void readVoltage(byte reading) {
   char floatStrCalc[10];
@@ -31,4 +33,14 @@ void readVoltage(byte reading) {
   Serial.print (name);
   Serial.println("Voltage=" + String(floatStrCalc) + " V");
 
+}
+
+void voltageCheck(){
+  
+  // Check voltage evry (50 * 250 s) or ~12.5 seconds
+  if (millis() -voltageMillis > 10000) {
+    
+    voltageMillis = millis();
+    readVoltage(ELECTRONICS);  // 0 is pin 0 for the Electronics - 1 will be for motors
+    }
 }
