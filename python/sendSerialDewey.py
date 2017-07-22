@@ -92,11 +92,24 @@ def printHelpMenu ():
 def playSound( sound):
     global soundCode
     if (soundCode == 1 ):
-        print("Playing Sound - /usr/share/sounds/asla/Front_Center.wav\r")
-        os.system("aplay /home/pi/dewey/sounds/Front_Center.wav &")
+        #print("Playing Sound - /usr/share/sounds/asla/Front_Center.wav\r")
+        #os.system("aplay /home/pi/dewey/sounds/Front_Center.wav &")
+        print("Playing Sound -  /home/pi/dewey/sounds/HelpImStuck.mp3\r")
+        os.system("mpg123 /home/pi/dewey/sounds/HelpImStuck.mp3 &")
         soundCode = 2
-        
+
+       
     elif (soundCode == 2 ):
+        print("Playing Sound -  /home/pi/dewey/sounds/WhatsYourName1.mp3\r")
+        os.system("mpg123 /home/pi/dewey/sounds/WhatsYourName1.mp3 &")
+        soundCode = 3
+
+    elif (soundCode == 3 ):
+        print("Playing Sound -  /home/pi/dewey/sounds/YourPretty.mp3\r")
+        os.system("mpg123 /home/pi/dewey/sounds/YourPretty.mp3 &")
+        soundCode = 4
+
+    elif (soundCode == 4 ):
         print("Playing Sound -  /home/pi/dewey/sounds/bizarre-guitar-daniel_simon.mp3\r")
         os.system("mpg123 /home/pi/dewey/sounds/bizarre-guitar-daniel_simon.mp3 &")
         soundCode = 1
@@ -337,7 +350,7 @@ while 1:
             print ("Bad Character="),
             print (a)
 
-# displays anythign coming back form the Arduino serial port
+# displays anything coming back from the Arduino serial port
     if out != '':
         print("< " +out +"\r"),
 
@@ -398,7 +411,7 @@ while 1:
     #            print("inputValUpper is in "),
     #            print(inputValUpper in ['X','V','Q','D','E'] )
 
-    if inputValUpper in ['X','V','Q','D','E','H','P', 'T', 'I'] or inputVal == chr(27):
+    if inputValUpper in ['X','V','Q','D','E','H','P', 'T', 'I', 'F'] or inputVal == chr(27):
 #        print("Late inputValUpper is="),
 #        print(inputValUpper)
 
@@ -442,6 +455,9 @@ while 1:
 
         if inputValUpper == 'H':
             printHelpMenu()
+
+        if inputValUpper == 'F':
+            os.system("mpg123 /home/pi/dewey/sounds/WatchOut.mp3")
 
         if inputValUpper == 'T':
             playSound(1)

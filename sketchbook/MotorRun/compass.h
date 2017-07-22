@@ -9,6 +9,9 @@ Adafruit_LSM303_Mag_Unified mag = Adafruit_LSM303_Mag_Unified(12345);
 Adafruit_LSM303_Accel_Unified accel = Adafruit_LSM303_Accel_Unified(54321);
 
 
+byte localHeadingCounter =0;
+float headingArray[3];
+
  boolean compassInit() {
     // Detect Compass
     
@@ -39,6 +42,24 @@ Adafruit_LSM303_Accel_Unified accel = Adafruit_LSM303_Accel_Unified(54321);
   return localCompassEnabled;
 }
 
+void addHeading(float heading){
+  headingArray[localHeadingCounter] = heading;
+          if (localHeadingCounter<2)
+            localHeadingCounter++;
+          else
+            localHeadingCounter=0;
+}
+
+
+float headingAverage(){
+
+          
+          float localHeadingAvg = (headingArray[0]+headingArray[1]+headingArray[2])/3;
+          Serial.print(" local  Average: ");
+          Serial.println(localHeadingAvg);
+  
+  return localHeadingAvg;
+}
 
 
 float compass(){

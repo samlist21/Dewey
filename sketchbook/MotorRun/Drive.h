@@ -97,7 +97,7 @@ void Drive::driveAutonomous (long cm)
 {
   if (autonomous)
   {
-    if (cm <= 15)
+    if (cm <= 20)
     {
       if (cm < prevCm)
       {
@@ -189,7 +189,7 @@ void Drive::checkValue (byte value) {
       case 'a':
       case 'A':
         autonomous = true;
-        driveAutonomous(15);
+        driveAutonomous(20);
         break;
       default:
         break;

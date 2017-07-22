@@ -112,7 +112,7 @@ Also if that does not work try loading in the example Blinky program and possibl
 - [ ] Remove all test and demonstration code that is not used. 
 - [ ] Get autonomous mode working. Dewey drives around by itself. 
 - [X] Add voice files for "Hello, I'm Dewey", "Excuse Me", "What is your Name?", "Can I take your picture?", "Say Cheese!","Bye, Bye - Dewey Sleeping now",etc.
-- [X] Should do a sudo apt-get upgrade. Done when Googly eyes installed. 
+- [X] Should do a sudo apt-get upgrade when Googly eyes installed. Done 
 - [ ] Get Dewey Video working
 - [ ] Add Microphone to Dewey
 - [ ] Get Dewey voice recognition working
@@ -140,10 +140,10 @@ Also if that does not work try loading in the example Blinky program and possibl
 - [X] Get Googly eyes working. (Pi) Plug in and they should work.
 - [ ] Get Googly eyes to look at something, like where Dewey is going. 
 - [ ] Get Googly eyes to close when hitting X, exit
-- [ ] Attach Googly eyes to head - Temporarily attached. 
+- [ ] Attach Googly eyes permanently  to head - Temporarily attached. 
 - [ ] Attach LED Strip to head. Fix wiring to input 7 - Super rad lighting effects
-- [ ] Run a sudo apt-get dist-update
-- [ ] Incorporate more Dewey voice files into operation. 
+- [X] Run a sudo apt-get dist-update
+- [X] Incorporate more Dewey voice files into operation. 
 - [X] After Dewey takes a picture have it displayed on LCD screen.
 - [ ] Put in a reset or timeout to try the Sonar sensor at a later time if it was not found on startup.  
 

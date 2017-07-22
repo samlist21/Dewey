@@ -6,10 +6,12 @@
 #include "def.h"
 #include "sonar.h"
 
+
+
  //NeoPixel LED Digital Strip Cylon Eye v1.10 Created by EternalCore
-#include "Adafruit_NeoPixel.h"
-// #include "cylon.h"
-// #include <Adafruit_NeoPixel.h>
+ #include "Adafruit_NeoPixel.h"
+#include "cylon.h"
+//#include <Adafruit_NeoPixel.h>
 
 
 #include <Wire.h>
@@ -37,16 +39,16 @@ const int oneSecInUsec = 1000000; // a second in micro second units
 
 
 
-//Settings:
-#define PIN 7 //The Pin out your Neopixel DIN strip/stick is connected to (Default is 6)
-#define TPIXEL 29 //The total amount of pixel's/led's in your connected strip/stick (Default is 60)
-int wait_T=60; //This is the delay between moving back and forth and per pixel
-int PixelCount=29; //Set this to the AMOUNT of Led's/Pixels you have or want to use on your strip And It can be used to tell where to Stop then return the eye at in the strip
-int Pixel_Start_End=0; //Set this to where you want it to Start/End at
-boolean UsingBar = false; //Set this to true If you are using the 8x1 Neopixel Bar Or you want to only use 3 leds for the scanner. 
-
-byte cylonLED = true;
-byte up = true;
+// Cylon Settings:
+//#define PIN 7 //The Pin out your Neopixel DIN strip/stick is connected to (Default is 6)
+//#define TPIXEL 29 //The total amount of pixel's/led's in your connected strip/stick (Default is 60)
+//int wait_T=60; //This is the delay between moving back and forth and per pixel
+//int PixelCount=29; //Set this to the AMOUNT of Led's/Pixels you have or want to use on your strip And It can be used to tell where to Stop then return the eye at in the strip
+//int Pixel_Start_End=0; //Set this to where you want it to Start/End at
+//boolean UsingBar = false; //Set this to true If you are using the 8x1 Neopixel Bar Or you want to only use 3 leds for the scanner. 
+//
+//byte cylonLED = true;
+//byte up = true;
 
 
 
@@ -84,10 +86,16 @@ boolean noSonar = false;
 float heading = 0;
 
 Drive dewey;
+
+Cylon cylon;
+
 byte voltCount = 0;
-float headingArray[3];
-byte headingCounter =0;
-Adafruit_NeoPixel strip = Adafruit_NeoPixel(TPIXEL, PIN, NEO_GRB + NEO_KHZ800); //Standered Strip function
+// Moved to compass.h
+// float headingArray[3];
+// byte headingCounter =0;
+
+
+//Adafruit_NeoPixel strip = Adafruit_NeoPixel(TPIXEL, PIN, NEO_GRB + NEO_KHZ800); //Standered Strip function
 
 
 
@@ -104,8 +112,9 @@ void setup()
 noSonar = setupSonar();  
 
 // setupCylon();
-  strip.begin();
-  strip.show(); // Initialize all pixels to 'off'
+//  strip.begin();
+//  strip.show(); // Initialize all pixels to 'off'
+cylon.cylonSetup();
   
   compassEnabled = compassInit();
   if (compassEnabled)
@@ -142,24 +151,16 @@ void loop()
     // when compass available print 
   if (compassEnabled){
       heading = compass();
-      headingArray[headingCounter] = heading;
-      
+            addHeading(heading);
         //Serial.print("   Compass Heading: ");
         //Serial.println(heading); 
 
         
-        if (headingCounter<2)
-        headingCounter++;
-        else
-          {
-          headingCounter=0;
-          
-          float headingAvg = (headingArray[0]+headingArray[1]+headingArray[2])/3;
           Serial.print("   Average: ");
-          Serial.println(headingAvg);
+          Serial.println(headingAverage());
           getAccel();
           }
-        }
+        
     
 
     
@@ -222,7 +223,7 @@ void loop()
     dewey.driveAutonomous(cm);
   }
   
-    if (!autonomous && cm < 15 && duration > 0) { // about 6 inches
+    if (!autonomous && cm < 20 && duration > 0) { // about 6 inches
     dewey.driveHold();
   }
   else {
@@ -230,86 +231,29 @@ void loop()
   }
   
 
-  // check mills and do this every 40 ms.
-    if (currentMillis - cylonMillis >= wait_T) {
+  // check mills and do this every 60 ms.
+    if (currentMillis - cylonMillis >= 60) {
+//       wait_T was 40 ms
     // save the last time you blinked the LED string
     cylonMillis = currentMillis;
 
-        if (up) {
-      //Example: CylonEyeUp(Center_Dot_Color, Second_Dot_color, Third_Dot_color, wait_T, PixelCount, Pixel_Start_End);
-      CylonEyeUp(strip.Color(175,0,0), strip.Color(25,0,0), strip.Color(10,0,0), wait_T, PixelCount, Pixel_Start_End);
-        
-        }
-      else{
-      //Example: CylonEyeDown(Center_Dot_Color, Second_Dot_color, Third_Dot_color, wait_T, PixelCount, Pixel_Start_End);
-      CylonEyeDown(strip.Color(0,0,175), strip.Color(0,0,25), strip.Color(0,0,10), wait_T, PixelCount, Pixel_Start_End);
-      
-      
-      }
+  cylon.runCylonEye();
+
+//        if (up) {
+//      //Example: CylonEyeUp(Center_Dot_Color, Second_Dot_color, Third_Dot_color, wait_T, PixelCount, Pixel_Start_End);
+//      up = CylonEyeUp(strip, strip.Color(175,0,0), strip.Color(25,0,0), strip.Color(10,0,0), wait_T, PixelCount, Pixel_Start_End);
+//        
+//        }
+//      else{
+//      //Example: CylonEyeDown(Center_Dot_Color, Second_Dot_color, Third_Dot_color, wait_T, PixelCount, Pixel_Start_End);
+//      up = CylonEyeDown(strip, strip.Color(0,0,175), strip.Color(0,0,25), strip.Color(0,0,10), wait_T, PixelCount, Pixel_Start_End);
+//      
+//      
+//      }
     }
   
   
   
-}
-
-
-void CylonEyeUp(uint32_t Co, uint32_t Ct, uint32_t Ctt, uint8_t Delay, int TotalPixels, int pStart) {
-  static int i = pStart;
-  //for(int i=pStart; i<TotalPixels; i++) {
-  if (i<TotalPixels){
-    strip.setPixelColor(i+2, Ctt);  //Third Dot Color
-    strip.setPixelColor(i+1, Ct);   //Second Dot Color
-    strip.setPixelColor(i, Co);     //Center Dot Color
-    strip.setPixelColor(i-1, Ct);   //Second Dot Color
-    
-    strip.setPixelColor(i-2, Ctt);  //Third Dot Color
-
-    strip.setPixelColor(i-3, strip.Color(0,0,0)); //Clears the dots after the 3rd color
-
-    strip.show();
-    i++;}
-    else {
-    i = pStart;
-    up = false;
-    }
-    
-    //Serial.println(i); //Used For pixel Count Debugging
-//    delay(Delay);
-  
-}
-void CylonEyeDown(uint32_t Co, uint32_t Ct, uint32_t Ctt, uint8_t Delay, int TotalPixels, int pEnd) {
-  static int i = TotalPixels-1;
-  
-  //for(int i=TotalPixels-1; i>pEnd; i--) {
-  if (i>pEnd){
-    strip.setPixelColor(i-2, Ctt);  //Third Dot Color
-    strip.setPixelColor(i-1, Ct);   //Second Dot Color
-    strip.setPixelColor(i, Co);    //Center Dot Color
-    strip.setPixelColor(i+1, Ct);  //Second Dot Color
-    
-    strip.setPixelColor(i+2, Ctt);  //Third Dot Color
-
-     strip.setPixelColor(i+3, strip.Color(0,0,0)); //Clears the dots after the 3rd color
-
-    strip.show();
-//    Serial.println(i); //Used For pixel Count Debugging
-//    delay(Delay);
-  i--;
-  }
-  else{
-    i= TotalPixels-1;
-    up = true;
-  }
-}
-
-void clearCylon(int TotalPixels, int pEnd) {
-  for(int i=TotalPixels-1; i>pEnd; i--) {
-      strip.setPixelColor(i, strip.Color(0,0,0)); //Clears the dots 
-  //  strip.show();
-//    Serial.println(i); //Used For pixel Count Debugging
-//    delay(Delay);
-  }
-  strip.show(); //Now clear the bar
 }
 
 
