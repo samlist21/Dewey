@@ -2,6 +2,7 @@
 //#include <Wire.h>
 //#include <Adafruit_Sensor.h>
 //#include <Adafruit_LSM303_U.h>
+#include "math.h"
 /* Assign a unique ID to this sensor at the same time */
 Adafruit_LSM303_Mag_Unified mag = Adafruit_LSM303_Mag_Unified(12345);
 
@@ -11,6 +12,9 @@ Adafruit_LSM303_Accel_Unified accel = Adafruit_LSM303_Accel_Unified(54321);
 
 byte localHeadingCounter =0;
 float headingArray[3];
+float headingAverage();
+void addHeading(float heading);
+float headingDiff( float, float);
 
  boolean compassInit() {
     // Detect Compass
@@ -43,11 +47,27 @@ float headingArray[3];
 }
 
 void addHeading(float heading){
+  float localAVG = headingAverage();
+  if (headingDiff(localAVG, heading)< 30){
   headingArray[localHeadingCounter] = heading;
           if (localHeadingCounter<2)
             localHeadingCounter++;
           else
             localHeadingCounter=0;
+}
+else {
+Serial.print("Bad heading reading ");
+Serial.print(heading);
+Serial.print(", Average reading");
+Serial.println(localAVG);
+
+}
+}
+
+float  headingDiff(float startHeading, float newHeading){
+
+     float difference = fmod( (newHeading - startHeading +180),  360) -180;
+   return difference;
 }
 
 

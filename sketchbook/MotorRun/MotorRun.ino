@@ -5,6 +5,12 @@
 // Copyright Unpublished work Ken Samuelson 2017 all rights reserved.
 
 
+#include <Wire.h>
+#include <Adafruit_Sensor.h>
+#include <Adafruit_LSM303_U.h>
+
+#include "compass.h"
+
 // Motor Run with pins 5,6,   10,11
 
 #include "Arduino.h"
@@ -23,11 +29,7 @@
 
 
 
-#include <Wire.h>
-#include <Adafruit_Sensor.h>
-#include <Adafruit_LSM303_U.h>
 
-#include "compass.h"
 
 
 // #include "timer.h"  // thought this was needed for millis() but it seems to work anyway

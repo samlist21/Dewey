@@ -1,3 +1,7 @@
+//#include "compass.h"
+//#include "math.h"
+
+
 class Drive {
     const int Left_CW = 5;
     const int Left_CCW = 6;
@@ -6,7 +10,7 @@ class Drive {
     const int Right_CW = 11;
 
     const int ledPin = 13;
-    const byte Right_Comp = 4;
+    byte Right_Comp = 4;
     const byte Left_Comp = 0;
     const byte RightBack_Comp = 0;
     const byte LeftBack_Comp = 15;
@@ -17,8 +21,7 @@ class Drive {
     long prevCm;
     int driveRight = 0;
     bool autonomous = false;
-    float setHeading = 0;
-    float driveHeading = 0;
+    
 
 
   public:
@@ -40,8 +43,13 @@ class Drive {
     byte driveSpeed = 100 ;
     boolean hold = false;
     boolean slow = false;
+    float setHeading = 0;
+    float driveHeading = 0;
+    float difference = 0;
+    
     byte driveDirection = 'S';  // Start in STOP mode
     byte driveCommand = 'S';  // Start drive command STOP
+    
     void driveBACK();
     void driveRIGHT();
     void driveLEFT();
@@ -127,6 +135,17 @@ void Drive::driveUpdate () {
   if (driveDirection == 'F' ) {
     
     driveFWD();
+    driveHeading = headingAverage();
+
+ //   difference = (( driveHeading - setHeading +180) % (float) 360) -180;
+    difference = headingDiff(setHeading,driveHeading);
+    Serial.print("Update setHeading=");
+    Serial.print(driveHeading);
+    Serial.print(", AVG driveHeading=");
+    Serial.print(driveHeading);
+    Serial.print("  Heading Diff=");
+    Serial.println(difference);
+    
   }
 
   if (driveDirection == 'B' ) {
@@ -139,6 +158,31 @@ void Drive::driveUpdate () {
 };
 byte Drive::driveStatus () {
 
+      driveHeading = headingAverage();
+
+    
+     difference = headingDiff(setHeading,driveHeading);
+     if (difference > 3){
+     Right_Comp = Right_Comp + 1;
+    }
+    else if (difference < -3){
+    Right_Comp = Right_Comp - 1;
+    }
+    else
+    Right_Comp = 4;
+    
+    Serial.print("Status Start Heading=");
+    Serial.print(setHeading);   
+    Serial.print(", driveHeading=");
+    Serial.print(driveHeading);
+    Serial.print(",  Heading Diff=");
+    Serial.print(difference);
+    Serial.print(",  RightComp=");
+    Serial.println(Right_Comp);
+
+
+    
+  
   return driveDirection;
 };
 
@@ -169,7 +213,19 @@ void Drive::checkValue (byte value) {
       case 'f':
       case 'F':
         driveDirection = 'F';
+//        setHeading = headingAverage();
+//    Serial.print("F - Set Heading=");
+//    Serial.println(setHeading); 
+// Reset Right_Comp to default
+    Right_Comp = 4;
+
         driveFWD();
+     //setHeading = headingAverage();
+     setHeading = compass();
+     
+    Serial.print("F - Set Heading=");
+    Serial.println(setHeading); 
+        
         break;
       case 'b':
       case 'B':

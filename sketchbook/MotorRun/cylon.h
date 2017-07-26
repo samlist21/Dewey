@@ -18,11 +18,11 @@
 //#include <"libraries/Adafruit_NeoPixel.h">
 
 #define PIN 7 //The Pin out your Neopixel DIN strip/stick is connected to (Default is 6)
-#define TPIXEL 30 //The total amount of pixel's/led's in your connected strip/stick (Default is 60)
+#define TPIXEL 29 //The total amount of pixel's/led's in your connected strip/stick (Default is 60)
 int wait_T=60; //This is the delay between moving back and forth and per pixel
 // Wait time is handled by motorRun Program not here but coudl be done here as well. 
-int PixelCount=30; //Set this to the AMOUNT of Led's/Pixels you have or want to use on your strip And It can be used to tell where to Stop then return the eye at in the strip
-int Pixel_Start_End=0; //Set this to where you want it to Start/End at
+int PixelCount=21; //Set this to the AMOUNT of Led's/Pixels you have or want to use on your strip And It can be used to tell where to Stop then return the eye at in the strip
+int Pixel_Start_End=5; //Set this to where you want it to Start/End at
 
 //Standard Strip function
 Adafruit_NeoPixel strip1 = Adafruit_NeoPixel(TPIXEL, PIN, NEO_GRB + NEO_KHZ800); 
