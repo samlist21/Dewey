@@ -171,7 +171,7 @@ Also if that does not work try loading in the example Blinky program and possibl
 ###Items needed:
 - 100-500 ohm resistor for LED string signal path
 - 1N4001 diode for LED string 5V path
-- 1000uf Cap (can) for pwoer leads of the LED string. 
+- 1000uf Cap (can) for power leads of the LED string. 
 - Mounting hardware for Googly eyes. 
 - Mounting hardware for LED String, Cylon eye. 
 

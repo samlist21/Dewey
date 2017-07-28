@@ -38,6 +38,8 @@ class Drive {
     void driveSlow();
     void driveResume();
     void checkValue (byte);
+    void headingCompensate();
+    void driveDisplayHeading();
 
   private:
     byte driveSpeed = 100 ;
@@ -135,16 +137,20 @@ void Drive::driveUpdate () {
   if (driveDirection == 'F' ) {
     
     driveFWD();
-    driveHeading = headingAverage();
+    
+    // driveDisplayHeading();
+    // use the above instead of the below.
+    
+ //   driveHeading = headingAverage();
 
  //   difference = (( driveHeading - setHeading +180) % (float) 360) -180;
-    difference = headingDiff(setHeading,driveHeading);
-    Serial.print("Update setHeading=");
-    Serial.print(driveHeading);
-    Serial.print(", AVG driveHeading=");
-    Serial.print(driveHeading);
-    Serial.print("  Heading Diff=");
-    Serial.println(difference);
+//    difference = headingDiff(setHeading,driveHeading);
+//    Serial.print("Update setHeading=");
+//    Serial.print(driveHeading);
+//    Serial.print(", AVG driveHeading=");
+//    Serial.print(driveHeading);
+//    Serial.print("  Heading Diff=");
+//    Serial.println(difference);
     
   }
 
@@ -156,21 +162,10 @@ void Drive::driveUpdate () {
     driveSTOP();
   }
 };
-byte Drive::driveStatus () {
 
-      driveHeading = headingAverage();
 
-    
-     difference = headingDiff(setHeading,driveHeading);
-     if (difference > 3){
-     Right_Comp = Right_Comp + 1;
-    }
-    else if (difference < -3){
-    Right_Comp = Right_Comp - 1;
-    }
-    else
-    Right_Comp = 4;
-    
+void Drive::driveDisplayHeading(){
+      
     Serial.print("Status Start Heading=");
     Serial.print(setHeading);   
     Serial.print(", driveHeading=");
@@ -179,8 +174,36 @@ byte Drive::driveStatus () {
     Serial.print(difference);
     Serial.print(",  RightComp=");
     Serial.println(Right_Comp);
+  };
 
+void Drive::headingCompensate(){
+      // use average heading value for difference calculation
+   //   driveHeading = headingAverage();
+   // use immediate heading value for difference calculation
+      driveHeading = compass();
 
+ //      Calculate the heading difference   
+     difference = headingDiff(setHeading,driveHeading);
+
+// Compensate for the difference in heading
+     if (difference > 3){
+     Right_Comp = Right_Comp - 1;
+    }
+    else if (difference < -3){
+    Right_Comp = Right_Comp + 1;
+    }
+    else
+    Right_Comp = 4;
+  };
+
+byte Drive::driveStatus () {
+
+ 
+    headingCompensate();
+    // Turn on to display the heading and comp
+    driveDisplayHeading();
+
+    driveUpdate();
     
   
   return driveDirection;
@@ -216,12 +239,24 @@ void Drive::checkValue (byte value) {
 //        setHeading = headingAverage();
 //    Serial.print("F - Set Heading=");
 //    Serial.println(setHeading); 
+
 // Reset Right_Comp to default
     Right_Comp = 4;
 
-        driveFWD();
+// Store heading value  before we start moving  - test both
+
+//     // Store average heading so we can compare with while traveling
      //setHeading = headingAverage();
+     // Store current heading so we can compare with while traveling
      setHeading = compass();
+
+        driveFWD();
+ // Store heading value  before we start moving - Test both
+        
+//     // Store average heading so we can compare with while traveling
+     //setHeading = headingAverage();
+     // Store current heading so we can compare with while traveling
+   //  setHeading = compass();
      
     Serial.print("F - Set Heading=");
     Serial.println(setHeading); 

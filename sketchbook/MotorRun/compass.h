@@ -48,20 +48,20 @@ float headingDiff( float, float);
 
 void addHeading(float heading){
   float localAVG = headingAverage();
-  if (headingDiff(localAVG, heading)< 30){
+//  if (headingDiff(localAVG, heading)< 30){
   headingArray[localHeadingCounter] = heading;
           if (localHeadingCounter<2)
             localHeadingCounter++;
           else
             localHeadingCounter=0;
-}
-else {
-Serial.print("Bad heading reading ");
-Serial.print(heading);
-Serial.print(", Average reading");
-Serial.println(localAVG);
+//}
+//else {
+//Serial.print("Bad heading reading ");
+//Serial.print(heading);
+//Serial.print(", Average reading");
+//Serial.println(localAVG);
+//}
 
-}
 }
 
 float  headingDiff(float startHeading, float newHeading){
