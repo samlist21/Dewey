@@ -15,6 +15,14 @@ float headingArray[3];
 float headingAverage();
 void addHeading(float heading);
 float headingDiff( float, float);
+void getAccel();
+float currentHeading;
+
+int wait_compass = 250;  //set compass reading  wait  time
+unsigned long compassMillis = millis();
+
+int wait_accel = 50000;  //set accel reading  wait  time
+unsigned long accelMillis = millis();
 
  boolean compassInit() {
     // Detect Compass
@@ -47,7 +55,8 @@ float headingDiff( float, float);
 }
 
 void addHeading(float heading){
-  float localAVG = headingAverage();
+ // Display avererage everytime one is added.  thsi can be lots if turend on. 
+  // float localAVG = headingAverage();
 //  if (headingDiff(localAVG, heading)< 30){
   headingArray[localHeadingCounter] = heading;
           if (localHeadingCounter<2)
@@ -60,7 +69,9 @@ void addHeading(float heading){
 //Serial.print(heading);
 //Serial.print(", Average reading");
 //Serial.println(localAVG);
+
 //}
+
 
 }
 
@@ -77,6 +88,7 @@ float headingAverage(){
           float localHeadingAvg = (headingArray[0]+headingArray[1]+headingArray[2])/3;
           Serial.print(" local  Average: ");
           Serial.println(localHeadingAvg);
+ 
   
   return localHeadingAvg;
 }
@@ -99,6 +111,13 @@ float compass(){
   }
   //Serial.print("   Compass Heading: ");
   //Serial.println(heading);
+        
+
+    // Add heading to the average
+            addHeading(heading);
+        
+
+  
   return heading;
 }
 
@@ -116,6 +135,29 @@ void displayCompassDetails(void)
   Serial.println("------------------------------------");
   Serial.println("");
  
+}
+
+
+void compassTime(){
+  
+     // check mills and do this every 60 ms  using wait_compass above.
+    if (millis() - compassMillis >= wait_compass) {
+
+    // save the last time you blinked the LED string
+    compassMillis = millis();
+    currentHeading = compass();
+    }
+  
+}
+
+
+void accelTime(){
+  
+     // check mills and do this every 60 ms  using wait_compass above.
+    if (millis() - accelMillis >= wait_accel) {
+      getAccel();
+    }
+  
 }
 
 

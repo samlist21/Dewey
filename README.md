@@ -25,7 +25,7 @@ https://github.com/jwilliams506/Dewey
 # Photos
 
 The Robot (Dewey)
-<img src="images/Dewey_FullLenght.jpg" alt="Dewey Old Photo" width="400" height="640">
+<img src="images/DeweyWeyes.jpg" alt="Dewey New Photo" >
 
 Dewey - The old Photo
 <img src="images/Dewey.jpg" alt="Dewey Old Photo" width="240" height="320">
@@ -36,10 +36,16 @@ Dewey Out For A Drive
 Dewey - Raspberry Pi - The Brain
 
 <img src="images/Dewey_RaspberryPi.jpg" alt="Dewey Old Photo" width="320" height="240">
+
+Dewey - The Eyes
+
+<img src="images/eyes.jpg" alt="Dewey Eyes" width="320" height="240">
+ 
  
 The Robot Electronics - The Motion Control, Sonar Sensor, Voltage Measurement, etc
 
-<img src="images/DeweyCircuitry.jpg" alt="Dewey Electronics" width="240" height="320">
+<img src="images/DeweyCircuitry.jpg" alt="Dewey Electronics Old" width="240" height="320"><img src="images/DeweyElectronics.jpg" alt="Dewey Electronics" width="240" height="320">
+
  
 Dewey Photo of Sonar Sensor
 

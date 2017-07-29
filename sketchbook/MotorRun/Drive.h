@@ -131,7 +131,11 @@ void Drive::driveAutonomous (long cm)
   }
 };
 
+
+// this is the drive action that updates any changed parameeters on the drive
 void Drive::driveUpdate () {
+  
+    if (hold != true) {
   // read compass
   
   if (driveDirection == 'F' ) {
@@ -158,9 +162,14 @@ void Drive::driveUpdate () {
     driveBACK();
   }
 
+    }// End hold - Don't go forward or back if in hold
+
   if (driveDirection == 'S' ) {
     driveSTOP();
   }
+  
+  // check if in autonomous mode
+
 };
 
 
@@ -210,13 +219,26 @@ byte Drive::driveStatus () {
 };
 
 
+// this is the command processor that handles changes in commands
 void Drive::checkValue (byte value) {
 
-  if (hold != true) {
+
     if (value >= '0' and value <= '9') {
+      byte oldSpeed = driveSpeed;
       driveSpeed = ((((value - '0') + 6) * 16) + 15);
-      driveUpdate();
+      
+// Print Change for debugging
+    Serial.print("  OldSpeed=");
+    Serial.print((char) oldSpeed);
+    Serial.print(" NewSpeed=");
+    Serial.println((char) driveSpeed);
+    Serial.println("Test Send");
+
+      
     }
+    else {
+      byte oldMove = driveDirection;
+      
     switch (value) {
       case 'x':
       case 'X':
@@ -284,8 +306,22 @@ void Drive::checkValue (byte value) {
         break;
       default:
         break;
-    }
-  }
+        
+        }  //  End Switch       
+
+
+// Print Change for debugging
+    Serial.print("  OldMove=");
+    Serial.print((char) oldMove);
+    Serial.print(" NewMove=");
+    Serial.println((char) driveDirection);
+
+    
+        
+    } // end else
+    driveUpdate();
+
+    
 };
 
 

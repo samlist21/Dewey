@@ -130,45 +130,21 @@ void loop()
   if (millis() -previousMillis >= 500){
     previousMillis = millis();
     // when compass available print 
-  if (compassEnabled){
-      heading = compass();
-            addHeading(heading);
-        //Serial.print("   Compass Heading: ");
-        //Serial.println(heading); 
 
-        
-          Serial.print("   Average: ");
-          Serial.println(headingAverage());
-          getAccel();
-          }
-    
+
+//   update the drive every 500 ms
+    dewey.driveUpdate();
+    headingAverage();
 // for debug
 //    Serial.print("  PreviousMillis=");
 //    Serial.print(previousMillis);
 //    Serial.print(" currentMillis=");
 //    Serial.println(currentMillis);
 
-  currentSpeed = dewey.readSpeed();
-  if (currentSpeed != oldSpeed) {
 
-    Serial.print("  OldSpeed=");
-    Serial.print(oldSpeed);
-    Serial.print(" NewSpeed=");
-    Serial.println(currentSpeed);
+  }  // currentMills - previousMills is less than than time
 
-    oldSpeed = currentSpeed;
-  }
 
-  currentMove = dewey.driveStatus();
-  if (currentMove != oldMove) {
-
-    Serial.print("  OldMove=");
-    Serial.print(oldMove);
-    Serial.print(" NewMove=");
-    Serial.println(currentMove);
-
-    oldMove = currentMove;
-  }
 
   duration =  getSensor(noSonar);
   cm = convertCM(duration);
@@ -176,7 +152,7 @@ void loop()
 
 
   
-  } // currentMills - previousMills is less than than time
+
   
  // Check to see if we are in Autonomous mode.
    autonomous = dewey.isAutonomous();
@@ -192,6 +168,16 @@ void loop()
   else {
     dewey.driveResume();
   }
+  
+
+    if (compassEnabled){
+  // Check Compass using wait time in compass.h
+      compassTime();
+
+  // Check accel using wait time in compass.h
+      accelTime();
+      
+      }
   
 // Voltage check   
     voltageCheck();

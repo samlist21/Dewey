@@ -95,23 +95,23 @@ def playSound( sound):
         #print("Playing Sound - /usr/share/sounds/asla/Front_Center.wav\r")
         #os.system("aplay /home/pi/dewey/sounds/Front_Center.wav &")
         print("Playing Sound -  /home/pi/dewey/sounds/HelpImStuck.mp3\r")
-        os.system("mpg123 /home/pi/dewey/sounds/HelpImStuck.mp3 &")
+        os.system("mpg123 -q /home/pi/dewey/sounds/HelpImStuck.mp3 &")
         soundCode = 2
 
        
     elif (soundCode == 2 ):
         print("Playing Sound -  /home/pi/dewey/sounds/WhatsYourName1.mp3\r")
-        os.system("mpg123 /home/pi/dewey/sounds/WhatsYourName1.mp3 &")
+        os.system("mpg123 -q /home/pi/dewey/sounds/WhatsYourName1.mp3 &")
         soundCode = 3
 
     elif (soundCode == 3 ):
         print("Playing Sound -  /home/pi/dewey/sounds/YourPretty.mp3\r")
-        os.system("mpg123 /home/pi/dewey/sounds/YourPretty.mp3 &")
+        os.system("mpg123 /-q home/pi/dewey/sounds/YourPretty.mp3 &")
         soundCode = 4
 
     elif (soundCode == 4 ):
         print("Playing Sound -  /home/pi/dewey/sounds/bizarre-guitar-daniel_simon.mp3\r")
-        os.system("mpg123 /home/pi/dewey/sounds/bizarre-guitar-daniel_simon.mp3 &")
+        os.system("mpg123 /-q home/pi/dewey/sounds/bizarre-guitar-daniel_simon.mp3 &")
         soundCode = 1
 
 def randomCirclesTextGLCD():
@@ -262,7 +262,7 @@ GLCDcode =1
 
 print("Starting Dewey Program\r")
 
-os.system("mpg123 /home/pi/dewey/sounds/HelloNameIsDeweyLoud.mp3")
+os.system("mpg123 -q /home/pi/dewey/sounds/HelloNameIsDeweyLoud.mp3")
 
 # get on with Dewey code
 
@@ -425,7 +425,7 @@ while 1:
             # if recording was not stopped end recording.
             print("Dewey Record Ending - if it was going\r")
             deweyRecord.rec_stop()
-            os.system("mpg123 /home/pi/dewey/sounds/DeweyTiredRestNow.mp3")
+            os.system("mpg123 -q /home/pi/dewey/sounds/DeweyTiredRestNow.mp3")
             print("Stopping Dewey\r")
             ser.close()
             camera.close()
@@ -457,7 +457,7 @@ while 1:
             printHelpMenu()
 
         if inputValUpper == 'F':
-            os.system("mpg123 /home/pi/dewey/sounds/WatchOut.mp3")
+            os.system("mpg123 -q /home/pi/dewey/sounds/WatchOut.mp3")
 
         if inputValUpper == 'T':
             playSound(1)
@@ -466,10 +466,10 @@ while 1:
             runGLCD()
 
         if inputValUpper == 'P':
-            os.system("mpg123 /home/pi/dewey/sounds/CanTakePicture.mp3")
-            os.system("mpg123 /home/pi/dewey/sounds/SayCheese1.mp3")
+            os.system("mpg123 -q /home/pi/dewey/sounds/CanTakePicture.mp3")
+            os.system("mpg123 -q /home/pi/dewey/sounds/SayCheese1.mp3")
             takePicture()
-            os.system("mpg123 /home/pi/dewey/sounds/ThankYou.mp3 &")
+            os.system("mpg123 /-q home/pi/dewey/sounds/ThankYou.mp3 &")
             # setLastImageGLCD()
             
 
