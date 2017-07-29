@@ -13,6 +13,9 @@ OR git add <filename with path if necessary>  This will add just the file you sp
 git commit -m "Your message here"
 git push
 git status    Helps you figure out where you are in the versions
+git -n <command>   This is a dry-run and helps you figure out what will happen if you run the command
+git rm <file or directory>  This command will remove files from the repository.  Also use exclude file in the .git/info directory
+
 ```
 
 
@@ -111,13 +114,13 @@ Also if that does not work try loading in the example Blinky program and possibl
 - [ ] Add Microphone to Dewey
 - [ ] Get Dewey voice recognition working
 - [ ] Figure out how to break this README.md file into multiple files.  It is getting too long.
-- [ ] Fix rogue carriage returns from Arduino.
+- [ ] Fix rogue carriage returns and > 0x7F characters from Arduino.
 - [ ] Fix GLCD need for absolute path 
 - [ ] Clean up MotorRun code into smaller more suitable functions.
 - [ ] Get forward and backward to work on heading (or encoder) to keep it tracking straight. Possibly turn or make new functions for 90 degrees on R or L
-- [ ] Move accel sensor up higher to see fi we get better results
+- [ ] Move accel sensor up higher to see if we get better results
 - [ ] Fix GLCD need for absolute path 
-- [ ] Wire Encoders to Arduino. Wired to power, but not Arduino input
+- [ ] Wire Encoders to Arduino. Wired to power, but not Arduino inputs
 - [ ] Incorporate encoders and perform testing
 - [ ] Get Googly eyes to look at something, like where Dewey is going that direction. 
 - [ ] Get Googly eyes to close when hitting X, exit
@@ -212,6 +215,7 @@ Too many to list - Volunteers to document?
 ## New Discussions - only on github
 
 ## Dewey Day July 29, 2017 Ken Samuelson 
+- added functions for 90 degree right (M) and left (N) turn
 - cleaned up MotorRun code and moved functions to drive.h and compass.h
 - replaced mpg123 with omxplayer since it won't error out and put in >/dev/null so you see no output.
 - added function for compass time a self timing compass reader

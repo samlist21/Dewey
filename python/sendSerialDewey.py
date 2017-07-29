@@ -79,6 +79,8 @@ def printHelpMenu ():
     print('B = Backward\r')
     print('R = Turn Right\r')
     print('L = Turn Left\r')
+    print('N = Turn Left 90 degrees')
+    print('M = Turn Right 90 degrees')   
     print('S or 0 = Stop\r')
     print('Available Speeds 1, 2, 3, 4...9\r')
     print('V = Start Recording steps\r')
