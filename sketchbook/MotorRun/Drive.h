@@ -171,7 +171,7 @@ void Drive::driveUpdate () {
   }
     if (driveDirection == 'N' ) {
       // Done turning 90 degreesleft - Possibly 88 should be changable if the speed is changed on the turn.
-      if (headingDiff(setHeading, compass())> -88){
+      if (headingDiff(setHeading, compass())< -88){
       driveDirection = 'F';
     driveFWD();
     Serial.println("Left Turn 90 degrees complete");
