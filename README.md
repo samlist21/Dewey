@@ -19,7 +19,7 @@ git status    Helps you figure out where you are in the versions
 ## Fayetteville Free Library Robot Club - Dewey
 
 Location of Dewey Code
-https://github.com/jwilliams506/Dewey 
+https://github.com/samlist21/Dewey 
 
 
 # Photos
@@ -33,18 +33,14 @@ Dewey - The old Photo
 Dewey Out For A Drive
 ![Dewey Out For A Drive](images/DeweyDrive.jpeg)
  
-Dewey - Raspberry Pi - The Brain
+Dewey - Raspberry Pi - The Brain         Dewey - The Eyes
 
-<img src="images/Dewey_RaspberryPi.jpg" alt="Dewey Old Photo" width="320" height="240">
-
-Dewey - The Eyes
-
-<img src="images/eyes.jpg" alt="Dewey Eyes" width="320" height="240">
+<img src="images/Dewey_RaspberryPi.jpg" alt="Dewey Old Photo" width="320" height="240">        <img src="images/eyes.jpg" alt="Dewey Eyes" width="320" height="240">
  
  
 The Robot Electronics - The Motion Control, Sonar Sensor, Voltage Measurement, etc
 
-<img src="images/DeweyCircuitry.jpg" alt="Dewey Electronics Old" width="240" height="320"><img src="images/DeweyElectronics.jpg" alt="Dewey Electronics" width="240" height="320">
+<img src="images/DeweyCircuitry.jpg" alt="Dewey Electronics Old" width="240" height="320">      <img src="images/DeweyElectronics.jpg" alt="Dewey Electronics" width="240" height="320">
 
  
 Dewey Photo of Sonar Sensor
@@ -212,6 +208,15 @@ in /home/pi/dewey/sketchbook/libraries
 Too many to list - Volunteers to document?
 
 ## New Discussions - only on github
+
+## Dewey Day July 29, 2017 Ken Samuelson 
+- cleaned up MotorRun code and moved funditons to drive.h and compass.h
+- replaced mpg123 with omxplayer since it won't error out and put in >/dev/null so you see no output.
+- added function for compass time a self timing compass reader
+- added function for accel time a self timing accel reader
+- moved state compare functions to drive.h
+- Added new photos of Dewey to this page including full picture, eyes, and electronics
+- Made Sounds, GLCD, and Pictures global directories so that they can change easily
 
 ## Dewey Day July 22, 2017 Ken Samuelson 
 - updated LED strip to clear between color sends

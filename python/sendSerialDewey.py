@@ -21,6 +21,8 @@
 # must have aplay and/ or mpg123 to use sound functions
 # use sudo apt-get install asla-utils   OR
 # use sudo apt-get install mpg123 
+# use sudo apt-get install omxplayer
+
 
 import time
 import serial
@@ -35,6 +37,11 @@ import picamera
 # add path to GLCD files - needed since it is not in this directory
 # this is the way to use .py code in other directories.
 sys.path.insert(0,'python/GLCD/')
+
+# Save directories so that they can change globally
+picturesDir = "/home/pi/Pictures/"
+soundsDir = "/home/pi/dewey1/sounds/"
+GLCD_Dir = "/home/pi/dewey1/python/GLCD/"
 
 # find version number
 version = sys.version_info[0]
@@ -92,31 +99,37 @@ def printHelpMenu ():
 def playSound( sound):
     global soundCode
     if (soundCode == 1 ):
-        #print("Playing Sound - /usr/share/sounds/asla/Front_Center.wav\r")
-        #os.system("aplay /home/pi/dewey/sounds/Front_Center.wav &")
-        print("Playing Sound -  /home/pi/dewey/sounds/HelpImStuck.mp3\r")
-        os.system("mpg123 -q /home/pi/dewey/sounds/HelpImStuck.mp3 &")
+        #print("Playing Sound - ront_Center.wav\r")
+        #os.system("aplay soundsDir + "Front_Center.wav &")
+        print("Playing Sound -  HelpImStuck.mp3\r")
+        #os.system("mpg123 -q /home/pi/dewey/sounds/HelpImStuck.mp3 &")
+        os.system("omxplayer -o local " + soundsDir + "HelpImStuck.mp3  > /dev/null &")
         soundCode = 2
 
        
     elif (soundCode == 2 ):
-        print("Playing Sound -  /home/pi/dewey/sounds/WhatsYourName1.mp3\r")
-        os.system("mpg123 -q /home/pi/dewey/sounds/WhatsYourName1.mp3 &")
+        print("Playing Sound - WhatsYourName1.mp3\r")
+        #os.system("mpg123 -q /home/pi/dewey1/sounds/WhatsYourName1.mp3 &")
+        os.system("omxplayer -o local " + soundsDir + "WhatsYourName1.mp3>/dev/null &")
         soundCode = 3
 
     elif (soundCode == 3 ):
-        print("Playing Sound -  /home/pi/dewey/sounds/YourPretty.mp3\r")
-        os.system("mpg123 /-q home/pi/dewey/sounds/YourPretty.mp3 &")
+        print("Playing Sound - YourPretty.mp3\r")
+        #os.system("mpg123 -q /home/pi/dewey/sounds/YourPretty.mp3 &")
+        os.system("omxplayer -o local " + soundsDir + "YourPretty.mp3 > /dev/null &")
+
         soundCode = 4
 
     elif (soundCode == 4 ):
-        print("Playing Sound -  /home/pi/dewey/sounds/bizarre-guitar-daniel_simon.mp3\r")
-        os.system("mpg123 /-q home/pi/dewey/sounds/bizarre-guitar-daniel_simon.mp3 &")
+        print("Playing Sound - bizarre-guitar-daniel_simon.mp3\r")
+        #os.system("mpg123 -q /home/pi/dewey/sounds/bizarre-guitar-daniel_simon.mp3 &")
+        os.system("omxplayer -o local " + soundsDir + "bizarre-guitar-daniel_simon.mp3  > /dev/null &")
+
         soundCode = 1
 
 def randomCirclesTextGLCD():
     lcd.clearScreen()
-    img_sm = loadFFLImage("/home/pi/dewey/python/GLCD/ffl_logomultismall_BW_64x27.png")
+    img_sm = loadFFLImage(GLCD_Dir + "ffl_logomultismall_BW_64x27.png")
     # Clear display
     if (lcd.TEXT_SIZE == lcd.TEXT.LARGE): # Position range for large text
             lcd.setPosition(random.randint(1,22-len(s)), random.randint(1,8))       # Set random position
@@ -158,7 +171,7 @@ def findLastImageNumber():
 # possibly a better was is to check date first. then latest date and begin after that number
     maxNumber = 0
     intNumber = 0
-    for filename in os.listdir('./Pictures/'):
+    for filename in os.listdir(picturesDir):
         #print("Found Filename="+filename+"\r")
         if filename.endswith(".jpg") and filename[:2]=="im":
             #print("Acting on Filename="+filename+"\r")
@@ -187,10 +200,10 @@ def takePicture():
         #on next start unless images are removed.
     counter = takePicture.counter
     # if filename (lenght or identification) is changed make sure to change findLastImageNumber function too 
-    print("Taking Photo /home/pi/Pictures/image"+ str("{0:03}".format(counter))+".jpg\r")
+    print("Taking Photo "+ picturesDir + "image" + str("{0:03}".format(counter))+".jpg\r")
     #camera.start_preview()
     #time.sleep(5)
-    camera.capture("/home/pi/Pictures/image"+str("{0:03}".format(counter))+".jpg")
+    camera.capture(picturesDir + "image" + str("{0:03}".format(counter))+".jpg")
     #camera.stop_preview()
     print("Photo complete\r")
 
@@ -208,7 +221,7 @@ def setFFLLogoGLCD():
     # Send FFl Logo to GLCD display
 
     print("Sending image to Display..... \r") 
-    lcd.drawFullscreenImage(loadFFLImage("/home/pi/dewey/python/GLCD/ffl_logomultismall_BW_128x64.png"))
+    lcd.drawFullscreenImage(loadFFLImage(GLCD_Dir + "ffl_logomultismall_BW_128x64.png"))
 
     # Set write position and write initial text 
     lcd.setPosition(int((lcd.getMaxCharactersPerRow() - len(s)) / 2) + 1, 8)        # Center text on bottom row
@@ -220,8 +233,8 @@ def setLastImageGLCD():
         # Send last picture taken to GLCD display
 
         print("Sending picture image to Display..... \r")
-        print("/home/pi/Pictures/image"+ str("{0:03}".format(takePicture.counter))+".jpg") 
-        lcd.drawFullscreenImage(loadFFLImage("/home/pi/Pictures/image"+ str("{0:03}".format(takePicture.counter))+".jpg"))
+        print(picturesDir +"image"+ str("{0:03}".format(takePicture.counter))+".jpg") 
+        lcd.drawFullscreenImage(loadFFLImage(picturesDir +"image"+ str("{0:03}".format(takePicture.counter))+".jpg"))
 
         # Set write position and write initial text
         # coudl put persons name here
@@ -262,7 +275,8 @@ GLCDcode =1
 
 print("Starting Dewey Program\r")
 
-os.system("mpg123 -q /home/pi/dewey/sounds/HelloNameIsDeweyLoud.mp3")
+#os.system("mpg123 -q /home/pi/dewey/sounds/HelloNameIsDeweyLoud.mp3")
+os.system("omxplayer -o local "+ soundsDir +"HelloNameIsDeweyLoud.mp3 >/dev/null")
 
 # get on with Dewey code
 
@@ -425,7 +439,9 @@ while 1:
             # if recording was not stopped end recording.
             print("Dewey Record Ending - if it was going\r")
             deweyRecord.rec_stop()
-            os.system("mpg123 -q /home/pi/dewey/sounds/DeweyTiredRestNow.mp3")
+            #os.system("mpg123 -q /home/pi/dewey1/sounds/DeweyTiredRestNow.mp3")
+            os.system("omxplayer -o local "+ soundsDir + "DeweyTiredRestNow.mp3  > /dev/null &")
+
             print("Stopping Dewey\r")
             ser.close()
             camera.close()
@@ -457,7 +473,9 @@ while 1:
             printHelpMenu()
 
         if inputValUpper == 'F':
-            os.system("mpg123 -q /home/pi/dewey/sounds/WatchOut.mp3")
+            #os.system("mpg123 -q /home/pi/dewey/sounds/WatchOut.mp3")
+            os.system("omxplayer -o local " + soundsDir + "WatchOut.mp3  > /dev/null &")
+
 
         if inputValUpper == 'T':
             playSound(1)
@@ -466,10 +484,16 @@ while 1:
             runGLCD()
 
         if inputValUpper == 'P':
-            os.system("mpg123 -q /home/pi/dewey/sounds/CanTakePicture.mp3")
-            os.system("mpg123 -q /home/pi/dewey/sounds/SayCheese1.mp3")
+            #os.system("mpg123 -q /home/pi/dewey/sounds/CanTakePicture.mp3")
+            os.system("omxplayer -o local " + soundsDir + "CanTakePicture.mp3  > /dev/null ")
+
+            #os.system("mpg123 -q /home/pi/dewey/sounds/SayCheese1.mp3")
+            os.system("omxplayer -o local " + soundsDir + "SayCheese1.mp3  > /dev/null ")
+
             takePicture()
-            os.system("mpg123 /-q home/pi/dewey/sounds/ThankYou.mp3 &")
+            #os.system("mpg123 -q /home/pi/dewey/sounds/ThankYou.mp3 &")
+            os.system("omxplayer -o local " + soundsDir + "ThankYou.mp3  > /dev/null &")
+
             # setLastImageGLCD()
             
 
