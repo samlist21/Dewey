@@ -123,6 +123,8 @@ void loop()
   {
     readVal = Serial.read();
     dewey.checkValue(readVal);
+    Serial.print("Found Key");
+    Serial.print(readVal);
   }
   // delay(250);
   

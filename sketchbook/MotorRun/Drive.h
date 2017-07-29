@@ -344,6 +344,7 @@ void Drive::checkValue (byte value) {
         Serial.println("Autonomous mode ON");
         break;
       default:
+      Serial.println("Erro unknown Key -  Hit Default step");
         break;
         
         }  //  End Switch       
