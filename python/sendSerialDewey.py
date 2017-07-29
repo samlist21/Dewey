@@ -33,6 +33,8 @@ import termios
 import select
 import os
 import picamera
+# not using serialInputs.py at this time - I think
+#import serialinputs 
 
 # add path to GLCD files - needed since it is not in this directory
 # this is the way to use .py code in other directories.
@@ -79,8 +81,8 @@ def printHelpMenu ():
     print('B = Backward\r')
     print('R = Turn Right\r')
     print('L = Turn Left\r')
-    print('N = Turn Left 90 degrees')
-    print('M = Turn Right 90 degrees')   
+    print('N = Turn Left 90 degrees\r')
+    print('M = Turn Right 90 degrees\r')   
     print('S or 0 = Stop\r')
     print('Available Speeds 1, 2, 3, 4...9\r')
     print('V = Start Recording steps\r')
@@ -512,7 +514,7 @@ while 1:
 
         if inputValUpper =='D':
         # D Means Do Playback
-            print("Dewey Record Playback")
+            print("Dewey Record Playback\r")
             # Next  Line prints the list - if desired
             #deweyRecord.rec_print()
 
@@ -523,16 +525,16 @@ while 1:
             termios.tcsetattr(sys.stdin,termios.TCSADRAIN, orig_settings)
             runList = deweyRecord.playback_list()
             tty.setraw(sys.stdin)
-            print("-- Running Playback -- ")
+            print("-- Running Playback -- \r")
             playback()
 
         if inputValUpper =='E':
         # E Means Do Playback from a file
-            print("Dewey File Record Playback")
+            print("Dewey File Record Playback\r")
             termios.tcsetattr(sys.stdin,termios.TCSADRAIN, orig_settings)
             runList = deweyRecord.playback_file()
             tty.setraw(sys.stdin)
-            print("-- Running Playback from File -- ")
+            print("-- Running Playback from File -- \r")
             playback()
     inputVal = "z"
     inputValUpper = 'Z'

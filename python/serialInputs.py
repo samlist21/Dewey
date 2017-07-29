@@ -16,30 +16,30 @@ class serialInputs():
         # So now just sending an 'S'
         ser.write('S'.encode('utf-8'))
         # if recording was not stopped end recording. 
-        print("Dewey Record Ending - if it was going")
+        print("Dewey Record Ending - if it was going\r")
         self.deweyRecord.rec_stop()
-        print("Stopping Dewey")
+        print("Stopping Dewey\r")
         ser.close()
-        print("Port and program closed")
+        print("Port and program closed\r")
         # Exit if desired
         #exit()
 
     def start_record(self):
         # V Means start recording
-        print("Dewey Record Beginning.....")
+        print("Dewey Record Beginning.....\r")
         self.deweyRecord.rec_start()
 
     def stop_record(self):
         # Q Means stop recording  
         # Stop the recording
-        print("....Dewey Record Ending")
+        print("....Dewey Record Ending\r")
         self.deweyRecord.rec_stop()
         # Print out the list so we can verify it - if desired
         self.deweyRecord.rec_print()
         
     def start_playback(self):
         # D Means Do Playback
-        print("Dewey Record Playback")
+        print("Dewey Record Playback\r")
         # Next  Line prints the list - if desired
         #deweyRecord.rec_print()    
         #Next Line shows file - if desired
@@ -47,14 +47,14 @@ class serialInputs():
         # this runs without moving
         # Playback from the current list - Retrieve list
         self.runList = self.deweyRecord.playback_list()
-        print("-- Running Playback -- ")
+        print("-- Running Playback -- \r")
         self.playback()
 
     def start_playback_file(self):
         # E Means Do Playback from a file
-        print("Dewey File Record Playback")
+        print("Dewey File Record Playback\r")
         self.runList = self.deweyRecord.playback_file()
-        print("-- Running Playback from File -- ")
+        print("-- Running Playback from File -- \r")
         self.playback()
         
     def forward(self):

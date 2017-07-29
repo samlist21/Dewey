@@ -23,7 +23,7 @@ class record():
             print("Save value is", listSave)
             if listSave == "n":
                 # Don't save so cear list
-                print("Clearing old list - No Save")
+                print("Clearing old list - No Save\r")
 
                 
             else:
@@ -31,12 +31,12 @@ class record():
                 self.rec_saveList()
 
                 # List Saved
-                print("Old list Saved - now Clearing old list")
+                print("Old list Saved - now Clearing old list\r")
 
         # Clear the list
         self.my_List = []
 
-        print("Recording Queued...")
+        print("Recording Queued...\r")
         self.recording = True
         # start time is irrelevant but can be printed
         #print("Recording Started...at " + str(startTime))
@@ -45,7 +45,7 @@ class record():
         # Send one last Step to capture the last command
         self.command_store('$')
         self.recording = False
-        print("...Recording Stopped")
+        print("...Recording Stopped\r")
 
 
     def command_store(self, command):
@@ -65,7 +65,7 @@ class record():
                 self.my_List.append(currentStep)
                 
                 # Print recorded Step for us to see
-                print("Current Recording Step")
+                print("Current Recording Step\r")
                 print (currentStep)
 
             # Store if recording
@@ -76,10 +76,10 @@ class record():
     def playback(self):
         """ playback that runs the list """
         if self.my_List:
-            print("-- Running Playback -- ")
+            print("-- Running Playback -- \r")
             for step in self.my_List:
                 print (step)
-                print(step['command'] +" will run for "+ str(step['time']) + " seconds")
+                print(step['command'] +" will run for "+ str(step['time']) + " seconds\r")
                 time.sleep(step['time'])
 
     def playback_list(self):
@@ -99,16 +99,16 @@ class record():
 
     def rec_print(self):
         if self.my_List:
-            print("-- Here is your list --")
+            print("-- Here is your list --\r")
             for step in self.my_List:
                 print (step)
         else:
-            print("No List to Print")
+            print("No List to Print\r")
 
 
     def rec_saveList(self):
         # default is to save - anything but a small "n"
-        filenameSave = input("Enter Save Filename - no spaces ")
+        filenameSave = input("Enter Save Filename - no spaces \r")
         f = open(filenameSave,"w")
         simplejson.dump(self.my_List,f)
 

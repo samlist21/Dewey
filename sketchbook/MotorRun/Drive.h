@@ -157,6 +157,8 @@ void Drive::driveUpdate () {
 //    Serial.println(difference);
     
   }
+    } else {
+      Serial.println("Hold mode ON");
 
     }// End hold - Don't go forward if in hold
 
