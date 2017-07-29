@@ -158,15 +158,35 @@ void Drive::driveUpdate () {
     
   }
 
+    }// End hold - Don't go forward if in hold
+
   if (driveDirection == 'B' ) {
     driveBACK();
   }
 
-    }// End hold - Don't go forward or back if in hold
+
 
   if (driveDirection == 'S' ) {
     driveSTOP();
   }
+    if (driveDirection == 'N' ) {
+      // Done turning 90 degreesleft - Possibly 88 should be changable if the speed is changed on the turn.
+      if (headingDiff(setHeading, compass())> -88){
+      driveDirection = 'F';
+    driveFWD();
+    Serial.println("Left Turn 90 degrees complete");
+      }
+  }
+  
+      if (driveDirection == 'M' ) {
+        // Done turning 90 degrees rightt 
+      if (headingDiff(setHeading, compass()) > 88){
+      driveDirection = 'F';
+    driveFWD();
+    Serial.println("Right Turn 90 degrees complete");
+      }
+  }
+  
   
   // check if in autonomous mode
 
@@ -237,6 +257,8 @@ void Drive::checkValue (byte value) {
       
     }
     else {
+      setHeading = compass();
+           
       byte oldMove = driveDirection;
       
     switch (value) {
@@ -252,6 +274,7 @@ void Drive::checkValue (byte value) {
         if (autonomous)
         {
           autonomous = false;
+          Serial.println("Autonomous mode OFF");
         }
         driveSTOP();
         break;
@@ -289,10 +312,23 @@ void Drive::checkValue (byte value) {
         driveDirection = 'B';
         driveBACK();
         break;
+
+      case 'm':
+      case 'M':
+        driveDirection = 'M';
+        driveRIGHT();
+        Serial.println("Turning Right 90 degrees");
+        break;
       case 'r':
       case 'R':
         driveDirection = 'R';
         driveRIGHT();
+        break;
+      case 'n':
+      case 'N':  // Turn left 90 degrees
+        driveDirection = 'N';
+        driveLEFT();
+        Serial.println("Turning Left 90 degrees");
         break;
       case 'l':
       case 'L':
@@ -303,6 +339,7 @@ void Drive::checkValue (byte value) {
       case 'A':
         autonomous = true;
         driveAutonomous(20);
+        Serial.println("Autonomous mode ON");
         break;
       default:
         break;

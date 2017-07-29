@@ -17,11 +17,15 @@ void addHeading(float heading);
 float headingDiff( float, float);
 void getAccel();
 float currentHeading;
+float accel_x = 0;
+float accel_y = 0;
+float accel_z =0;
+float xyz_Mag = 0;
 
 int wait_compass = 250;  //set compass reading  wait  time
 unsigned long compassMillis = millis();
 
-int wait_accel = 50000;  //set accel reading  wait  time
+int wait_accel = 5000;  //set accel reading  wait  time
 unsigned long accelMillis = millis();
 
  boolean compassInit() {
@@ -112,10 +116,8 @@ float compass(){
   //Serial.print("   Compass Heading: ");
   //Serial.println(heading);
         
-
     // Add heading to the average
-            addHeading(heading);
-        
+    addHeading(heading);
 
   
   return heading;
@@ -137,13 +139,22 @@ void displayCompassDetails(void)
  
 }
 
+void printAccelDetails(){
+  
+    /* Display the results (acceleration is measured in m/s^2) */
+  Serial.print("XYZ mag: "); Serial.print(xyz_Mag); Serial.print(",  ");
+  Serial.print("X: "); Serial.print(accel_x); Serial.print("  ");
+  Serial.print("Y: "); Serial.print(accel_y); Serial.print("  ");
+  Serial.print("Z: "); Serial.print(accel_z); Serial.print("  ");Serial.println("m/s^2 ");
+}
+
 
 void compassTime(){
   
      // check mills and do this every 60 ms  using wait_compass above.
     if (millis() - compassMillis >= wait_compass) {
 
-    // save the last time you blinked the LED string
+    // save the last time you took a compass reading
     compassMillis = millis();
     currentHeading = compass();
     }
@@ -155,6 +166,7 @@ void accelTime(){
   
      // check mills and do this every 60 ms  using wait_compass above.
     if (millis() - accelMillis >= wait_accel) {
+          accelMillis = millis();
       getAccel();
     }
   
@@ -170,19 +182,9 @@ void getAccel(){
   float y = event.acceleration.y;
   float z = event.acceleration.z;
   
-  float xyz_Mag = sqrt(x*x + y*y + z*z);
+  xyz_Mag = sqrt(x*x + y*y + z*z);
  
 
-  /* Display the results (acceleration is measured in m/s^2) */
-  Serial.print("XYZ mag: "); Serial.print(xyz_Mag); Serial.print(",  ");
-  Serial.print("X: "); Serial.print(x); Serial.print("  ");
-  Serial.print("Y: "); Serial.print(y); Serial.print("  ");
-  Serial.print("Z: "); Serial.print(z); Serial.print("  ");Serial.println("m/s^2 ");
+printAccelDetails();
 
-  /* Note: You can also get the raw (non unified values) for */
-  /* the last data sample as follows. The .getEvent call populates */
-  /* the raw values used below. */
-  //Serial.print("X Raw: "); Serial.print(accel.raw.x); Serial.print("  ");
-  //Serial.print("Y Raw: "); Serial.print(accel.raw.y); Serial.print("  ");
-  //Serial.print("Z Raw: "); Serial.print(accel.raw.z); Serial.println("");
 }

@@ -24,7 +24,7 @@
  //NeoPixel LED Digital Strip Cylon Eye v1.10 Created by EternalCore
  // Library in /usr/share/arduino/libraries so it needs to eb declared here 
  // not sure why this is necessary
- #include "Adafruit_NeoPixel.h"
+#include "Adafruit_NeoPixel.h"
 #include "cylon.h"
 
 
