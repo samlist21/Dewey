@@ -78,7 +78,7 @@ Also if that does not work try loading in the example Blinky program and possibl
 - Raspberry Pi inputs and outputs can be up to 5V - no analog 
 - Arduino inputs and outputs can be up to 3.3V, sometimes 5 but be careful. 
 - Don't plug in or remove components without disabling the power first.
-- Put Arduino libraries in /usr/share/arduino/libraries/  Don't use any "-" dashes.  Chang ethemt o underscores. You can't load libraries via the zip file, like on Windows.   
+- Put Arduino libraries in /usr/share/arduino/libraries/  Don't use any "-" dashes.  Change them to underscores. You can't load libraries via the zip file, like on Windows.   
 - If Sonar sensor is blocked on startup of Arduino it will be disabled for the rest of the time.  Possibly allow a reset/ retry later in operation. 
 
 ## Running Dewey 
@@ -100,54 +100,56 @@ Also if that does not work try loading in the example Blinky program and possibl
 - Turn off the speaker before shutting Dewey down so that you won't wear down the batteries.  
 - Turn off both power switches ONLY after a clean shutdown.
 
-
 ## Current Task List 
-- [X] Get Motor run working without delay() code
-- [X] Dewey needs a re-charge.  Batteries were at 11.98VDC - Plug in for a day
 - [ ] Put Drive.c Back into MotorRun and figure out why it is not compiling
-- [X] Get sendSerialDewey.py working with python3 
-- [X] Get GLCD working with when python3 is available. GLCD only works with python3
 - [ ] Setup a DHCP server on the Ethernet port for automatic connecting via Ethernet Cable
-- [X] Fix image program to not overwrite images but figure out what the next image number is and store that number.
 - [ ] Find out why the camera turns on and stays on through the whole running of sendSerialDewey.py
 - [ ] Rename sendSerialDewey.py to Dewey.py.  Clean up git code
 - [ ] Remove all test and demonstration code that is not used. 
 - [ ] Get autonomous mode working. Dewey drives around by itself. 
-- [X] Add voice files for "Hello, I'm Dewey", "Excuse Me", "What is your Name?", "Can I take your picture?", "Say Cheese!","Bye, Bye - Dewey Sleeping now",etc.
-- [X] Should do a sudo apt-get upgrade when Googly eyes installed. Done 
 - [ ] Get Dewey Video working
 - [ ] Add Microphone to Dewey
 - [ ] Get Dewey voice recognition working
 - [ ] Figure out how to break this README.md file into multiple files.  It is getting too long.
 - [ ] Fix rogue carriage returns from Arduino.
-- [X] Fixed Dewey so that if Arduino serial port is not working then the program exits gracefully 
 - [ ] Fix GLCD need for absolute path 
-- [X] Get heading working with LSM303 board.  
-- [X] Get acceleration working with LSM303 board. 
 - [ ] Clean up MotorRun code into smaller more suitable functions.
 - [ ] Get forward and backward to work on heading (or encoder) to keep it tracking straight. Possibly turn or make new functions for 90 degrees on R or L
+- [ ] Move accel sensor up higher to see fi we get better results
+- [ ] Fix GLCD need for absolute path 
+- [ ] Wire Encoders to Arduino. Wired to power, but not Arduino input
+- [ ] Incorporate encoders and perform testing
+- [ ] Get Googly eyes to look at something, like where Dewey is going that direction. 
+- [ ] Get Googly eyes to close when hitting X, exit
+- [ ] Attach Googly eyes permanently to head - Temporarily attached. 
+- [ ] Attach LED Strip to head. Fix wiring to input 7 - Super rad lighting effects
+- [ ] Put in a reset or timeout to try the Sonar sensor at a later time if it was not found on startup.  
+
+## Completed Task List
+- [X] Get Motor run working without delay() code
+- [X] Dewey needs a re-charge.  Batteries were at 11.98VDC - Plug in for a day
+- [X] Get sendSerialDewey.py working with python3 
+- [X] Get GLCD working with when python3 is available. GLCD only works with python3
+- [X] Fix image program to not overwrite images but figure out what the next image number is and store that number.
+- [X] Add voice files for "Hello, I'm Dewey", "Excuse Me", "What is your Name?", "Can I take your picture?", "Say Cheese!","Bye, Bye - Dewey Sleeping now",etc.
+- [X] Should do a sudo apt-get upgrade when Googly eyes installed. Done 
+- [X] Fixed Dewey so that if Arduino serial port is not working then the program exits gracefully 
+- [X] Get heading working with LSM303 board.  
+- [X] Get acceleration working with LSM303 board. 
 - [X] Replace wiring for Sonar sensor. 
-- [ ] Move Sonar sensor functions to separate file. 
+- [X] Move Sonar sensor functions to separate file. 
 - [X] Remove other accelerometer board when satisfied with heading. 
 - [X] Fixed Dewey so that if Arduino serial port is not working then the program exits gracefully 
-- [ ] Fix GLCD need for absolute path 
 - [X] Get Sonar Sensor working -- Arduino code - Work on Sonar sensor (probably wiring)
 - [X] Wiring 5V supply to the breadboard and better wiring in general.
 - [X] Encoders wired to 5 V
-- [ ] Wire Encoders to Arduino. Wired to power, but not Arduino input
-- [ ] Incorporate encoders and perform testing
 - [X] Solder and wire up Cylon LED Strip
 - [X] Solder and wire up Googly eyes. 
 - [X] Get Cyon eyes (LED string)working (Arduino). 
 - [X] Get Googly eyes working. (Pi) Plug in and they should work.
-- [ ] Get Googly eyes to look at something, like where Dewey is going. 
-- [ ] Get Googly eyes to close when hitting X, exit
-- [ ] Attach Googly eyes permanently  to head - Temporarily attached. 
-- [ ] Attach LED Strip to head. Fix wiring to input 7 - Super rad lighting effects
 - [X] Run a sudo apt-get dist-update
 - [X] Incorporate more Dewey voice files into operation. 
 - [X] After Dewey takes a picture have it displayed on LCD screen.
-- [ ] Put in a reset or timeout to try the Sonar sensor at a later time if it was not found on startup.  
 
 ## Wish List 
 
@@ -210,7 +212,7 @@ Too many to list - Volunteers to document?
 ## New Discussions - only on github
 
 ## Dewey Day July 29, 2017 Ken Samuelson 
-- cleaned up MotorRun code and moved funditons to drive.h and compass.h
+- cleaned up MotorRun code and moved functions to drive.h and compass.h
 - replaced mpg123 with omxplayer since it won't error out and put in >/dev/null so you see no output.
 - added function for compass time a self timing compass reader
 - added function for accel time a self timing accel reader
@@ -223,9 +225,9 @@ Too many to list - Volunteers to document?
 - updated LED strip to wait for 60 ms in the cylon.h file not the loop()
 - Updated voltage to work like cylon wait time.    
 - Added more voice sound bytes to the T key
-- Set voice to "WatchOut.mp3" when Dewey moves forward
+- Set voice to "WatchOut.mp3" when Dewey moves orward
 - Removed libraries that were not beign used by Arduino
-- Tested picture taking while driving forward.  Pretty good results.
+- Tested picture taking while driving forward. Pretty good results.
 - Added some header comment text to some Arduino files.
 
 ## Dewey Day July 15, 2017 Ken Samuelson 
