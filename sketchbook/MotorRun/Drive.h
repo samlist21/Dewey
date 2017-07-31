@@ -173,18 +173,41 @@ void Drive::driveUpdate () {
   }
     if (driveDirection == 'N' ) {
       // Done turning 90 degreesleft - Possibly 88 should be changable if the speed is changed on the turn.
+
+//  float compass1 = compass();
+//  float difference = headingDiff(setHeading, compass());
+//          Serial.print(" Compass : ");
+//          Serial.print(compass1);
+//          Serial.print(" Set Heading : ");
+//          Serial.print(setHeading);
+//          Serial.print(" Turn Difference: ");
+//          Serial.println(difference);
+  
       if (headingDiff(setHeading, compass())< -88){
       driveDirection = 'F';
     driveFWD();
-    Serial.println("Left Turn 90 degrees complete");
+    Serial.print(" Heading Diff: ");
+    Serial.print(headingDiff(setHeading, compass()));   
+    Serial.println("--Left Turn 90 degrees complete");
       }
   }
   
       if (driveDirection == 'M' ) {
+//          float compass1 = compass();
+//  float difference = headingDiff(setHeading, compass());
+//          Serial.print(" Compass : ");
+//          Serial.print(compass1);
+//          Serial.print(" Set Heading : ");
+//          Serial.print(setHeading);
+//          Serial.print(" Turn Difference: ");
+//          Serial.println(difference);
+        
         // Done turning 90 degrees rightt 
       if (headingDiff(setHeading, compass()) > 88){
       driveDirection = 'F';
     driveFWD();
+    Serial.print(" Heading Diff: ");
+    Serial.print(headingDiff(setHeading, compass()));  
     Serial.println("Right Turn 90 degrees complete");
       }
   }
@@ -318,6 +341,7 @@ void Drive::checkValue (byte value) {
       case 'm':
       case 'M':
         driveDirection = 'M';
+        setHeading = compass();
         driveRIGHT();
         Serial.println("Turning Right 90 degrees");
         break;
@@ -329,6 +353,7 @@ void Drive::checkValue (byte value) {
       case 'n':
       case 'N':  // Turn left 90 degrees
         driveDirection = 'N';
+        setHeading = compass();
         driveLEFT();
         Serial.println("Turning Left 90 degrees");
         break;
@@ -394,6 +419,8 @@ void Drive::driveRIGHT () {
   analogWrite(Left_CCW, driveSpeed / 2);
   analogWrite(Right_CCW, driveSpeed / 2);
   analogWrite(Right_CW, 0);
+  
+  if (driveDirection != 'M')
   driveDirection = 'R';
 };
 
@@ -402,6 +429,8 @@ void Drive::driveLEFT () {
   analogWrite(Left_CCW, 0);
   analogWrite(Right_CCW, 0);
   analogWrite(Right_CW, driveSpeed / 2);
+  
+  if (driveDirection != 'N')
   driveDirection = 'L';
 };
 

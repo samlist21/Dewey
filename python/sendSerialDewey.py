@@ -42,8 +42,8 @@ sys.path.insert(0,'python/GLCD/')
 
 # Save directories so that they can change globally
 picturesDir = "/home/pi/Pictures/"
-soundsDir = "/home/pi/dewey1/sounds/"
-GLCD_Dir = "/home/pi/dewey1/python/GLCD/"
+soundsDir = "/home/pi/ks/sounds/"
+GLCD_Dir = "/home/pi/ks/python/GLCD/"
 
 # find version number
 version = sys.version_info[0]
