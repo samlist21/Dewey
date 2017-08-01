@@ -140,6 +140,7 @@ void Drive::driveUpdate () {
   
   if (driveDirection == 'F' ) {
     
+    //headingCompensate();
     driveFWD();
     
     // driveDisplayHeading();
@@ -169,6 +170,7 @@ void Drive::driveUpdate () {
 
 
   if (driveDirection == 'S' ) {
+    
     driveSTOP();
   }
     if (driveDirection == 'N' ) {
@@ -183,7 +185,7 @@ void Drive::driveUpdate () {
 //          Serial.print(" Turn Difference: ");
 //          Serial.println(difference);
   
-      if (headingDiff(setHeading, compass())< -88){
+      if (headingDiff(setHeading, compass())< -89){
       driveDirection = 'F';
     driveFWD();
     Serial.print(" Heading Diff: ");
@@ -203,7 +205,7 @@ void Drive::driveUpdate () {
 //          Serial.println(difference);
         
         // Done turning 90 degrees rightt 
-      if (headingDiff(setHeading, compass()) > 88){
+      if (headingDiff(setHeading, compass()) > 89){
       driveDirection = 'F';
     driveFWD();
     Serial.print(" Heading Diff: ");
@@ -242,9 +244,11 @@ void Drive::headingCompensate(){
 // Compensate for the difference in heading
      if (difference > 3){
      Right_Comp = Right_Comp - 1;
+     driveDisplayHeading();
     }
     else if (difference < -3){
     Right_Comp = Right_Comp + 1;
+    driveDisplayHeading();
     }
     else
     Right_Comp = 4;
@@ -274,11 +278,12 @@ void Drive::checkValue (byte value) {
       
 // Print Change for debugging
     Serial.print("  OldSpeed=");
-    Serial.print((char) oldSpeed);
-    Serial.print(" NewSpeed=");
-    Serial.println((char) driveSpeed);
-    Serial.println("Test Send");
-
+    Serial.print( oldSpeed);
+    Serial.print(" NewSpeed(char) value=");
+   Serial.print((char) value);
+    Serial.print(" NewSpeed =");
+   Serial.println(driveSpeed);
+  
       
     }
     else {

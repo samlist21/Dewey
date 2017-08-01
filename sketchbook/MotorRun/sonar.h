@@ -6,6 +6,11 @@ long duration, cm, inches;
   long convertIN(long);
   void printDistance(long);
  long getSensor(boolean);
+ 
+ byte localSensorCounter =0;
+long sensorArray[3];
+long sensorAverage();
+void addSensor(long sensor);
 
 boolean setupSonar()
 {
@@ -41,6 +46,39 @@ boolean setupSonar()
   {
   inches = (duration / 2) / 74;
   return inches;
+}
+
+
+long sensorAverage(){
+
+          
+          float localSensorAvg = (sensorArray[0]+sensorArray[1]+sensorArray[2])/3;
+          Serial.print(" local Sensor Average: ");
+          Serial.println(localSensorAvg);
+ 
+  
+  return localSensorAvg;
+}
+
+void addSensor(long sensor){
+ // Display avererage everytime one is added.  thsi can be lots if turend on. 
+  // float localAVG = headingAverage();
+//  if (headingDiff(localAVG, heading)< 30){
+  sensorArray[localSensorCounter] = sensor;
+          if (localSensorCounter<2)
+            localSensorCounter++;
+          else
+            localSensorCounter=0;
+//}
+//else {
+//Serial.print("Bad heading reading ");
+//Serial.print(heading);
+//Serial.print(", Average reading");
+//Serial.println(localAVG);
+
+//}
+
+
 }
 
 long getSensor(boolean noSonar1) {

@@ -129,13 +129,12 @@ void loop()
   // delay(250);
   
   // Every 500 milliseconds (1/2 second)check these things - and Print when necessary
-  if (millis() -previousMillis >= 500){
+  if (millis() -previousMillis >= 1000){
     previousMillis = millis();
     // when compass available print 
 
 
-//   update the drive every 500 ms
-    dewey.driveUpdate();
+
     headingAverage();
 // for debug
 //    Serial.print("  PreviousMillis=");
@@ -153,6 +152,8 @@ void loop()
   inches = convertIN(duration);
 
 
+//   update the drive every 500 ms every loop now.
+    dewey.driveUpdate();
   
 
   
