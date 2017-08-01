@@ -38,7 +38,7 @@ void readVoltage(byte reading) {
 void voltageCheck(){
   
   // Check voltage evry (50 * 250 s) or ~12.5 seconds
-  if (millis() -voltageMillis > 10000) {
+  if (millis() -voltageMillis > 5000) {
     
     voltageMillis = millis();
     readVoltage(ELECTRONICS);  // 0 is pin 0 for the Electronics - 1 will be for motors
