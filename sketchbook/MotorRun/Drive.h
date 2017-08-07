@@ -317,6 +317,7 @@ void Drive::checkValue (byte value) {
 
 // Reset Right_Comp to default
     Right_Comp = 4;
+    encoderClear();
 
 // Store heading value  before we start moving  - test both
 
