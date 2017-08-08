@@ -157,6 +157,7 @@ void loop()
 
 //   update the drive every 500 ms every loop now.
     dewey.driveUpdate();
+    //dewey.driveStatus();
   
 
   

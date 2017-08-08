@@ -10,6 +10,9 @@ class Drive {
     const int Right_CW = 11;
 
     const int ledPin = 13;
+    const int rightCompDefault = 4;
+    const int leftCompDefault = 0;
+    
     byte Right_Comp = 4;
     const byte Left_Comp = 0;
     const byte RightBack_Comp = 0;
@@ -40,6 +43,9 @@ class Drive {
     void checkValue (byte);
     void headingCompensate();
     void driveDisplayHeading();
+    void driveCompReset();
+    void rightCompUp();
+    void rightCompDown();
 
   private:
     byte driveSpeed = 100 ;
@@ -140,7 +146,7 @@ void Drive::driveUpdate () {
   
   if (driveDirection == 'F' ) {
     
-    //headingCompensate();
+    headingCompensate();
     driveFWD();
     
     // driveDisplayHeading();
@@ -242,21 +248,23 @@ void Drive::headingCompensate(){
      difference = headingDiff(setHeading,driveHeading);
 
 // Compensate for the difference in heading
-     if (difference > 3){
-     Right_Comp = Right_Comp - 1;
+     //if (difference > 3){
+     if (encoderDiff() > 2) {
+     void rightCompDown();
      driveDisplayHeading();
     }
-    else if (difference < -3){
-    Right_Comp = Right_Comp + 1;
+    // else if (difference < -3){
+    else if (encoderDiff() < -2) {
+    rightCompUp();;
     driveDisplayHeading();
     }
     else
-    Right_Comp = 4;
+    driveCompReset();
   };
 
 byte Drive::driveStatus () {
 
- 
+   readEncoder();
     headingCompensate();
     // Turn on to display the heading and comp
     driveDisplayHeading();
@@ -315,8 +323,8 @@ void Drive::checkValue (byte value) {
 //    Serial.print("F - Set Heading=");
 //    Serial.println(setHeading); 
 
-// Reset Right_Comp to default
-    Right_Comp = 4;
+// Reset Compensation values to default
+    driveCompReset();
     encoderClear();
 
 // Store heading value  before we start moving  - test both
@@ -375,7 +383,7 @@ void Drive::checkValue (byte value) {
         Serial.println("Autonomous mode ON");
         break;
       default:
-      Serial.println("Erro unknown Key -  Hit Default step");
+      Serial.println("Error unknown Key -  Hit Default step");
         break;
         
         }  //  End Switch       
@@ -445,3 +453,19 @@ byte Drive:: isAutonomous() {
 };
 
 
+void Drive::driveCompReset () {
+    Right_Comp =  rightCompDefault;
+    // currently only changing right wheel - Left is const
+    //Left_Comp = leftCompDefault;
+    
+  }
+  
+  void Drive::rightCompUp () {
+  
+  Right_Comp = Right_Comp + 1;
+  }
+  
+  void Drive::rightCompDown () {
+  
+  Right_Comp = Right_Comp - 1;
+  }
