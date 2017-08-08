@@ -59,20 +59,20 @@ Dewey Photo of Sonar Sensor
 - Dewey FFlAir WiFi Static IP address is  10.100.1.199 - Subject to change. 
 - With this IP address the Date needs to be updated upon startup
 to do this type> date   - to check the date 
-If not up to date type> sudo date -s "2017-07-08 10:44:00"  - Example July 7 at 10:44 am
+If not up to date type> sudo date -s "2017-07-08 10:44:00"  - Example July 7 at 10:44 am.
 The Library has put things back for a little while until they figure out the routing that they want.  
 The old address, above, will work until they do. 
 With the new IP address the date was updated over the Internet to the above was not necessary but the IP address was not known.
 - VNC connection is either of the above IP addresses and port :5901, depending on the link used.
 - Dewey Password - email or message Ken Samuelson.  This can be done through the meetup group message. - See meetup for my contact info. 
 - Watch handling the Pi.  If you're not careful you will pop out the spring loaded microSD card and you will trash the card.  This is very bad. 
-- Robot club has a keyboard and mouse in the containers. If you can't access Dewey, you will need the keyboard, mouse, and an HDMI monitor, cable or HDMI to VGA converter. See Ken Samuelson I have all (any) of them.
+- Robot club has a keyboard and mouse in the containers. If you can't access Dewey, you will need the keyboard, mouse, and an HDMI monitor, cable or HDMI to VGA converter. See Ken Samuelson, I have all (any) of them.
 - The Fayetteville Free library is closed Sunday's in July and August and only open 10-1 on Saturday.  Reminder if you are planning to work on Dewey.  
-- Pull and push Git code always and often so you don't lose any of your changes.  If you need git training see Ken Samuelson 
+- Pull and push Git code always and often so you don't lose any of your changes.  If you need git training see Ken Samuelson. 
 - All changes must be documented here or they will be removed unless or until validated.  
 - You can remote into Dewey using an SSH client like Putty at the IP address above
 - You can FTP into Dewey at an IP address above. Anonymous gets you limited file access.  SCP gets you fill directory access. 
-- If Dewey crashes for some reason and the terminal window gets messed up (i.e. you can't see what you are typing) then use the command type> reset   in the terminal and it will fix the terminal display.
+- If Dewey crashes for some reason and the terminal window gets messed up (i.e. you can't see what you are typing) then use the command type> reset in the terminal and it will fix the terminal display.
 - Power off to Charge the Batteries. Dewey's batteries are not charged while switches are up.  This may or may not be a good things but is the way it is.  
 - If you are writing or changing any Arduino code that uses the serial port make sure to put in a delay of 2 seconds delay(2000); so that the Arduino has time to switch to programming mode before the program runs. 
 This will help if you are trying to download a program while the Arduino is sending serial information out the port. 
@@ -89,9 +89,10 @@ Also if that does not work try loading in the example Blinky program and possibl
 2. open a terminal window
 3. Type> cd     - this step gets you to the /home/pi directory
 4. type> cd dewey  OR skip step 3 and just type> cd /home/pi/dewey
+4a. Do a git pull or git status to see if the programs are up to date. 
 5. type> sudo python3 python/sendSerialDewey.py 
 - DO NOT USE type> sudo python python/sendSerialDewey.py 
-- This does not work with the GLCD functions.  Dewey should work with both versions
+- This does not work with the GLCD functions.  Dewey should work with both versions. Needs investigation.
 6. Enter a command to control Dewey 
 - Remember don't hit enter just the key.
 - Type H if you forget the available commands.
@@ -111,22 +112,26 @@ Also if that does not work try loading in the example Blinky program and possibl
 - [ ] Remove all test and demonstration code that is not used. 
 - [ ] Get autonomous mode working. Dewey drives around by itself. 
 - [ ] Get Dewey Video working
+- [ ] Get Dewey processing Video with simpleCV or uv4l
 - [ ] Add Microphone to Dewey
 - [ ] Get Dewey voice recognition working
 - [ ] Figure out how to break this README.md file into multiple files.  It is getting too long.
-- [ ] Fix rogue carriage returns and > 0x7F characters from Arduino.
+- [X] Fix rogue carriage returns and > 0x7F characters from Arduino (was speed reading not converted to ASCII)
+- [ ] Convert drive speed to a string to display when speed changes
 - [ ] Fix GLCD need for absolute path 
 - [ ] Clean up MotorRun code into smaller more suitable functions.
-- [ ] Get forward and backward to work on heading (or encoder) to keep it tracking straight. Possibly turn or make new functions for 90 degrees on R or L
-- [ ] Move accel sensor up higher to see if we get better results
+- [ ] Get forward and backward to work on heading (or encoder) to keep it tracking straight. 
+- [X] Make new functions for 90 degrees on R (M key)or L (N key)
+- [ ] Move accel/ heading sensor up higher to see if we get better results. Need longer wires
 - [ ] Fix GLCD need for absolute path 
-- [ ] Wire Encoders to Arduino. Wired to power, but not Arduino inputs
-- [ ] Incorporate encoders and perform testing
+- [ ] Fix GLCD for python2 operation. Fix enum problem. 
+- [X] Wire Encoders to Arduino. Wired to power, but not Arduino inputs
+- [X] Incorporate encoders and perform testing
 - [ ] Get Googly eyes to look at something, like where Dewey is going that direction. 
 - [ ] Get Googly eyes to close when hitting X, exit
 - [ ] Attach Googly eyes permanently to head - Temporarily attached. 
 - [ ] Attach LED Strip to head. Fix wiring to input 7 - Super rad lighting effects
-- [ ] Put in a reset or timeout to try the Sonar sensor at a later time if it was not found on startup.  
+- [ ] Put in a reset or timeout to try the Sonar sensor at a later time if it was not found on startup 
 
 ## Completed Task List
 - [X] Get Motor run working without delay() code
@@ -176,11 +181,9 @@ Also if that does not work try loading in the example Blinky program and possibl
 - Person tracking/following
 
 ###Items needed:
-- 100-500 ohm resistor for LED string signal path
-- 1N4001 diode for LED string 5V path
-- 1000uf Cap (can) for power leads of the LED string. 
 - Mounting hardware for Googly eyes. 
 - Mounting hardware for LED String, Cylon eye. 
+- Raspberry Pi3 - fast processing for video
 
 
 ### Python3 Libraries - Required
@@ -213,6 +216,22 @@ in /home/pi/dewey/sketchbook/libraries
 Too many to list - Volunteers to document?
 
 ## New Discussions - only on github
+
+## Dewey Day August 7, 2017 Ken Samuelson 
+- Wired encoder sensor to Arduino pin 8 and 9. 
+- Setup new encoder.h function(s) for encoder operation.
+- Edited drive to reset encoder to 0 everytime F is hit.
+- Tested and found right encoder worked fine.  Left had program bug I was not able to fix at library.  Untested, updated code  has been uploaded to this version. Needed Left count increment. 
+- Added an encoderDiff() to track the difference between the encoder counts. 
+- Received 1N4001 diode from Joefor LED string. Installed in 5V path. 
+- Received 1000uf Cap (can) for power leads of the LED string. Did not install.  They are really big. 
+
+## Dewey Day August 2, 2017 Ken Samuelson 
+- Improved 90 degree operation by speeding up reading. Still some funny operation turning one way (left, I think)
+- Think Sonar sensor is causing strange forward motion jitters. Need to Debug.
+- Put in path variables for images, sounds, and GLCD so they can be changed easily.
+- Installed resistor in line with LED string signal Data path.
+- Found and fixed rougue carriage returns from change in speed.  Was sending binary speed not speed character.  Might want to fix to see speed value as a string.
 
 ## Dewey Day July 29, 2017 Ken Samuelson 
 - added functions for 90 degree right (M) and left (N) turn
