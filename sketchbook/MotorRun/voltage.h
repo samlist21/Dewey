@@ -25,22 +25,32 @@ void readVoltage(byte reading) {
       break;
   }
 
+
+
   int busCounts = analogRead(reading);
+    Serial.print("VoltageCount=");
+     Serial.println(busCounts);
   float calcVoltage = busCounts / 41.322; // 24.75 / 1023 = .0242 = 1/41.322
 
   dtostrf(calcVoltage, 4, 2, floatStrCalc);
 
   Serial.print (name);
-  Serial.println("Voltage=" + String(floatStrCalc) + " V");
+  Serial.println(" Voltage=" + String(floatStrCalc) + " V");
 
 }
 
 void voltageCheck(){
   
   // Check voltage evry (50 * 250 s) or ~12.5 seconds
-  if (millis() -voltageMillis > 5000) {
+//  millis() - voltageMillis > 1000
+  if (voltageMillis >5000) {
+    //Serial.println("Voltage= 5000 loop");
     
-    voltageMillis = millis();
+    voltageMillis = 0;    //millis();
     readVoltage(ELECTRONICS);  // 0 is pin 0 for the Electronics - 1 will be for motors
+    }
+    else {
+    voltageMillis++;
+    
     }
 }

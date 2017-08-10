@@ -7,10 +7,14 @@ boolean encoderRightState;
 boolean encoderLeftState;
 boolean encoderRightPrevious = false;
 boolean encoderLeftPrevious = false;
+boolean encoderLeftChange = false;
+boolean encoderRightChange = false;
 boolean encoderChange = false;
 
 unsigned long encoderMillisPast = millis();
 unsigned long encoderMillis = 0;
+
+int printCounter=0;
 
 int inReg;
 
@@ -43,6 +47,9 @@ void printEncoderChange(){
 		Serial.print (" Encoder Diff=");
 		Serial.print (encoderDiff());
 
+   encoderLeftRate = encoderLeftCount / encoderMillis;
+   encoderRightRate = encoderRightCount / encoderMillis;
+
 		// Print current Rate 
 		Serial.print (" LRate=");
 		Serial.print (encoderLeftRate);
@@ -60,11 +67,11 @@ void printEncoderChange(){
 
 void readEncoder(){
 	 int inReg = PINB;
-	encoderMillis = millis() - encoderMillisPast;
+//	encoderMillis = millis() - encoderMillisPast;
 	
-  if (encoderMillis >250){
+//  if (encoderMillis >250){
 
-	encoderMillisPast  = millis();
+//	encoderMillisPast  = millis();
 	
  encoderRightState = inReg &  B00000001;
  encoderLeftState = (inReg &  B00000010)>>1;
@@ -81,13 +88,19 @@ void readEncoder(){
    encoderLeftPrevious = encoderLeftState;
  }
    
-   encoderLeftRate = encoderLeftCount / encoderMillis;
-   encoderRightRate = encoderRightCount / encoderMillis;
+//   encoderLeftRate = encoderLeftCount / encoderMillis;
+//   encoderRightRate = encoderRightCount / encoderMillis;
    
    
    if (encoderChange){
+     printCounter++;
+     if (printCounter >5){
+       printEncoderChange();
+       printCounter =0;
+     }
+     else{
      encoderChange = false;
-     printEncoderChange();
+     
      }
    
  

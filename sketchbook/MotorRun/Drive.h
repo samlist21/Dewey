@@ -141,12 +141,14 @@ void Drive::driveAutonomous (long cm)
 // this is the drive action that updates any changed parameeters on the drive
 void Drive::driveUpdate () {
   
-    if (hold != true) {
-  // read compass
+
   
   if (driveDirection == 'F' ) {
     
-    headingCompensate();
+        if (hold != true) {
+  // read compass
+    
+   // headingCompensate();
     driveFWD();
     
     // driveDisplayHeading();
@@ -164,11 +166,11 @@ void Drive::driveUpdate () {
 //    Serial.println(difference);
     
   }
-    } else {
+     else {
       Serial.println("Hold mode ON");
 
     }// End hold - Don't go forward if in hold
-
+  }
   if (driveDirection == 'B' ) {
     driveBACK();
   }
@@ -190,12 +192,19 @@ void Drive::driveUpdate () {
 //          Serial.print(setHeading);
 //          Serial.print(" Turn Difference: ");
 //          Serial.println(difference);
+  readEncoder();
+  int a = encoderDiff();
+   Serial.print(" Encoder Diff: ");
+    Serial.println(a); 
   
-      if (headingDiff(setHeading, compass())< -89){
+      if (encoderDiff()< -30 || encoderDiff()> 30 ){
+//      if (headingDiff(setHeading, compass())< -89){
       driveDirection = 'F';
     driveFWD();
     Serial.print(" Heading Diff: ");
-    Serial.print(headingDiff(setHeading, compass()));   
+    Serial.print(headingDiff(setHeading, compass())); 
+    Serial.print(" Encoder Diff: ");
+    Serial.println(a); 
     Serial.println("--Left Turn 90 degrees complete");
       }
   }
@@ -211,7 +220,8 @@ void Drive::driveUpdate () {
 //          Serial.println(difference);
         
         // Done turning 90 degrees rightt 
-      if (headingDiff(setHeading, compass()) > 89){
+              if (encoderDiff()> 30 || encoderDiff()< -30){
+//      if (headingDiff(setHeading, compass()) > 89){
       driveDirection = 'F';
     driveFWD();
     Serial.print(" Heading Diff: ");
@@ -242,21 +252,22 @@ void Drive::headingCompensate(){
       // use average heading value for difference calculation
    //   driveHeading = headingAverage();
    // use immediate heading value for difference calculation
-      driveHeading = compass();
+    //  driveHeading = compass();
+   // readEncoder();
 
  //      Calculate the heading difference   
-     difference = headingDiff(setHeading,driveHeading);
-
+   //  difference = headingDiff(setHeading,driveHeading);
+    int encoderDiff1 = encoderDiff();
 // Compensate for the difference in heading
      //if (difference > 3){
-     if (encoderDiff() > 2) {
-     void rightCompDown();
-     driveDisplayHeading();
+     if (encoderDiff1 > 2) {
+     void rightCompUp();
+     //driveDisplayHeading();
     }
     // else if (difference < -3){
-    else if (encoderDiff() < -2) {
-    rightCompUp();;
-    driveDisplayHeading();
+    else if (encoderDiff1 < -2) {
+    rightCompDown();;
+    //driveDisplayHeading();
     }
     else
     driveCompReset();
@@ -267,7 +278,7 @@ byte Drive::driveStatus () {
    readEncoder();
     headingCompensate();
     // Turn on to display the heading and comp
-    driveDisplayHeading();
+  //  driveDisplayHeading();
 
     driveUpdate();
     
@@ -288,8 +299,10 @@ void Drive::checkValue (byte value) {
     Serial.print("  OldSpeed=");
     Serial.print( oldSpeed);
     Serial.print(" NewSpeed(char) value=");
-   Serial.print((char) value);
-    Serial.print(" NewSpeed =");
+     Serial.print((char) value);   
+    Serial.print(" NewSpeed(dec) value=");
+    Serial.print( String(driveSpeed,DEC));
+   Serial.print(" NewSpeed =");
    Serial.println(driveSpeed);
   
       

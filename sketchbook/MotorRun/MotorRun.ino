@@ -138,7 +138,7 @@ void loop()
 
 
 
-    headingAverage();
+  //  headingAverage();
 // for debug
 //    Serial.print("  PreviousMillis=");
 //    Serial.print(previousMillis);
@@ -179,10 +179,10 @@ void loop()
 
     if (compassEnabled){
   // Check Compass using wait time in compass.h
-      compassTime();
+    //  compassTime();
 
   // Check accel using wait time in compass.h
-      accelTime();
+     // accelTime();
       
       }
   
@@ -193,7 +193,7 @@ void loop()
 
     runCylon();    
     
-    readEncoder();
+  //  readEncoder();
   
   
   
