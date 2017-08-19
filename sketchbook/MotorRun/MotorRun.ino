@@ -61,7 +61,7 @@ byte counter = 0;
 String message1 = "Hello Pi from Arduino";
 String message2 = "counter=";
 String message3 = "Pi recevied=";
-boolean autonomous = false;
+//boolean autonomous = false;
 
 char oldSpeed = '$';
 char currentSpeed = '7';
@@ -69,6 +69,7 @@ char oldMove = 'd';
 char currentMove = 'S';
 
 unsigned long previousMillis = millis();
+unsigned long nowMillis = previousMillis;
 
 byte oldSensorSpeed;
 boolean flagSensorGo = false;
@@ -122,6 +123,16 @@ void loop()
 {
   
  
+  nowMillis = millis() ;
+
+  // delay(250);
+  
+  // Every 500 milliseconds (1/2 second)check these things - and Print when necessary
+  if (nowMillis -previousMillis > 500){
+    previousMillis = millis();
+    // when compass available print 
+ //   Serial.println("  500 msecond timer");
+
   if (Serial.available())
   {
     readVal = Serial.read();
@@ -129,13 +140,6 @@ void loop()
     Serial.print("Found Key");
     Serial.print(readVal);
   }
-  // delay(250);
-  
-  // Every 500 milliseconds (1/2 second)check these things - and Print when necessary
-  if (millis() -previousMillis > 1000){
-    previousMillis = millis();
-    // when compass available print 
-
 
 
   //  headingAverage();
@@ -150,7 +154,7 @@ void loop()
 
 
 
-  duration =  getSensor(noSonar);
+  duration =  sonarTime(noSonar,nowMillis);
   cm = convertCM(duration);
   inches = convertIN(duration);
 
@@ -187,17 +191,18 @@ void loop()
       }
   
 // run compassTime to check if it is time to check the compass and if so store the value to the average 
-  compassTime();
+//  compassTime();
   
 // Voltage check   
-    voltageCheck();
+    voltageCheck(nowMillis);
 
 // Run Cylon program 
 
-    runCylon();    
+    runCylon(nowMillis);    
     
 // Read encoder and if there is a chagne record and count changes
-  readEncoder();
+//  readEncoder();
+// encoderTime();
   
   
   

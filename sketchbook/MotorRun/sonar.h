@@ -2,36 +2,39 @@ const int trigPin = 2;    //Trig - green Jumper
 const int echoPin = 4;    //Echo - yellow Jumper
 long duration, cm, inches;
 
+int wait_sonar = 250;  //set compass reading  wait  time
+unsigned long sonarMillis = millis();
+
   long convertCM(long); 
   long convertIN(long);
   void printDistance(long);
- long getSensor(boolean);
+ long getSonar(boolean);
  
- byte localSensorCounter =0;
-long sensorArray[3];
-long sensorAverage();
-void addSensor(long sensor);
+ byte localSonarCounter =0;
+long sonarArray[3];
+long sonarAverage();
+void addSonar(long sensor);
 
 boolean setupSonar()
 {
   boolean noSonar;
-  //Define sensor inputs and outputs
+  //Define sonar inputs and outputs
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
   
-  long thisDuration = getSensor(false);
+  long thisDuration = getSonar(false);
   Serial.print("thisDuration:");
   Serial.println(thisDuration);
   
   if (thisDuration == 0)
   {
     noSonar = true;
-    Serial.println("No Sonar Sensor found or not working");
+    Serial.println("No Sonar found or not working");
     }
     else 
     {
     noSonar = false;
-    Serial.println("Sonar Sensor found and working");
+    Serial.println("Sonar found and working");
         }
     return noSonar;
   }
@@ -49,26 +52,26 @@ boolean setupSonar()
 }
 
 
-long sensorAverage(){
+long sonarAverage(){
 
           
-          float localSensorAvg = (sensorArray[0]+sensorArray[1]+sensorArray[2])/3;
-          Serial.print(" local Sensor Average: ");
-          Serial.println(localSensorAvg);
+          float localSonarAvg = (sonarArray[0]+sonarArray[1]+sonarArray[2])/3;
+          Serial.print(" local Sonar Average: ");
+          Serial.println(localSonarAvg);
  
   
-  return localSensorAvg;
+  return localSonarAvg;
 }
 
-void addSensor(long sensor){
- // Display avererage everytime one is added.  thsi can be lots if turend on. 
+void addSonar(long sensor){
+ // Display avererage everytime one is added.  This can be lots if turend on. 
   // float localAVG = headingAverage();
 //  if (headingDiff(localAVG, heading)< 30){
-  sensorArray[localSensorCounter] = sensor;
-          if (localSensorCounter<2)
-            localSensorCounter++;
+  sonarArray[localSonarCounter] = sensor;
+          if (localSonarCounter<2)
+            localSonarCounter++;
           else
-            localSensorCounter=0;
+            localSonarCounter=0;
 //}
 //else {
 //Serial.print("Bad heading reading ");
@@ -81,10 +84,10 @@ void addSensor(long sensor){
 
 }
 
-long getSensor(boolean noSonar1) {
+long getSonar(boolean noSonar1) {
   duration = 0;
   if (noSonar1 == false){
-  // The sensor is triggered by a HIGH pulse of 10 or more microseconds.
+  // The sonar is triggered by a HIGH pulse of 10 or more microseconds.
   // Give a short LOW pulse beforehand to ensure a clean HIGH pulse:
   digitalWrite(trigPin, LOW);
   delayMicroseconds(5);
@@ -92,7 +95,7 @@ long getSensor(boolean noSonar1) {
   delayMicroseconds(10);
   digitalWrite(trigPin, LOW);
 
-  // Read the signal from the sensor: a HIGH pulse whose
+  // Read the signal from the sonar: a HIGH pulse whose
   // duration is the time (in microseconds) from the sending
   // of the ping to the reception of its echo off of an object.
   pinMode(echoPin, INPUT);
@@ -102,7 +105,7 @@ long getSensor(boolean noSonar1) {
     Serial.print("Duration=");
     Serial.println(duration);
     //printDistance(duration);
-    Serial.print(" Dewey Stopped because of Sensor 0 ");
+    Serial.print(" Dewey Stopped because of Sonar 0 ");
   }
   }
   return duration;
@@ -115,4 +118,15 @@ void printDistance(long duration) {
   Serial.print("in, ");
   Serial.print(cm);
   Serial.print("cm  ");
+}
+
+long sonarTime(boolean noSonar1, unsigned long nowMillis1){
+  
+     // check mills and do this every 60 ms  using wait_compass above.
+    if (nowMillis1 - sonarMillis >= wait_sonar) {
+          sonarMillis = nowMillis1;
+      long distance = getSonar(noSonar1);
+      return distance;
+    }
+  
 }

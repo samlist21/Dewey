@@ -110,12 +110,12 @@ void CylonEyeDown( uint32_t Co, uint32_t Ct, uint32_t Ctt) {
 }
 
 
-void runCylon(){
+void runCylon(unsigned long nowMillis1){
    // check mills and do this every 60 ms  using wait_T above.
-    if (millis() - cylonMillis >= wait_T) {
+    if (nowMillis1 - cylonMillis >= wait_T) {
 
     // save the last time you blinked the LED string
-    cylonMillis = millis();
+    cylonMillis = nowMillis1;
   
         if (up) {
     //cylon.runCylonEye();

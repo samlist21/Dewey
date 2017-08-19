@@ -23,7 +23,7 @@ class Drive {
     byte slowSpeed;
     long prevCm;
     int driveRight = 0;
-    bool autonomous = false;
+    boolean autonomous = false;
     
 
 
@@ -148,11 +148,11 @@ void Drive::driveUpdate () {
   
   if (driveDirection == 'F' ) {
     
-        if (hold != true) {
+  //      if (hold != true) {
           // Hold - Don't go forward if in hold
   // read compass
     
-    headingCompensate();
+   // headingCompensate();
     driveFWD();
     
     // driveDisplayHeading();
@@ -169,19 +169,22 @@ void Drive::driveUpdate () {
 //    Serial.print("  Heading Diff=");
 //    Serial.println(difference);
     
-      } // End hold
+ //     } // End hold
   }  // End Forward
   if (driveDirection == 'B' ) {
     driveBACK();
   }
-  
-    if (autonomous &  hold) {
-    driveRIGHT();
-        }
-    
-    if (autonomous &  ~hold){
-    driveFWD();
-         }
+//  
+//    if (autonomous &  hold) {
+//     Serial.println(" Autonomous Right");
+//    driveRIGHT();
+//        }
+//    
+//    if (autonomous &  ~hold){
+//      Serial.println(" Autonomous FWD");
+//    driveFWD();
+//    
+//         }
 
 
   if (driveDirection == 'S' ) {
@@ -288,7 +291,7 @@ byte Drive::driveStatus () {
     // Turn on to display the heading and comp
   //  driveDisplayHeading();
 
-    //driveUpdate();
+    driveUpdate();
     
   
   return driveDirection;
@@ -305,13 +308,13 @@ void Drive::checkValue (byte value) {
       
 // Print Change for debugging
     Serial.print("  OldSpeed=");
-    Serial.print( oldSpeed);
+    Serial.print( String(oldSpeed,DEC));
     Serial.print(" NewSpeed(char) value=");
      Serial.print((char) value);   
     Serial.print(" NewSpeed(dec) value=");
     Serial.print( String(driveSpeed,DEC));
-   Serial.print(" NewSpeed =");
-   Serial.println(driveSpeed);
+//   Serial.print(" NewSpeed =");
+//   Serial.println(driveSpeed);
   
       
     }

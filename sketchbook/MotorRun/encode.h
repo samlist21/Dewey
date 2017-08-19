@@ -11,6 +11,9 @@ boolean encoderLeftChange = false;
 boolean encoderRightChange = false;
 boolean encoderChange = false;
 
+int wait_encoder = 100;  //set compass reading  wait  time
+unsigned long encoderReadMillis = millis();
+
 unsigned long encoderMillisPast = millis();
 unsigned long encoderMillisLeft = millis();
 unsigned long encoderMillisRight = millis();
@@ -121,3 +124,14 @@ void encoderClear(){
 }
   
   
+  
+  void encoderTime(unsigned long nowMillis1){
+  
+     // check mills and do this every 60 ms  using wait_compass above.
+    if (nowMillis1 - encoderReadMillis >= wait_encoder) {
+          encoderReadMillis = nowMillis1;
+      readEncoder();
+      
+    }
+  
+}
