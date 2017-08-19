@@ -11,12 +11,16 @@ Adafruit_LSM303_Accel_Unified accel = Adafruit_LSM303_Accel_Unified(54321);
 
 
 byte localHeadingCounter =0;
-float headingArray[3];
+#define HEADINGARRAY 10
+float headingArray[HEADINGARRAY];
 float headingAverage();
 void addHeading(float heading);
 float headingDiff( float, float);
+void displayCompassDetails(void);
+void displayAccelDetails(void);
+void displayHeading(void);
 void getAccel();
-float currentHeading;
+float currentHeadingVal;
 float accel_x = 0;
 float accel_y = 0;
 float accel_z =0;
@@ -40,6 +44,7 @@ unsigned long accelMillis = millis();
     /* There was a problem detecting the LSM303 ... check your connections */
     Serial.println("Ooops, no LSM303 detected ... Check your wiring!");
     localCompassEnabled = false;
+    displayCompassDetails();
     
   } else {
     Serial.println("Magnetometer Test -X -Z"); Serial.println("");
@@ -50,20 +55,21 @@ unsigned long accelMillis = millis();
   if(!accel.begin())
   {
     /* There was a problem detecting the ADXL345 ... check your connections */
-    Serial.println("Ooops, no LSM303 detected ... Check your wiring!");
+    Serial.println("Ooops, no ADXL345 detected ... Check your wiring!");
     localAccelEnabled = false;
-  } 
+  } else {
+    displayAccelDetails();}
   
   }
   return localCompassEnabled;
 }
 
 void addHeading(float heading){
- // Display avererage everytime one is added.  thsi can be lots if turend on. 
+ // Display avererage everytime one is added.  This can be lots if turend on. 
   // float localAVG = headingAverage();
 //  if (headingDiff(localAVG, heading)< 30){
   headingArray[localHeadingCounter] = heading;
-          if (localHeadingCounter<2)
+          if (localHeadingCounter<HEADINGARRAY-1)
             localHeadingCounter++;
           else
             localHeadingCounter=0;
@@ -88,8 +94,16 @@ float  headingDiff(float startHeading, float newHeading){
 
 float headingAverage(){
 
+          float localHeadingSum, localHeadingAvg;
+          //float localHeadingAvg = (headingArray[0]+headingArray[1]+headingArray[2])/3;
           
-          float localHeadingAvg = (headingArray[0]+headingArray[1]+headingArray[2])/3;
+          for (int i=0; i<HEADINGARRAY; i++){
+           
+            localHeadingSum += headingArray[i]; 
+            
+          }
+          localHeadingAvg = localHeadingSum /HEADINGARRAY;
+          
           Serial.print(" local  Average: ");
           Serial.println(localHeadingAvg);
  
@@ -100,14 +114,16 @@ float headingAverage(){
 
 float compass(){
    /* Get a new sensor event */
+   // Used to get the compass right now.
   sensors_event_t event;
   mag.getEvent(&event);
   float Pi = 3.14159;
   // Calculate the angle of the vector y,x
   float heading = (atan2(-event.magnetic.y, event.magnetic.x) * 180) / Pi;
+  currentHeadingVal = heading;
   // Normalize to 0-360
   //Serial.print("Pre- Compass Heading: ");
-  //Serial.print(heading);
+  // displayHeading();
   
   if (heading < 0)
   {
@@ -139,7 +155,7 @@ void displayCompassDetails(void)
  
 }
 
-void printAccelDetails(){
+void displayAccelDetails(){
   
     /* Display the results (acceleration is measured in m/s^2) */
   Serial.print("XYZ mag: "); Serial.print(xyz_Mag); Serial.print(",  ");
@@ -156,7 +172,7 @@ void compassTime(){
 
     // save the last time you took a compass reading
     compassMillis = millis();
-    currentHeading = compass();
+    currentHeadingVal = compass();
     }
   
 }
@@ -184,7 +200,9 @@ void getAccel(){
   
   xyz_Mag = sqrt(x*x + y*y + z*z);
  
+}
 
-printAccelDetails();
-
+void displayHeading(){
+     Serial.print("Current Heading=");
+    Serial.println(currentHeadingVal);  
 }

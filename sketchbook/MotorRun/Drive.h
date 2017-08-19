@@ -14,7 +14,7 @@ class Drive {
     const int leftCompDefault = 0;
     
     byte Right_Comp = 4;
-    const byte Left_Comp = 0;
+    byte Left_Comp = 0;
     const byte RightBack_Comp = 0;
     const byte LeftBack_Comp = 15;
     
@@ -76,8 +76,10 @@ void Drive::driveHold () {
   if (hold != true) {
     holdCommand = driveDirection;
     driveDirection = 'S';  // set to stop
+    // could be set to backwards
     checkValue(driveDirection);
     hold = true;
+    Serial.println("Hold mode ON");
   }
 };
 
@@ -90,11 +92,12 @@ void Drive::driveSlow () {
 };
 
 void Drive::driveResume () {
-  if (hold == true) { // run this casee only once after a hold
+  if (hold == true) { // run this case only once after a hold
     hold = false;
     slow = false;
     driveDirection = holdCommand;
     checkValue(driveDirection);
+    Serial.println("Hold mode OFF =====");
   };
 };
 
@@ -138,7 +141,7 @@ void Drive::driveAutonomous (long cm)
 };
 
 
-// this is the drive action that updates any changed parameeters on the drive
+// this is the drive action that updates any changed parameters on the drive
 void Drive::driveUpdate () {
   
 
@@ -146,9 +149,10 @@ void Drive::driveUpdate () {
   if (driveDirection == 'F' ) {
     
         if (hold != true) {
+          // Hold - Don't go forward if in hold
   // read compass
     
-   // headingCompensate();
+    headingCompensate();
     driveFWD();
     
     // driveDisplayHeading();
@@ -165,23 +169,27 @@ void Drive::driveUpdate () {
 //    Serial.print("  Heading Diff=");
 //    Serial.println(difference);
     
-  }
-     else {
-      Serial.println("Hold mode ON");
-
-    }// End hold - Don't go forward if in hold
-  }
+      } // End hold
+  }  // End Forward
   if (driveDirection == 'B' ) {
     driveBACK();
   }
-
+  
+    if (autonomous &  hold) {
+    driveRIGHT();
+        }
+    
+    if (autonomous &  ~hold){
+    driveFWD();
+         }
 
 
   if (driveDirection == 'S' ) {
     
     driveSTOP();
   }
-    if (driveDirection == 'N' ) {
+  
+  if (driveDirection == 'N' ) {
       // Done turning 90 degreesleft - Possibly 88 should be changable if the speed is changed on the turn.
 
 //  float compass1 = compass();
@@ -192,7 +200,7 @@ void Drive::driveUpdate () {
 //          Serial.print(setHeading);
 //          Serial.print(" Turn Difference: ");
 //          Serial.println(difference);
-  readEncoder();
+  //readEncoder();
   int a = encoderDiff();
    Serial.print(" Encoder Diff: ");
     Serial.println(a); 
@@ -275,12 +283,12 @@ void Drive::headingCompensate(){
 
 byte Drive::driveStatus () {
 
-   readEncoder();
-    headingCompensate();
+   //readEncoder();
+   //headingCompensate();
     // Turn on to display the heading and comp
   //  driveDisplayHeading();
 
-    driveUpdate();
+    //driveUpdate();
     
   
   return driveDirection;
@@ -309,6 +317,7 @@ void Drive::checkValue (byte value) {
     }
     else {
       setHeading = compass();
+      encoderClear();
            
       byte oldMove = driveDirection;
       
@@ -332,20 +341,19 @@ void Drive::checkValue (byte value) {
       case 'f':
       case 'F':
         driveDirection = 'F';
-//        setHeading = headingAverage();
-//    Serial.print("F - Set Heading=");
-//    Serial.println(setHeading); 
+//    setHeading = headingAverage();
+//    displayHeading();
 
 // Reset Compensation values to default
     driveCompReset();
-    encoderClear();
+//    encoderClear();
 
 // Store heading value  before we start moving  - test both
 
 //     // Store average heading so we can compare with while traveling
      //setHeading = headingAverage();
      // Store current heading so we can compare with while traveling
-     setHeading = compass();
+//     setHeading = compass();
 
         driveFWD();
  // Store heading value  before we start moving - Test both
@@ -355,8 +363,8 @@ void Drive::checkValue (byte value) {
      // Store current heading so we can compare with while traveling
    //  setHeading = compass();
      
-    Serial.print("F - Set Heading=");
-    Serial.println(setHeading); 
+    Serial.print("FWD - Heading ");
+    displayHeading(); 
         
         break;
       case 'b':
@@ -368,7 +376,7 @@ void Drive::checkValue (byte value) {
       case 'm':
       case 'M':
         driveDirection = 'M';
-        setHeading = compass();
+        // setHeading = compass();
         driveRIGHT();
         Serial.println("Turning Right 90 degrees");
         break;
@@ -380,7 +388,7 @@ void Drive::checkValue (byte value) {
       case 'n':
       case 'N':  // Turn left 90 degrees
         driveDirection = 'N';
-        setHeading = compass();
+        //setHeading = compass();
         driveLEFT();
         Serial.println("Turning Left 90 degrees");
         break;
@@ -391,9 +399,16 @@ void Drive::checkValue (byte value) {
         break;
       case 'a':
       case 'A':
+        if (autonomous){
+          autonomous = false;
+          Serial.println("Autonomous mode OFF");
+        }
+        else {
         autonomous = true;
-        driveAutonomous(20);
+       // driveAutonomous(20);
         Serial.println("Autonomous mode ON");
+          }
+        
         break;
       default:
       Serial.println("Error unknown Key -  Hit Default step");
@@ -475,7 +490,15 @@ void Drive::driveCompReset () {
   
   void Drive::rightCompUp () {
   
-  Right_Comp = Right_Comp + 1;
+    if (Right_Comp >254)
+    // Don't let right comp go over max value 255
+    
+    Left_Comp = Left_Comp - 1;
+    else    
+    // if at max vlaue then reduce left comp
+     Right_Comp = Right_Comp + 1;
+    
+     
   }
   
   void Drive::rightCompDown () {

@@ -101,7 +101,7 @@ long getSensor(boolean noSonar1) {
     if (duration == 0) {
     Serial.print("Duration=");
     Serial.println(duration);
-    printDistance(duration);
+    //printDistance(duration);
     Serial.print(" Dewey Stopped because of Sensor 0 ");
   }
   }

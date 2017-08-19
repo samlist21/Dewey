@@ -87,10 +87,10 @@ Drive dewey;
 
 void setup()
 {
-  delay (2000);  //leave a 2 seoncd delay before th eprogram starts.  used for program download time. 
+  delay (2000);  //leave a 2 seoncd delay before the program starts.  Used for program download time. 
   Serial.begin(115200);
   Serial.println("Dewey Alive and ready to take commands");
-  //Edit this line wheen a significant chnag eis made so that the user knows
+  //Edit this line when a significant chnage is made so that the user knows
  //  what version fo Motor Run theyy are using 
   Serial.println("Dewey Drive Code Version 14");
 
@@ -102,17 +102,17 @@ initializeLED();
 clearLED();   // Initialize all pixels to 'off'
   
   compassEnabled = compassInit();
-  if (compassEnabled)
-    {
-    Serial.println("Magnetometer Test -X -Z - Initialized"); Serial.println("");
-      /* Display some basic information on this sensor */
-  displayCompassDetails();
-    
-  } else {
-      /* There was a problem detecting the LSM303 ... check your connections */
-    Serial.println("Ooops, no LSM303 detected ... Check your wiring!");
-    noCompass = true;
-      }
+//  if (compassEnabled)
+//    {
+//    Serial.println("Magnetometer Test -X -Z - Initialized"); Serial.println("");
+//      /* Display some basic information on this sensor */
+//  displayCompassDetails();
+//    
+//  } else {
+//      /* There was a problem detecting the LSM303 ... check your connections */
+//    Serial.println("Ooops, no LSM303 detected ... Check your wiring!");
+//    noCompass = true;
+//      }
       
 Serial.println("Sonar and Compass Check Complete.");
   
@@ -132,7 +132,7 @@ void loop()
   // delay(250);
   
   // Every 500 milliseconds (1/2 second)check these things - and Print when necessary
-  if (millis() -previousMillis >= 1000){
+  if (millis() -previousMillis > 1000){
     previousMillis = millis();
     // when compass available print 
 
@@ -162,19 +162,19 @@ void loop()
 
   
  // Check to see if we are in Autonomous mode.
-   autonomous = dewey.isAutonomous();
+//   autonomous = dewey.isAutonomous();
   
-   if (autonomous)
-  {
-    dewey.driveAutonomous(cm);
-  }
-  
-    if (!autonomous && cm < 20 && duration > 0) { // about 6 inches
-    dewey.driveHold();
-  }
-  else {
-    dewey.driveResume();
-  }
+//   if (autonomous)
+//  {
+//    dewey.driveAutonomous(cm);
+//  }
+//  
+//    if (!autonomous && cm < 20 && duration > 0) { // about 6 inches
+//    dewey.driveHold();
+//  }
+//  else {
+//    dewey.driveResume();
+//  }
   
 
     if (compassEnabled){
@@ -186,6 +186,9 @@ void loop()
       
       }
   
+// run compassTime to check if it is time to check the compass and if so store the value to the average 
+  compassTime();
+  
 // Voltage check   
     voltageCheck();
 
@@ -193,7 +196,8 @@ void loop()
 
     runCylon();    
     
-  //  readEncoder();
+// Read encoder and if there is a chagne record and count changes
+  readEncoder();
   
   
   

@@ -180,7 +180,7 @@ Also if that does not work try loading in the example Blinky program and possibl
 - Facial recognition
 - Person tracking/following
 
-###Items needed:
+### Items needed:
 - Mounting hardware for Googly eyes. 
 - Mounting hardware for LED String, Cylon eye. 
 - Raspberry Pi3 - fast processing for video
@@ -216,6 +216,10 @@ in /home/pi/dewey/sketchbook/libraries
 Too many to list - Volunteers to document?
 
 ## New Discussions - only on github
+
+## Dewey Day August 18, 2017 Ken Samuelson 
+- Cleaned up encoder.h, compass.h, motorRun.ino 
+
 
 ## Dewey Day August 7, 2017 Ken Samuelson 
 - Wired encoder sensor to Arduino pin 8 and 9. 

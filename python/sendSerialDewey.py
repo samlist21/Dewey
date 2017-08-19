@@ -76,7 +76,7 @@ def printHelpMenu ():
     print('Enter your commands below.\r')
     print('Available Commands:(uppercase preferred but not necessary)\r')
     print('No need to hit enter - Just the key\r')
-    print('A = Autonomous\r')
+    print('A = Autonomous Mode Toggle\r')
     print('F = Forward\r')
     print('B = Backward\r')
     print('R = Turn Right\r')
