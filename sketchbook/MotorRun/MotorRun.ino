@@ -68,6 +68,8 @@ char currentSpeed = '7';
 char oldMove = 'd';
 char currentMove = 'S';
 
+int bytesAvailable=0;
+
 unsigned long nowMillis = millis(); 
 unsigned long previousMillis = nowMillis;
 
@@ -125,26 +127,18 @@ void loop()
  
   nowMillis = millis();
 
-  // delay(250);
-  delay (2000); 
-  Serial.println("  2 msecond timer");
-          Serial.print("1PreviousMillis=");
-          Serial.print(previousMillis);
-        Serial.print(", nowMillis=");
-        Serial.println(nowMillis);
-  
-  
+
+   
   // Every 500 milliseconds (1/2 second)check these things - and Print when necessary
   if ((nowMillis - previousMillis) > 500){
 
-        Serial.print("2PreviousMillis=");
-        Serial.print(previousMillis);
-        Serial.print(", nowMillis=");
-        Serial.println(nowMillis);
+//        Serial.print("2PreviousMillis=");
+//        Serial.print(previousMillis);
+//        Serial.print(", nowMillis=");
+//        Serial.print(nowMillis);
 //      unsigned long diffMillis = nowMillis - previousMillis;
 //        Serial.print("Diff");
-  //      Serial.println(diffMillis);
-
+//      Serial.println(diffMillis);
 
     previousMillis = millis();
 
@@ -152,16 +146,29 @@ void loop()
     // when compass available print 
     Serial.println("  500 msecond timer");
 
-  if (Serial.available())
+  int bytesAvailable = Serial.available();
+  if (bytesAvailable=1)
   {
+    Serial.print("===BytesAvailable=");
+    Serial.print(bytesAvailable);
     readVal = Serial.read();
     dewey.checkValue(readVal);
-    Serial.print("Found Key");
+    Serial.print(", Found Key=");
     Serial.println(readVal);
-
   }
+  else if (bytesAvailable>1 || bytesAvailable <255){
+    Serial.print("===BytesAvailable=");
+    Serial.print(bytesAvailable);
+        Serial.print(" Clear buffer Found=");
+    for(int i=0; i<bytesAvailable; i++){
+          readVal = Serial.read();
 
-
+    Serial.print(readVal);
+      
+  }
+        Serial.println("Done");
+  }else if (bytesAvailable <255)
+    Serial.println("Found 255");
   //  headingAverage();
 // for debug
 //    Serial.print("  PreviousMillis=");
