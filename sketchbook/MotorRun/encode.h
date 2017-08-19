@@ -1,3 +1,9 @@
+// Encoder Program for FFL Dewey Robot
+// Author Ken Samuelson 
+//  Date started 6/18/2017
+// Last update by Ken Samuelson 8/19/2017
+// Copyright Unpublished work Ken Samuelson 2017 all rights reserved.
+
 
 long encoderRightCount = 0;
 long encoderLeftCount = 0;
@@ -10,6 +16,9 @@ boolean encoderLeftPrevious = false;
 boolean encoderLeftChange = false;
 boolean encoderRightChange = false;
 boolean encoderChange = false;
+
+char encodeStrBuff[15] = {'Hello'};
+
 
 int wait_encoder = 100;  //set compass reading  wait  time
 unsigned long encoderReadMillis = millis();
@@ -52,11 +61,15 @@ void displayEncoderChange(){
 		Serial.print (" Encoder Diff=");
 		Serial.print (encoderDiff());
 
+
 		// Print current Rate 
+         dtostrf(encoderLeftRate, 4, 2, encodeStrBuff);
 		Serial.print (" LRate=");
-		Serial.print (encoderLeftRate);
+		Serial.print (encodeStrBuff);
+
+         dtostrf(encoderRightRate, 4, 2, encodeStrBuff);
 		Serial.print (" RRate=");
-		Serial.print (encoderRightRate);
+		Serial.print (encodeStrBuff);
 
 		// Print current Count 
 		Serial.print (" LCount=");
@@ -99,8 +112,9 @@ void readEncoder(){
    
    
    if (encoderChange){
+     // For every 20 changes in encoder vlaue print out the status
      printCounter++;
-     if (printCounter >20){
+     if (printCounter > 20){
        displayEncoderChange();
        printCounter =0;
      }
@@ -125,11 +139,11 @@ void encoderClear(){
   
   
   
-  void encoderTime(unsigned long nowMillis1){
+  void encoderTime(unsigned long nowMillis3){
   
      // check mills and do this every 60 ms  using wait_compass above.
-    if (nowMillis1 - encoderReadMillis >= wait_encoder) {
-          encoderReadMillis = nowMillis1;
+    if (nowMillis3 - encoderReadMillis >= wait_encoder) {
+          encoderReadMillis = nowMillis3;
       readEncoder();
       
     }

@@ -25,6 +25,7 @@ float accel_x = 0;
 float accel_y = 0;
 float accel_z =0;
 float xyz_Mag = 0;
+boolean compassWorking = false;
 
 int wait_compass = 250;  //set compass reading  wait  time
 unsigned long compassMillis = millis();
@@ -61,6 +62,7 @@ unsigned long accelMillis = millis();
     displayAccelDetails();}
   
   }
+  compassWorking = localCompassEnabled;
   return localCompassEnabled;
 }
 
@@ -113,13 +115,15 @@ float headingAverage(){
 
 
 float compass(){
+  float heading = 0;
+  if (compassWorking){
    /* Get a new sensor event */
    // Used to get the compass right now.
   sensors_event_t event;
   mag.getEvent(&event);
   float Pi = 3.14159;
   // Calculate the angle of the vector y,x
-  float heading = (atan2(-event.magnetic.y, event.magnetic.x) * 180) / Pi;
+  heading = (atan2(-event.magnetic.y, event.magnetic.x) * 180) / Pi;
   currentHeadingVal = heading;
   // Normalize to 0-360
   //Serial.print("Pre- Compass Heading: ");
@@ -134,7 +138,7 @@ float compass(){
         
     // Add heading to the average
     addHeading(heading);
-
+  }
   
   return heading;
 }

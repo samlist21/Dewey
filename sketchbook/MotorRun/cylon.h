@@ -27,6 +27,8 @@ int Pixel_Start_End=5; //Set this to where you want it to Start/End at
 //Standard Strip function
 Adafruit_NeoPixel strip1 = Adafruit_NeoPixel(TPIXEL, PIN, NEO_GRB + NEO_KHZ800); 
 
+
+int cylonCounter=0;
 boolean up =true;
 unsigned long cylonMillis = millis();
 
@@ -132,6 +134,16 @@ void runCylon(unsigned long nowMillis1){
 //      up = CylonEyeDown(strip, strip.Color(0,0,175), strip.Color(0,0,25), strip.Color(0,0,10), wait_T, PixelCount, Pixel_Start_End);
       CylonEyeDown(0x000000AF, 0x00000019, 0x0000000a);
       }
+      
+      
+     // Test to see if cylon is running
+     // For every 1000 changes in cylon value print out the status
+     cylonCounter++;
+     if (cylonCounter > 1000){
+       Serial.println("Cylon working");
+       printCounter =0;
+     }
+      
       
     } // cylon Mills met
 }

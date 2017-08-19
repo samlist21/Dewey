@@ -1,3 +1,9 @@
+// Voltage Reading program for FFL Dewey Robot
+// Author Ken Samuelson 
+//  Date started 6/18/2017
+// Last update by Ken Samuelson 8/19/2017
+// Copyright Unpublished work Ken Samuelson 2017 all rights reserved.
+
 #include "Arduino.h"
 #include "def.h"
 
@@ -6,7 +12,7 @@ unsigned long voltageMillis = millis();
 
 void readVoltage(byte reading) {
   char floatStrCalc[10]= {'aaaaaaaa'};
-  char floatStrBus[0];
+  char floatStrBus[10];
   char StrBuff[15] = {'Hello'};
   int pin = 0; // 0 = Electroinics Voltage
   String name = "None";   //name of pin being addressed
@@ -18,12 +24,12 @@ void readVoltage(byte reading) {
  //     StrBuff[] = "Electronic ";
       break;
     case  MOTORS :
-    strcpy(StrBuff,"Motor ");
+       strcpy(StrBuff,"Motor ");
       name = "Motor ";
   //    StrBuff[] = "Motor ";
       break;
     case  PROCESSOR :
-  strcpy(StrBuff,"Processor ");
+      strcpy(StrBuff,"Processor ");
       name = "Processor ";
    //   StrBuff[] = "Processor ";
       break;
@@ -51,14 +57,15 @@ void readVoltage(byte reading) {
 
 }
 
-void voltageCheck(unsigned long currentMillis){
+void voltageCheck(unsigned long currentMillis2){
   
   // Check voltage evry (50 * 250 s) or ~12.5 seconds
 //  millis() - voltageMillis > 1000
-  if ((currentMillis - voltageMillis) >5000) {
+  if ((currentMillis2 - voltageMillis) > 15000) {
     //Serial.println("Voltage= 5000 loop");
     
-    voltageMillis = millis();    //millis();
+    voltageMillis = currentMillis2;    //millis();
+//      Serial.print("VoltageA1");
     readVoltage(ELECTRONICS);  // 0 is pin 0 for the Electronics - 1 will be for motors
     }
 //    else {

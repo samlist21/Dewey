@@ -1,3 +1,9 @@
+// Sonar Sensor program for FFL Dewey Robot
+// Author Ken Samuelson 
+//  Date started 6/18/2017
+// Last update by Ken Samuelson 8/19/2017
+// Copyright Unpublished work Ken Samuelson 2017 all rights reserved.
+
 const int trigPin = 2;    //Trig - green Jumper
 const int echoPin = 4;    //Echo - yellow Jumper
 long duration, cm, inches;
@@ -17,7 +23,7 @@ void addSonar(long sensor);
 
 boolean setupSonar()
 {
-  boolean noSonar;
+  boolean noSonar=true;
   //Define sonar inputs and outputs
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
@@ -99,7 +105,7 @@ long getSonar(boolean noSonar1) {
   // duration is the time (in microseconds) from the sending
   // of the ping to the reception of its echo off of an object.
   pinMode(echoPin, INPUT);
-  duration = pulseIn(echoPin, HIGH);
+  duration = pulseIn(echoPin, HIGH,2000);
   
     if (duration == 0) {
     Serial.print("Duration=");
@@ -120,13 +126,15 @@ void printDistance(long duration) {
   Serial.print("cm  ");
 }
 
-long sonarTime(boolean noSonar1, unsigned long nowMillis1){
+long sonarTime(boolean noSonar1, unsigned long nowMillis4){
   
      // check mills and do this every 60 ms  using wait_compass above.
-    if (nowMillis1 - sonarMillis >= wait_sonar) {
-          sonarMillis = nowMillis1;
+     if (!noSonar1){
+    if ((nowMillis4 - sonarMillis) >= wait_sonar) {
+          sonarMillis = nowMillis4;
       long distance = getSonar(noSonar1);
       return distance;
-    }
+      }
+    } 
   
 }

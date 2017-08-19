@@ -1,3 +1,10 @@
+// Drive program for FFL Dewey Robot
+// Author Ken Samuelson 
+//  Date started 6/18/2017
+// Last update by Ken Samuelson 8/19/2017
+// Copyright Unpublished work Ken Samuelson 2017 all rights reserved.
+
+
 //#include "compass.h"
 //#include "math.h"
 
@@ -367,7 +374,7 @@ void Drive::checkValue (byte value) {
    //  setHeading = compass();
      
     Serial.print("FWD - Heading ");
-    displayHeading(); 
+   // displayHeading(); 
         
         break;
       case 'b':

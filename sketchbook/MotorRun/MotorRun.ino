@@ -68,8 +68,8 @@ char currentSpeed = '7';
 char oldMove = 'd';
 char currentMove = 'S';
 
-unsigned long previousMillis = millis();
-unsigned long nowMillis = previousMillis;
+unsigned long nowMillis = millis(); 
+unsigned long previousMillis = nowMillis;
 
 byte oldSensorSpeed;
 boolean flagSensorGo = false;
@@ -123,22 +123,42 @@ void loop()
 {
   
  
-  nowMillis = millis() ;
+  nowMillis = millis();
 
   // delay(250);
+  delay (2000); 
+  Serial.println("  2 msecond timer");
+          Serial.print("1PreviousMillis=");
+          Serial.print(previousMillis);
+        Serial.print(", nowMillis=");
+        Serial.println(nowMillis);
+  
   
   // Every 500 milliseconds (1/2 second)check these things - and Print when necessary
-  if (nowMillis -previousMillis > 500){
+  if ((nowMillis - previousMillis) > 500){
+
+        Serial.print("2PreviousMillis=");
+        Serial.print(previousMillis);
+        Serial.print(", nowMillis=");
+        Serial.println(nowMillis);
+//      unsigned long diffMillis = nowMillis - previousMillis;
+//        Serial.print("Diff");
+  //      Serial.println(diffMillis);
+
+
     previousMillis = millis();
+
+      
     // when compass available print 
- //   Serial.println("  500 msecond timer");
+    Serial.println("  500 msecond timer");
 
   if (Serial.available())
   {
     readVal = Serial.read();
     dewey.checkValue(readVal);
     Serial.print("Found Key");
-    Serial.print(readVal);
+    Serial.println(readVal);
+
   }
 
 
@@ -154,13 +174,13 @@ void loop()
 
 
 
-  duration =  sonarTime(noSonar,nowMillis);
-  cm = convertCM(duration);
-  inches = convertIN(duration);
+//  duration =  sonarTime(noSonar,nowMillis);
+//  cm = convertCM(duration);
+//  inches = convertIN(duration);
 
 
 //   update the drive every 500 ms every loop now.
-    dewey.driveUpdate();
+//    dewey.driveUpdate();
     //dewey.driveStatus();
   
 
@@ -194,15 +214,15 @@ void loop()
 //  compassTime();
   
 // Voltage check   
-    voltageCheck(nowMillis);
+//    voltageCheck(nowMillis);
 
 // Run Cylon program 
 
-    runCylon(nowMillis);    
+//    runCylon(nowMillis);    
     
 // Read encoder and if there is a chagne record and count changes
 //  readEncoder();
-// encoderTime();
+//    encoderTime(nowMillis);
   
   
   
