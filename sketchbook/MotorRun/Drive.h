@@ -314,7 +314,7 @@ void Drive::checkValue (byte value) {
       driveSpeed = ((((value - '0') + 6) * 16) + 15);
       
 // Print Change for debugging
-    Serial.print("  OldSpeed=");
+    Serial.print("OldSpeed=");
     Serial.print( String(oldSpeed,DEC));
     Serial.print(", NewSpeed(char) value=");
      Serial.print((char) value);   
@@ -434,9 +434,9 @@ void Drive::checkValue (byte value) {
 
 
 // Print Change for debugging
-    Serial.print("  OldMove=");
+    Serial.print("OldMove=");
     Serial.print((char) oldMove);
-    Serial.print(" NewMove=");
+    Serial.print(", NewMove=");
     Serial.println((char) driveDirection);
 
     
