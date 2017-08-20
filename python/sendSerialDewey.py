@@ -284,7 +284,7 @@ os.system("omxplayer -o local "+ soundsDir +"HelloNameIsDeweyLoud.mp3 >/dev/null
 
 # get on with Dewey code
 
-# try to find and use serial port for Arduino.  
+# try to find and use serial port for Arduino.
 #If not there quit since need serial to move. 
 try:
     ser = serial.Serial('/dev/ttyACM0',115200)
@@ -328,7 +328,8 @@ takePicture.counter = findLastImageNumber()
 # start of Dewey Program    
 ser.isOpen()
 print("First Action - Stoping Dewey in case moving\r")
-ser.write('S'.encode(encoding='utf-8'))
+#ser.write('S'.encode(encoding='utf-8'))
+ser.write('S'.encode(encoding='ascii'))
 print(' \r')
 # clear serial buffer so no bad characters come out and crash the program.
 # Should see "Hello from Arduino, alive and well"
@@ -363,11 +364,13 @@ while 1:
         a = ser.readline()
         #print(a.decode("ASCII"))
         try:
-            b = a.decode("ascii")
+            #b = a.decode("ascii")
+            b = a.decode('utf-8') #utf-8
             sys.stdout.write('<< ')
-            sys.stdout.write(b)
+            sys.stdout.write(str(b))
             sys.stdout.flush()
             #print('<< ' + str(a) ),
+            #print('<< ' + b ),
             #print('<< ' + b +"\r"),
             #print('<< ' + str(a) +"\r"),
             #print('<< ' + str(a.decode("ASCII")))
@@ -385,7 +388,9 @@ while 1:
         #print("have Data")
 
         x=sys.stdin.read(1)[0]
-       #print("you pressed ",x),
+        sys.stdin.flush()
+        
+        #print("you pressed ",x),
        #print(" ESC will exit")
 
        #c= stdscr.getch()
@@ -400,8 +405,12 @@ while 1:
         #print(inputVal1),
         #inputValUpper = inputVal.upper()
         #print(inputValUpper)
-
-        inputValUpper = inputVal.upper()
+        # Only make upper if between a and z 
+        if inputVal >= 'a' or inputVal <= 'z':
+            inputValUpper = inputVal.upper()
+        else:
+            inputValUpper = inputVal
+            
         print('>> Received inputVal='+ str(inputVal) + ",Sending=" + str(inputValUpper)+ " \r")
 
             # send character to the serial device
@@ -417,6 +426,7 @@ while 1:
         ##ser.write(inputValUpper.encode('utf-8'))
         # update for python3
         ser.write(inputValUpper.encode(encoding='utf-8'))
+        
         # Testing remove encode for python 3
         #ser.write(inputValUpper)
         # Print to screen to verify what was sent and that it was an Upper
@@ -462,7 +472,7 @@ while 1:
             ser.close()
             camera.close()
 
-            termios.tcsetattr(sys.stdin,termios.TCSADRAIN, orig_settings)
+            #termios.tcsetattr(sys.stdin,termios.TCSADRAIN, orig_settings)
             print("Stdin closed\r")
 
             if setGLCD:
@@ -551,6 +561,9 @@ while 1:
     inputVal = "z"
     inputValUpper = 'Z'
 
+print("Running Flush Functions")
+sys.stdin.flush()
+sys.stdout.flush()
 termios.tcsetattr(sys.stdin,termios.TCSADRAIN, orig_settings)
 
 

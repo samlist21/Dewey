@@ -317,11 +317,9 @@ void Drive::checkValue (byte value) {
     Serial.print("OldSpeed=");
     Serial.print( String(oldSpeed,DEC));
     Serial.print(", NewSpeed(char) value=");
-     Serial.print((char) value);   
+    Serial.print((char) value);   
     Serial.print(", NewSpeed(dec) value=");
     Serial.println( String(driveSpeed,DEC));
-//   Serial.print(" NewSpeed =");
-//   Serial.println(driveSpeed);
   
       
     }

@@ -48,6 +48,7 @@ boolean noSonar = false;
 float heading = 0;
 int byteCount = 0;
 byte readVal = 32;
+char readValBuff[100];
 
 Drive dewey;
 
@@ -55,6 +56,7 @@ void setup()
   {
   delay (2000);  //leave a 2 seoncd delay before the program starts.  Used for program download time. 
   Serial.begin(115200);
+  Serial.flush();
   Serial.println("Dewey Alive and ready to take commands");
   //Edit this line when a significant chnage is made so that the user knows
  //  what version fo Motor Run theyy are using 
@@ -119,30 +121,47 @@ void loop()
   {
     readVal = Serial.read();
     //byteCount2 = Serial.available();
-    if (readVal>= '0' &&  readVal <= 'z' ){
+//    if (readVal>= '0' &&  readVal <= 'z' ){
 //    Serial.print("ByteCount2 =");
 //    Serial.print(byteCount2);
-//    Serial.print(", ByteCount=");
-//    Serial.print(byteCount);
+    Serial.print(", ByteCount=");
+    Serial.print(byteCount);
+      byteCount = Serial.available();
+      if (byteCount >5){
+        Serial.flush();
+        Serial.readBytes(readValBuff,byteCount);
+        Serial.println(readValBuff);
+        Serial.print(" Flush");
+        byteCount = Serial.available();
+       Serial.print(", ByteCount=");
+    Serial.print(byteCount);
+      }
+    
 //    Serial.print(", BadValCount=");
 //    Serial.print(readValCounter);
 // Clear bad vlaue counter
     readValCounter=0;
       
-    Serial.print("Found Key=");
+    Serial.print(", Found Key=");
     Serial.print(readVal);
+    if (readVal < 128){
     Serial.print(", (char)=");
     Serial.println(char(readVal));
-     dewey.checkValue(readVal);
+    dewey.checkValue(readVal);
+    }else{
+    //Serial.print(byte(readVal));
+    Serial.println(" extended char received");
     }
-    else {
+     
+ //   }
+//   else {
       // Count bad vlaues read, not an ascii character
 //   Serial.readBytes(readStr, byteCount-1);
 //    Serial.print(", Found String=");
 //    Serial.println(readStr);
 // Read and throw away bad value 
-    readValCounter ++;
-  }
+//    readValCounter ++;
+ // }
  
     
     
