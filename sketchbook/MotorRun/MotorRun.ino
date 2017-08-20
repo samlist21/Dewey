@@ -129,10 +129,10 @@ void loop()
 // Clear bad vlaue counter
     readValCounter=0;
       
-    Serial.print(", Found Key=");
+    Serial.print("Found Key=");
     Serial.print(readVal);
     Serial.print(", (char)=");
-    Serial.print(char(readVal));
+    Serial.println(char(readVal));
      dewey.checkValue(readVal);
     }
     else {

@@ -359,8 +359,23 @@ while 1:
  # displays anything coming back from the Arduino serial port
     if outCount > 0:
         #print ("OutCount ="+ str(outCount) + "\r")
-        a = ser.read(outCount)
-        print ("<< " + str(a) +"\r"),
+        #a = ser.read(outCount)
+        a = ser.readline()
+        #print(a.decode("ASCII"))
+        try:
+            b = a.decode("ascii")
+            sys.stdout.write('<< ')
+            sys.stdout.write(b)
+            sys.stdout.flush()
+            #print('<< ' + str(a) ),
+            #print('<< ' + b +"\r"),
+            #print('<< ' + str(a) +"\r"),
+            #print('<< ' + str(a.decode("ASCII")))
+            #print ("<< " + str(a.decode("ASCII")) +"\r")
+        except Exception as e:
+            print (a)
+            print("Error in printing Ascii: " + str(e) +"\r")
+
 
     #get keyboard input
     #inputVal = input(">> ")  # this is a blocking call which we do not want. 
