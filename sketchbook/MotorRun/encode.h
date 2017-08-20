@@ -34,7 +34,7 @@ int inReg;
 
 
 void setupEncoder(){
-  
+  Serial.println("Encoder Setup Begin");
   
   
   DDRB= B00000000;

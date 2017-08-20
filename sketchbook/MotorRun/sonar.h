@@ -23,6 +23,7 @@ void addSonar(long sensor);
 
 boolean setupSonar()
 {
+  Serial.println("Sonar Setup Begin");
   boolean noSonar=true;
   //Define sonar inputs and outputs
   pinMode(trigPin, OUTPUT);
@@ -42,6 +43,8 @@ boolean setupSonar()
     noSonar = false;
     Serial.println("Sonar found and working");
         }
+        
+     Serial.println("Sonar Setup complete");
     return noSonar;
   }
   

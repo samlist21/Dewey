@@ -116,7 +116,10 @@ void CylonEyeDown( uint32_t Co, uint32_t Ct, uint32_t Ctt) {
 void runCylon(unsigned long nowMillis7){
    // check mills and do this every 60 ms  using wait_T above.
     if ((nowMillis7 - cylonMillis) > wait_T) {
-      Serial.println("Cylon start");
+
+      Serial.println("Up Status=");
+      Serial.print(up);
+      Serial.println(" Cylon start");
 
     // save the last time you blinked the LED string
     cylonMillis = nowMillis7;

@@ -425,6 +425,8 @@ void Drive::checkValue (byte value) {
       Serial.print(value);
       Serial.print(", value=");
       Serial.print(value,DEC);
+      Serial.print(", 0x");
+      Serial.print(value,HEX);
       Serial.println(", Hit Default step");
         break;
         
