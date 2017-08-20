@@ -64,8 +64,8 @@ void setup()
 // noSonar = setupSonar();  
 
 // setupCylon();
-// initializeLED();
-// clearLED();   // Initialize all pixels to 'off'
+ initializeLED();
+ clearLED();   // Initialize all pixels to 'off'
   
 //  compassEnabled = compassInit();
 //  if (compassEnabled)
@@ -207,7 +207,7 @@ void loop()
 
 // Run Cylon program 
 
-//    runCylon(nowMillis);    
+    runCylon(nowMillis);    
     
 // Read encoder and if there is a chagne record and count changes
 //  readEncoder();
