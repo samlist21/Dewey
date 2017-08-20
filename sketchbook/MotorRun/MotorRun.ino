@@ -20,53 +20,18 @@
 #include "def.h"
 #include "sonar.h"
 
-
-
-
  //NeoPixel LED Digital Strip Cylon Eye v1.10 Created by EternalCore
  // Library in /usr/share/arduino/libraries so it needs to eb declared here 
  // not sure why this is necessary
 #include "Adafruit_NeoPixel.h"
 #include "cylon.h"
 
-
-
-
-
-
-// #include "timer.h"  // thought this was needed for millis() but it seems to work anyway
-
-const int oneSecInUsec = 1000000; // a second in micro second units
-
-/*
-   created by Rui Santos, http://randomnerdtutorials.com
-
-   Complete Guide for Ultrasonic Sensor HC-SR04
-
-    Ultrasonic sensor Pins:
-        VCC: +5VDC
-        Trig : Trigger (INPUT) - Pin11 now 2
-        Echo: Echo (OUTPUT) - Pin 12 now 4
-        GND: GND
-*/
-
-
-char readVal = '$';
-byte bytVal = 74;
-char buffer[20];
-
-char buffer1[20];
-byte counter = 0;
-
-String message1 = "Hello Pi from Arduino";
-String message2 = "counter=";
-String message3 = "Pi recevied=";
-//boolean autonomous = false;
-
-//char oldSpeed = '$';
-//char currentSpeed = '7';
-//char oldMove = 'd';
-//char currentMove = 'S';
+//char readVal = '$';
+//byte bytVal = 74;
+//char buffer[20];
+//
+//char buffer1[20];
+//byte counter = 0;
 
 int bytesAvailable=0;
 
@@ -75,47 +40,16 @@ unsigned long previousMillis = nowMillis;
 
 long readValCounter =0;
 
-byte oldSensorSpeed;
-boolean flagSensorGo = false;
-boolean flagSensorStop = false;
-
-// Assume compass and Sonar are avaialble until proven otherwise
+// Assume compass and Sonar are availble until proven otherwise
 boolean compassEnabled = true;
 boolean noCompass = false;
 boolean noSonar = false;
 
-// void clearSerial(void);
-//void clearSerial1(void){
-//  
-//  int getBytes = Serial.available();
-//    if (getBytes > 0) // = -1 if none avaialble if more than one start reading them. 4 per second.
-//  {
-//    Serial.print("Serial Buffer: Found bytes=");
-//    for (int i=0; i< getBytes; i++){
-//    Serial.print(", 0x");
-//    byte readValx = Serial.read();
-//    Serial.print(readValx,HEX);
-//    }
-//    
-//  Serial.print("  Finished Clearing serial buffer of ");
-//  Serial.print(getBytes);
-//  Serial.println("bytes");
-//  } else {
-//  Serial.println("== No extra bytes Found at Serial port ==");
-//  }
-//  
-//}
-
-
 float heading = 0;
 int byteCount = 0;
-int byteCount2 = 0;
-byte readVal1 = 32;
-char readStr[64];
+byte readVal = 32;
 
 Drive dewey;
-
-
 
 void setup()
   {
@@ -183,27 +117,30 @@ void loop()
 //  Serial.print(byteCount);
   if (byteCount >0) // = -1 if none avaialble if more than one start reading them. 4 per second.
   {
-    readVal1 = Serial.read();
+    readVal = Serial.read();
     //byteCount2 = Serial.available();
-    if (readVal1>= '0' &&  readVal1 <= 'z' ){
+    if (readVal>= '0' &&  readVal <= 'z' ){
 //    Serial.print("ByteCount2 =");
 //    Serial.print(byteCount2);
-     Serial.print(", ByteCount=");
-    Serial.print(byteCount);
-      Serial.print(", Bad Readval counter=");
-    Serial.print(readValCounter);
+//    Serial.print(", ByteCount=");
+//    Serial.print(byteCount);
+//    Serial.print(", BadValCount=");
+//    Serial.print(readValCounter);
+// Clear bad vlaue counter
     readValCounter=0;
       
     Serial.print(", Found Key=");
-    Serial.print(readVal1);
-        Serial.print(", (char)=");
-    Serial.print(char(readVal1));
-    // dewey.checkValue(readVal1);
+    Serial.print(readVal);
+    Serial.print(", (char)=");
+    Serial.print(char(readVal));
+     dewey.checkValue(readVal);
     }
     else {
+      // Count bad vlaues read, not an ascii character
 //   Serial.readBytes(readStr, byteCount-1);
 //    Serial.print(", Found String=");
 //    Serial.println(readStr);
+// Read and throw away bad value 
     readValCounter ++;
   }
  
@@ -266,7 +203,7 @@ void loop()
 //  compassTime();
   
 // Voltage check   
-//    voltageCheck(nowMillis);
+    voltageCheck(nowMillis);
 
 // Run Cylon program 
 

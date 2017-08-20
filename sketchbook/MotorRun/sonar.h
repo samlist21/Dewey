@@ -4,6 +4,27 @@
 // Last update by Ken Samuelson 8/19/2017
 // Copyright Unpublished work Ken Samuelson 2017 all rights reserved.
 
+
+
+
+
+
+// #include "timer.h"  // thought this was needed for millis() but it seems to work anyway
+
+const int oneSecInUsec = 1000000; // a second in micro second units
+
+/*
+   created by Rui Santos, http://randomnerdtutorials.com
+
+   Complete Guide for Ultrasonic Sensor HC-SR04
+
+    Ultrasonic sensor Pins:
+        VCC: +5VDC
+        Trig : Trigger (INPUT) - Pin11 now 2
+        Echo: Echo (OUTPUT) - Pin 12 now 4
+        GND: GND
+*/
+
 const int trigPin = 2;    //Trig - green Jumper
 const int echoPin = 4;    //Echo - yellow Jumper
 long duration, cm, inches;
