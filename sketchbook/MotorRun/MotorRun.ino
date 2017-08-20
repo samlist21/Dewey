@@ -82,6 +82,29 @@ boolean compassEnabled = true;
 boolean noCompass = false;
 boolean noSonar = false;
 
+// void clearSerial(void);
+//void clearSerial1(){
+//  
+//  int getBytes = Serial.available();
+//    if (getBytes > 0) // = -1 if none avaialble if more than one start reading them. 4 per second.
+//  {
+//    Serial.print("Serial Buffer: Found bytes=");
+//    for (int i=0; i< getBytes-1;i++){
+//    Serial.print(", 0x");
+//    readVal = Serial.read();
+//    Serial.print(readVal,HEX);
+//    }
+//    
+//  Serial.print("  Finished Clearing serial buffer of ");
+//  Serial.print(getBytes);
+//  Serial.println("bytes");
+//  } else
+//  Serial.println("== No extra bytes Found at Serial port ==");
+//
+//  
+//}
+
+
 float heading = 0;
 
 Drive dewey;
@@ -119,6 +142,8 @@ clearLED();   // Initialize all pixels to 'off'
       
 Serial.println("Sonar and Compass Check Complete.");
   
+//  clearSerial1();
+  
 }
 
 void loop()
@@ -132,43 +157,32 @@ void loop()
   // Every 500 milliseconds (1/2 second)check these things - and Print when necessary
   if ((nowMillis - previousMillis) > 500){
 
-//        Serial.print("2PreviousMillis=");
-//        Serial.print(previousMillis);
-//        Serial.print(", nowMillis=");
-//        Serial.print(nowMillis);
-//      unsigned long diffMillis = nowMillis - previousMillis;
-//        Serial.print("Diff");
-//      Serial.println(diffMillis);
+      // Test to see if commend look is running
+        Serial.print("2PreviousMillis=");
+        Serial.print(previousMillis);
+        Serial.print(", nowMillis=");
+        Serial.print(nowMillis);
+        unsigned long diffMillis = nowMillis - previousMillis;
+        Serial.print(", Diff=");
+        Serial.println(diffMillis);
 
     previousMillis = millis();
 
       
     // when compass available print 
-    Serial.println("  500 msecond timer");
+  //  Serial.println("  500 msecond timer");
 
-  int bytesAvailable = Serial.available();
-  if (bytesAvailable=1)
+
+  if (Serial.available()>0) // = -1 if none avaialble if more than one start reading them. 4 per second.
   {
-    Serial.print("===BytesAvailable=");
-    Serial.print(bytesAvailable);
     readVal = Serial.read();
-    dewey.checkValue(readVal);
-    Serial.print(", Found Key=");
+    Serial.print("Found Key=");
     Serial.println(readVal);
+    dewey.checkValue(readVal);
   }
-  else if (bytesAvailable>1 || bytesAvailable <255){
-    Serial.print("===BytesAvailable=");
-    Serial.print(bytesAvailable);
-        Serial.print(" Clear buffer Found=");
-    for(int i=0; i<bytesAvailable; i++){
-          readVal = Serial.read();
-
-    Serial.print(readVal);
       
-  }
-        Serial.println("Done");
-  }else if (bytesAvailable <255)
-    Serial.println("Found 255");
+  
+
   //  headingAverage();
 // for debug
 //    Serial.print("  PreviousMillis=");
@@ -221,7 +235,7 @@ void loop()
 //  compassTime();
   
 // Voltage check   
-//    voltageCheck(nowMillis);
+    voltageCheck(nowMillis);
 
 // Run Cylon program 
 

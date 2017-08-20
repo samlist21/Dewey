@@ -19,7 +19,8 @@
 
 #define PIN 7 //The Pin out your Neopixel DIN strip/stick is connected to (Default is 6)
 #define TPIXEL 29 //The total amount of pixel's/led's in your connected strip/stick (Default is 60)
-int wait_T=60; //This is the delay between moving back and forth and per pixel
+//int wait_T=60; //This is the delay between moving back and forth and per pixel
+int wait_T=6000; //This is the delay between moving back and forth and per pixel
 // Wait time is handled by motorRun Program not here but coudl be done here as well. 
 int PixelCount=21; //Set this to the AMOUNT of Led's/Pixels you have or want to use on your strip And It can be used to tell where to Stop then return the eye at in the strip
 int Pixel_Start_End=5; //Set this to where you want it to Start/End at
@@ -112,12 +113,13 @@ void CylonEyeDown( uint32_t Co, uint32_t Ct, uint32_t Ctt) {
 }
 
 
-void runCylon(unsigned long nowMillis1){
+void runCylon(unsigned long nowMillis7){
    // check mills and do this every 60 ms  using wait_T above.
-    if (nowMillis1 - cylonMillis >= wait_T) {
+    if ((nowMillis7 - cylonMillis) > wait_T) {
+      Serial.println("Cylon start");
 
     // save the last time you blinked the LED string
-    cylonMillis = nowMillis1;
+    cylonMillis = nowMillis7;
   
         if (up) {
     //cylon.runCylonEye();
@@ -141,7 +143,7 @@ void runCylon(unsigned long nowMillis1){
      cylonCounter++;
      if (cylonCounter > 1000){
        Serial.println("Cylon working");
-       printCounter =0;
+       cylonCounter =0;
      }
       
       

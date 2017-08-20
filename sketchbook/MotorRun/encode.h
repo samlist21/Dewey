@@ -38,6 +38,7 @@ void setupEncoder(){
   
   
   DDRB= B00000000;
+  Serial.println("Encoder Setup complete");
   
 }
 

@@ -316,10 +316,10 @@ void Drive::checkValue (byte value) {
 // Print Change for debugging
     Serial.print("  OldSpeed=");
     Serial.print( String(oldSpeed,DEC));
-    Serial.print(" NewSpeed(char) value=");
+    Serial.print(", NewSpeed(char) value=");
      Serial.print((char) value);   
-    Serial.print(" NewSpeed(dec) value=");
-    Serial.print( String(driveSpeed,DEC));
+    Serial.print(", NewSpeed(dec) value=");
+    Serial.println( String(driveSpeed,DEC));
 //   Serial.print(" NewSpeed =");
 //   Serial.println(driveSpeed);
   
@@ -421,7 +421,11 @@ void Drive::checkValue (byte value) {
         
         break;
       default:
-      Serial.println("Error unknown Key -  Hit Default step");
+      Serial.print("Error unknown Key (char)=");
+      Serial.print(value);
+      Serial.print(", value=");
+      Serial.print(value,DEC);
+      Serial.println(", Hit Default step");
         break;
         
         }  //  End Switch       
