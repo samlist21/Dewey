@@ -350,28 +350,17 @@ inputVal = b"z" # used to start Arduino in known state, byte "z" character.
 inputValUpper = b'Z'
 while 1:
 
-    out = ''  # clear the out buffer 
     #let's wait one quarter of a second between reading output
     #give device time to read and respond.
     time.sleep(0.25)
-    while ser.inWaiting()>0:
+    # See if anything is wating at Arduino serial port
+    outCount = ser.inWaiting()
 
-        a = ser.read(1)
-        # first time Dewey sends an 0x87 not sure why.
-        # could be because of a leftover byte from the Arduino programming.
-        if a < b'\x7F':
-            # need to strip this off
-            #read and convert bytes to string
-
-            out += a.decode(encoding='utf-8')
-        else:
-            print ("Bad Character="),
-            print (a)
-
-# displays anything coming back from the Arduino serial port
-    if out != '':
-        print("< " +out +"\r"),
-
+ # displays anything coming back from the Arduino serial port
+    if outCount > 0:
+        #print ("OutCount ="+ str(outCount) + "\r")
+        a = ser.read(outCount)
+        print ("<< " + str(a) +"\r"),
 
     #get keyboard input
     #inputVal = input(">> ")  # this is a blocking call which we do not want. 
@@ -398,7 +387,7 @@ while 1:
         #print(inputValUpper)
 
         inputValUpper = inputVal.upper()
-        print('Received inputVal='+ str(inputVal) + ",Sending=" + str(inputValUpper)+ " \r")
+        print('>> Received inputVal='+ str(inputVal) + ",Sending=" + str(inputValUpper)+ " \r")
 
             # send character to the serial device
             #note that I could append a \n\r carriage return and linefeed characters
@@ -440,6 +429,14 @@ while 1:
             # could send an X to Arduino but it would kill any restart
             # So now just sending an 'S'
             ser.write('S'.encode(encoding='utf-8'))
+            # Y = Python quitting.
+            ser.write('Y'.encode(encoding='utf-8'))
+            
+            lastCount = ser.inWaiting()
+            print('Clearing Buffer - Retrieving ' + str(lastCount) + " bytes \r")
+            b = ser.read(lastCount)
+            print(b.decode(encoding='utf-8'))
+            print("Clear complete\r")
             # if recording was not stopped end recording.
             print("Dewey Record Ending - if it was going\r")
             deweyRecord.rec_stop()

@@ -63,15 +63,17 @@ String message2 = "counter=";
 String message3 = "Pi recevied=";
 //boolean autonomous = false;
 
-char oldSpeed = '$';
-char currentSpeed = '7';
-char oldMove = 'd';
-char currentMove = 'S';
+//char oldSpeed = '$';
+//char currentSpeed = '7';
+//char oldMove = 'd';
+//char currentMove = 'S';
 
 int bytesAvailable=0;
 
 unsigned long nowMillis = millis(); 
 unsigned long previousMillis = nowMillis;
+
+long readValCounter =0;
 
 byte oldSensorSpeed;
 boolean flagSensorGo = false;
@@ -83,36 +85,40 @@ boolean noCompass = false;
 boolean noSonar = false;
 
 // void clearSerial(void);
-void clearSerial1(void){
-  
-  int getBytes = Serial.available();
-    if (getBytes > 0) // = -1 if none avaialble if more than one start reading them. 4 per second.
-  {
-    Serial.print("Serial Buffer: Found bytes=");
-    for (int i=0; i< getBytes; i++){
-    Serial.print(", 0x");
-    byte readValx = Serial.read();
-    Serial.print(readValx,HEX);
-    }
-    
-  Serial.print("  Finished Clearing serial buffer of ");
-  Serial.print(getBytes);
-  Serial.println("bytes");
-  } else {
-  Serial.println("== No extra bytes Found at Serial port ==");
-  }
-  
-}
+//void clearSerial1(void){
+//  
+//  int getBytes = Serial.available();
+//    if (getBytes > 0) // = -1 if none avaialble if more than one start reading them. 4 per second.
+//  {
+//    Serial.print("Serial Buffer: Found bytes=");
+//    for (int i=0; i< getBytes; i++){
+//    Serial.print(", 0x");
+//    byte readValx = Serial.read();
+//    Serial.print(readValx,HEX);
+//    }
+//    
+//  Serial.print("  Finished Clearing serial buffer of ");
+//  Serial.print(getBytes);
+//  Serial.println("bytes");
+//  } else {
+//  Serial.println("== No extra bytes Found at Serial port ==");
+//  }
+//  
+//}
 
 
 float heading = 0;
+int byteCount = 0;
+int byteCount2 = 0;
+byte readVal1 = 32;
+char readStr[64];
 
 Drive dewey;
 
 
 
 void setup()
-{
+  {
   delay (2000);  //leave a 2 seoncd delay before the program starts.  Used for program download time. 
   Serial.begin(115200);
   Serial.println("Dewey Alive and ready to take commands");
@@ -120,14 +126,14 @@ void setup()
  //  what version fo Motor Run theyy are using 
   Serial.println("Dewey Drive Code Version 14");
 
-setupEncoder();
-noSonar = setupSonar();  
+// setupEncoder();
+// noSonar = setupSonar();  
 
 // setupCylon();
-initializeLED();
-clearLED();   // Initialize all pixels to 'off'
+// initializeLED();
+// clearLED();   // Initialize all pixels to 'off'
   
-  compassEnabled = compassInit();
+//  compassEnabled = compassInit();
 //  if (compassEnabled)
 //    {
 //    Serial.println("Magnetometer Test -X -Z - Initialized"); Serial.println("");
@@ -142,7 +148,7 @@ clearLED();   // Initialize all pixels to 'off'
       
 Serial.println("Sonar and Compass Check Complete.");
   
-  clearSerial1();
+//  clearSerial1();
   
 }
 
@@ -155,7 +161,7 @@ void loop()
 
    
   // Every 500 milliseconds (1/2 second)check these things - and Print when necessary
-  if ((nowMillis - previousMillis) > 500){
+  if ((nowMillis - previousMillis) > 250){
 
 //      // Test to see if commend look is running
 //        Serial.print("2PreviousMillis=");
@@ -172,13 +178,38 @@ void loop()
     // when compass available print 
   //  Serial.println("  500 msecond timer");
 
-  
-  if (Serial.available() >= 1) // = -1 if none avaialble if more than one start reading them. 4 per second.
+  byteCount = Serial.available();
+//  Serial.print("ByteCount =");
+//  Serial.print(byteCount);
+  if (byteCount >0) // = -1 if none avaialble if more than one start reading them. 4 per second.
   {
-    char readVal1 = Serial.read();
-    Serial.print("Found Key=");
-    Serial.println(readVal1);
-    dewey.checkValue(readVal1);
+    readVal1 = Serial.read();
+    //byteCount2 = Serial.available();
+    if (readVal1>= '0' &&  readVal1 <= 'z' ){
+//    Serial.print("ByteCount2 =");
+//    Serial.print(byteCount2);
+     Serial.print(", ByteCount=");
+    Serial.print(byteCount);
+      Serial.print(", Bad Readval counter=");
+    Serial.print(readValCounter);
+    readValCounter=0;
+      
+    Serial.print(", Found Key=");
+    Serial.print(readVal1);
+        Serial.print(", (char)=");
+    Serial.print(char(readVal1));
+    // dewey.checkValue(readVal1);
+    }
+    else {
+//   Serial.readBytes(readStr, byteCount-1);
+//    Serial.print(", Found String=");
+//    Serial.println(readStr);
+    readValCounter ++;
+  }
+ 
+    
+    
+    
   }
       
   
@@ -235,11 +266,11 @@ void loop()
 //  compassTime();
   
 // Voltage check   
-    voltageCheck(nowMillis);
+//    voltageCheck(nowMillis);
 
 // Run Cylon program 
 
-    runCylon(nowMillis);    
+//    runCylon(nowMillis);    
     
 // Read encoder and if there is a chagne record and count changes
 //  readEncoder();

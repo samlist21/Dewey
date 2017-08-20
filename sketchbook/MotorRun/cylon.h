@@ -107,8 +107,7 @@ void CylonEyeDown( uint32_t Co, uint32_t Ct, uint32_t Ctt) {
     up = true;
   
   }
-
-  
+ 
 
 }
 
