@@ -9,6 +9,12 @@
 #include <Adafruit_Sensor.h>
 #include <Adafruit_LSM303_U.h>
 
+ //NeoPixel LED Digital Strip Cylon Eye v1.10 Created by EternalCore
+ // Library in /usr/share/arduino/libraries so it needs to eb declared here 
+ // not sure why this is necessary
+#include "Adafruit_NeoPixel.h"
+#include "cylon.h"
+
 //#include "compass.h"
 
 // Motor Run with pins 5,6,   10,11
@@ -20,11 +26,7 @@
 #include "def.h"
 #include "sonar.h"
 
- //NeoPixel LED Digital Strip Cylon Eye v1.10 Created by EternalCore
- // Library in /usr/share/arduino/libraries so it needs to eb declared here 
- // not sure why this is necessary
-#include "Adafruit_NeoPixel.h"
-#include "cylon.h"
+
 
 //char readVal = '$';
 //byte bytVal = 74;
@@ -109,7 +111,7 @@ void loop()
     Serial.print(readVal);
     Serial.print(" (char)");
     Serial.println(char(readVal));
-//    dewey.checkValue(readVal);
+    dewey.checkValue(readVal);
  
     
   }

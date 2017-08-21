@@ -117,8 +117,9 @@ void CylonEyeDown( uint32_t Co, uint32_t Ct, uint32_t Ctt) {
 
 
 void runCylon(unsigned long nowMillis7, boolean cylonEnable1){
+  // Do not EVER Put anything here - The gets run 1000 tiems a second.
    // check mills and do this every 60 ms  using wait_T above.
-    if (((nowMillis7 - cylonMillis) > wait_T) &  cylonEnable1) {
+    if (((nowMillis7 - cylonMillis) > wait_T) &&  cylonEnable1) {
 
     // save the last time you blinked the LED string
     cylonMillis = nowMillis7;

@@ -141,7 +141,7 @@ void encoderClear(){
   
   
   void encoderTime(unsigned long nowMillis3){
-  
+    // Do not EVER Put anything here - The gets run 1000 tiems a second.
      // check mills and do this every 60 ms  using wait_compass above.
     if (nowMillis3 - encoderReadMillis >= wait_encoder) {
           encoderReadMillis = nowMillis3;

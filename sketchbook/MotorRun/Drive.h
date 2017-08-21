@@ -211,20 +211,20 @@ void Drive::driveUpdate () {
 //          Serial.print(" Turn Difference: ");
 //          Serial.println(difference);
   //readEncoder();
-  int a = encoderDiff();
-   Serial.print(" Encoder Diff: ");
-    Serial.println(a); 
-  
-      if (encoderDiff()< -30 || encoderDiff()> 30 ){
-//      if (headingDiff(setHeading, compass())< -89){
-      driveDirection = 'F';
-    driveFWD();
-    Serial.print(" Heading Diff: ");
-    Serial.print(headingDiff(setHeading, compass())); 
-    Serial.print(" Encoder Diff: ");
-    Serial.println(a); 
-    Serial.println("--Left Turn 90 degrees complete");
-      }
+//  int a = encoderDiff();
+//   Serial.print(" Encoder Diff: ");
+//    Serial.println(a); 
+//  
+//      if (encoderDiff()< -30 || encoderDiff()> 30 ){
+////      if (headingDiff(setHeading, compass())< -89){
+//      driveDirection = 'F';
+//    driveFWD();
+//    Serial.print(" Heading Diff: ");
+//    Serial.print(headingDiff(setHeading, compass())); 
+//    Serial.print(" Encoder Diff: ");
+//    Serial.println(a); 
+//    Serial.println("--Left Turn 90 degrees complete");
+//      }
   }
   
       if (driveDirection == 'M' ) {
@@ -238,14 +238,14 @@ void Drive::driveUpdate () {
 //          Serial.println(difference);
         
         // Done turning 90 degrees rightt 
-              if (encoderDiff()> 30 || encoderDiff()< -30){
-//      if (headingDiff(setHeading, compass()) > 89){
-      driveDirection = 'F';
-    driveFWD();
-    Serial.print(" Heading Diff: ");
-    Serial.print(headingDiff(setHeading, compass()));  
-    Serial.println("Right Turn 90 degrees complete");
-      }
+//              if (encoderDiff()> 30 || encoderDiff()< -30){
+////      if (headingDiff(setHeading, compass()) > 89){
+//      driveDirection = 'F';
+//    driveFWD();
+//    Serial.print(" Heading Diff: ");
+//    Serial.print(headingDiff(setHeading, compass()));  
+//    Serial.println("Right Turn 90 degrees complete");
+//      }
   }
   
   
@@ -275,19 +275,19 @@ void Drive::headingCompensate(){
 
  //      Calculate the heading difference   
    //  difference = headingDiff(setHeading,driveHeading);
-    int encoderDiff1 = encoderDiff();
-// Compensate for the difference in heading
-     //if (difference > 3){
-     if (encoderDiff1 > 2) {
-     void rightCompUp();
-     //driveDisplayHeading();
-    }
-    // else if (difference < -3){
-    else if (encoderDiff1 < -2) {
-    rightCompDown();;
-    //driveDisplayHeading();
-    }
-    else
+//    int encoderDiff1 = encoderDiff();
+//// Compensate for the difference in heading
+//     //if (difference > 3){
+//     if (encoderDiff1 > 2) {
+//     void rightCompUp();
+//     //driveDisplayHeading();
+//    }
+//    // else if (difference < -3){
+//    else if (encoderDiff1 < -2) {
+//    rightCompDown();;
+//    //driveDisplayHeading();
+//    }
+//    else
     driveCompReset();
   };
 
@@ -324,8 +324,8 @@ void Drive::checkValue (byte value) {
       
     }
     else {
-      setHeading = compass();
-      encoderClear();
+//      setHeading = compass();
+//      encoderClear();
            
       byte oldMove = driveDirection;
       
@@ -378,8 +378,12 @@ void Drive::checkValue (byte value) {
 
       case 'c':
       case 'C':
+       Serial.print(cylonEnable);
       // ToggleCylon
-        cylonEnable != cylonEnable;
+        cylonEnable = !cylonEnable;
+         Serial.print("Toggling Cylon Enable ");
+          Serial.println(cylonEnable);
+          clearLED();
         
         break;
 
