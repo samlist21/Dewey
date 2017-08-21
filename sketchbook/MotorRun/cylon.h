@@ -19,49 +19,56 @@
 
 #define PIN 7 //The Pin out your Neopixel DIN strip/stick is connected to (Default is 6)
 #define TPIXEL 29 //The total amount of pixel's/led's in your connected strip/stick (Default is 60)
-int wait_T=60; //This is the delay between moving back and forth and per pixel
-//int wait_T=6000; //This is the delay between moving back and forth and per pixel
+int wait_T=100; //This is the delay between moving back and forth and per pixel
+
 // Wait time is handled by motorRun Program not here but coudl be done here as well. 
 int PixelCount=21; //Set this to the AMOUNT of Led's/Pixels you have or want to use on your strip And It can be used to tell where to Stop then return the eye at in the strip
 int Pixel_Start_End=5; //Set this to where you want it to Start/End at
 
 //Standard Strip function
-Adafruit_NeoPixel strip1 = Adafruit_NeoPixel(TPIXEL, PIN, NEO_GRB + NEO_KHZ800); 
+Adafruit_NeoPixel strip = Adafruit_NeoPixel(TPIXEL, PIN, NEO_GRB + NEO_KHZ800); 
 
-
+boolean cylonEnable = true; 
 int cylonCounter=0;
 boolean up =true;
 unsigned long cylonMillis = millis();
 
+
+void cylonSetup(){
+    strip.begin();
+  strip.show(); // Initialize all pixels to 'off'
+ 
+  
+}
+
+
 void initializeLED() {
-   strip1.begin();
+   strip.begin();
 }
 
 void clearLED() {
  
-  strip1.clear(); //Now clear the bar
+  strip.clear(); //Now clear the bar
 
 }
 
 void CylonEyeUp( uint32_t Co, uint32_t Ct, uint32_t Ctt) {
   static int pStart = Pixel_Start_End;  // this is the start point
-//  Serial.println("Eye Up");
-  //boolean up =true;
-  //
+
 //  clear LED strip before you start
-  strip1.clear();
+  strip.clear();
   
     int i = pStart;
     if (pStart<PixelCount){
   //  Full the dot buffer
     
-    strip1.setPixelColor(i+2, Ctt);  //Third Dot Color
-    strip1.setPixelColor(i+1, Ct);   //Second Dot Color
-    strip1.setPixelColor(i, Co);     //Center Dot Color
-    strip1.setPixelColor(i-1, Ct);   //Second Dot Color
-    strip1.setPixelColor(i-2, Ctt);  //Third Dot Color
+    strip.setPixelColor(i+2, Ctt);  //Third Dot Color
+    strip.setPixelColor(i+1, Ct);   //Second Dot Color
+    strip.setPixelColor(i, Co);     //Center Dot Color
+    strip.setPixelColor(i-1, Ct);   //Second Dot Color
+    strip.setPixelColor(i-2, Ctt);  //Third Dot Color
     
-    strip1.show();
+    strip.show();
    
     pStart++;
     }
@@ -71,36 +78,32 @@ void CylonEyeUp( uint32_t Co, uint32_t Ct, uint32_t Ctt) {
     up = false;
     
     }
-    
-    //Serial.println(i); //Used For pixel Count Debugging
-//    delay(Delay);
-
+//    Serial.print(" U"); //Used For pixel Count Debugging
+//    Serial.print(i); //Used For pixel Count Debugging
   
 }
 
 void CylonEyeDown( uint32_t Co, uint32_t Ct, uint32_t Ctt) {
   static int pEnd = PixelCount;
   int i = pEnd;
-//  Serial.println("Eye Down");
-//  boolean up = false;
+  
 //  clear LED Strip before you start
 
-  strip1.clear();
+  strip.clear();
  
   if (i>Pixel_Start_End){
     // strip1.setPixelColor(i-3, strip1.Color(0,0,0)); //Clears the first dot after the 3rd color
-    strip1.setPixelColor(i-2, Ctt);  //Third Dot Color
-    strip1.setPixelColor(i-1, Ct);   //Second Dot Color
-    strip1.setPixelColor(i, Co);    //Center Dot Color
-    strip1.setPixelColor(i+1, Ct);  //Second Dot Color
+    strip.setPixelColor(i-2, Ctt);  //Third Dot Color
+    strip.setPixelColor(i-1, Ct);   //Second Dot Color
+    strip.setPixelColor(i, Co);    //Center Dot Color
+    strip.setPixelColor(i+1, Ct);  //Second Dot Color
     
-    strip1.setPixelColor(i+2, Ctt);  //Third Dot Color
+    strip.setPixelColor(i+2, Ctt);  //Third Dot Color
 
-     strip1.show();
-//    Serial.println(i); //Used For pixel Count Debugging
-//    delay(Delay);
-//    Serial.print(" ");
-//    Serial.print(pEnd);
+     strip.show();
+//    Serial.print(" D"); //Used For pixel Count Debugging
+//    Serial.print(i);  //Used For pixel Count Debugging
+
   pEnd--;
   }
   else{
@@ -113,13 +116,9 @@ void CylonEyeDown( uint32_t Co, uint32_t Ct, uint32_t Ctt) {
 }
 
 
-void runCylon(unsigned long nowMillis7){
+void runCylon(unsigned long nowMillis7, boolean cylonEnable1){
    // check mills and do this every 60 ms  using wait_T above.
-    if ((nowMillis7 - cylonMillis) > wait_T) {
-
-//      Serial.print("Up Status=");
-//      Serial.print(up);
-//      Serial.println(", Cylon start");
+    if (((nowMillis7 - cylonMillis) > wait_T) &  cylonEnable1) {
 
     // save the last time you blinked the LED string
     cylonMillis = nowMillis7;

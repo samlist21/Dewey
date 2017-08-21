@@ -476,10 +476,10 @@ while 1:
             print("Stdin closed\r")
 
             if setGLCD:
-                print("GLCD Port closed")
+                print("GLCD Port closed\r")
                 lcd.stop()
                 
-            print("Port and program closed")
+            print("Port and program closed\r")
 
             # Exit if desired
             #exit()
@@ -561,7 +561,7 @@ while 1:
     inputVal = "z"
     inputValUpper = 'Z'
 
-print("Running Flush Functions")
+print("Running Flush Functions\r")
 sys.stdin.flush()
 sys.stdout.flush()
 termios.tcsetattr(sys.stdin,termios.TCSADRAIN, orig_settings)

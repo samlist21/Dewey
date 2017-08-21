@@ -28,6 +28,7 @@ const int oneSecInUsec = 1000000; // a second in micro second units
 const int trigPin = 2;    //Trig - green Jumper
 const int echoPin = 4;    //Echo - yellow Jumper
 long duration, cm, inches;
+long distance=0;
 
 int wait_sonar = 250;  //set compass reading  wait  time
 unsigned long sonarMillis = millis();
@@ -41,6 +42,7 @@ unsigned long sonarMillis = millis();
 long sonarArray[3];
 long sonarAverage();
 void addSonar(long sensor);
+boolean noSonar = false;
 
 boolean setupSonar()
 {
@@ -150,15 +152,21 @@ void printDistance(long duration) {
   Serial.print("cm  ");
 }
 
-long sonarTime(boolean noSonar1, unsigned long nowMillis4){
+void sonarTime(boolean noSonar1, unsigned long nowMillis4){
   
      // check mills and do this every 60 ms  using wait_compass above.
      if (!noSonar1){
     if ((nowMillis4 - sonarMillis) >= wait_sonar) {
           sonarMillis = nowMillis4;
-      long distance = getSonar(noSonar1);
-      return distance;
+      distance = getSonar(noSonar1);
+      
       }
     } 
+  
+}
+
+long getDistance(){
+ 
+      return distance;
   
 }

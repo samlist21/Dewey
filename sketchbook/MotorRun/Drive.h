@@ -375,6 +375,14 @@ void Drive::checkValue (byte value) {
    // displayHeading(); 
         
         break;
+
+      case 'c':
+      case 'C':
+      // ToggleCylon
+        cylonEnable != cylonEnable;
+        
+        break;
+
       case 'b':
       case 'B':
         driveDirection = 'B';
