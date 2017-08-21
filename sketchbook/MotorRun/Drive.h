@@ -63,7 +63,7 @@ class Drive {
     float setHeading = 0;
     float driveHeading = 0;
     float difference = 0;
-    int wait_drive = 1000;  //set compass reading  wait  time
+    int wait_drive = 250;  //set compass reading  wait  time
     unsigned long driveMillis = millis();
     
     byte driveDirection = 'S';  // Start in STOP mode
@@ -314,12 +314,12 @@ void Drive::encoderCompensate(){
      }
      else if (encoderDiff1 > 2) {
 
-       Serial.println(" Encoder Right Comp Up");
-     rightCompUp();
+       Serial.println(" Encoder Right Comp Down");
+     rightCompDown();
      }
     else if (encoderDiff1 < -2) {
-      Serial.println("Encoder Right Comp Down");
-    rightCompDown();;
+      Serial.println("Encoder Right Comp Up");
+    rightCompUp();;
     }
     else 
     // looking good do nothing
@@ -497,7 +497,12 @@ void Drive::driveFWD () {
   analogWrite(Right_CCW, 0);
   analogWrite(Right_CW, driveSpeed - Right_Comp);
   driveDirection = 'F';
-    Serial.print("Comp R=");
+  
+      Serial.print("Speed R=");
+    Serial.print(driveSpeed-Right_Comp);
+      Serial.print(", L=");
+    Serial.print(driveSpeed-Left_Comp);
+    Serial.print(", Comp R=");
     Serial.print(Right_Comp);
       Serial.print(", L=");
     Serial.println(Left_Comp);
@@ -556,20 +561,20 @@ void Drive::driveCompReset () {
   
   void Drive::rightCompUp () {
   
-    if ((Right_Comp +2) >254)
+    if ((Right_Comp +1) >254)
     // Don't let right comp go over max value 255
     
-    Left_Comp = Left_Comp - 2;
+    Left_Comp = Left_Comp - 1;
     else    
     // if at max vlaue then reduce left comp
-     Right_Comp = Right_Comp + 2;
+     Right_Comp = Right_Comp + 1;
     
      
   }
   
   void Drive::rightCompDown () {
   
-  Right_Comp = Right_Comp - 2;
+  Right_Comp = Right_Comp - 1;
   }
   
   

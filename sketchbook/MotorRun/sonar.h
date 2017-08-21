@@ -133,7 +133,7 @@ long getSonar(boolean noSonar1) {
   pinMode(echoPin, INPUT);
   duration = pulseIn(echoPin, HIGH); // without timeout
   //  with timeout but doesn't seem to workwell
-  duration = pulseIn(echoPin, HIGH,2000);
+ // duration = pulseIn(echoPin, HIGH,2000);
   
     if (duration == 0) {
     Serial.print("Duration=");
