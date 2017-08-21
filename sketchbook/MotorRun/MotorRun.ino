@@ -136,6 +136,7 @@ void loop()
   // Run Voltage Check 
     voltageCheck(nowMillis);
 
+  dewey.driveUpdateTime(nowMillis);
   
 }  // End of Loop
 

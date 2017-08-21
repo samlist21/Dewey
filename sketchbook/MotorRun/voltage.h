@@ -49,8 +49,8 @@ void readVoltage(int reading) {
 
 
   int busCounts = analogRead(reading);
-    Serial.print("VoltageCount=");
-    Serial.println(busCounts);
+//    Serial.print("VoltageCount=");
+//    Serial.println(busCounts);
   float calcVoltage = busCounts / voltFactor;
 
   dtostrf(calcVoltage, 4, 2, floatStrCalc);

@@ -169,24 +169,24 @@ void displayAccelDetails(){
 }
 
 
-void compassTime(){
+void compassTime(unsigned long nowMillis6){
     // Do not EVER Put anything here - The gets run 1000 tiems a second.
      // check mills and do this every 60 ms  using wait_compass above.
-    if (millis() - compassMillis >= wait_compass) {
+    if (nowMillis6 - compassMillis >= wait_compass) {
 
     // save the last time you took a compass reading
-    compassMillis = millis();
+    compassMillis = nowMillis6;
     currentHeadingVal = compass();
     }
   
 }
 
 
-void accelTime(){
+void accelTime(unsigned long nowMillis9){
     // Do not EVER Put anything here - The gets run 1000 tiems a second.
      // check mills and do this every 60 ms  using wait_compass above.
-    if (millis() - accelMillis >= wait_accel) {
-          accelMillis = millis();
+    if (nowMillis9 - accelMillis >= wait_accel) {
+          accelMillis = nowMillis9;
       getAccel();
     }
   

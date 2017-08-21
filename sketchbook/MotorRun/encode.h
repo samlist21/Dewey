@@ -20,7 +20,7 @@ boolean encoderChange = false;
 char encodeStrBuff[15] = {'Hello'};
 
 
-int wait_encoder = 100;  //set compass reading  wait  time
+int wait_encoder = 75;  //set compass reading  wait  time
 unsigned long encoderReadMillis = millis();
 
 unsigned long encoderMillisPast = millis();
@@ -61,8 +61,12 @@ void displayEncoderChange(){
 		// Print current Diff 
 		Serial.print (" Encoder Diff=");
 		Serial.print (encoderDiff());
-
-
+		Serial.print (", MillsR=");
+		Serial.print (encoderMillisRight);
+		Serial.print (", MillsL=");
+		Serial.print (encoderMillisLeft);
+   encoderRightRate = encoderMillisRight/1000;
+   encoderLeftRate = encoderMillisLeft/1000;
 		// Print current Rate 
          dtostrf(encoderLeftRate, 4, 2, encodeStrBuff);
 		Serial.print (" LRate=");
@@ -96,7 +100,7 @@ void readEncoder(){
    encoderRightCount++;
    encoderChange = true;
    encoderMillisRight = millis() - encoderMillisRight;
-   encoderRightRate = 1 / encoderMillisRight;
+
    encoderRightPrevious = encoderRightState;
  }
    
@@ -104,7 +108,7 @@ void readEncoder(){
    encoderLeftCount++;
    encoderChange = true;
    encoderMillisLeft = millis() - encoderMillisLeft;
-   encoderLeftRate = 1 / encoderMillisLeft;
+
    encoderLeftPrevious = encoderLeftState;
  }
    

@@ -49,10 +49,12 @@ class Drive {
     void driveResume();
     void checkValue (byte);
     void headingCompensate();
+    void encoderCompensate();
     void driveDisplayHeading();
     void driveCompReset();
     void rightCompUp();
     void rightCompDown();
+    void driveUpdateTime(unsigned long );
 
   private:
     byte driveSpeed = 100 ;
@@ -61,6 +63,8 @@ class Drive {
     float setHeading = 0;
     float driveHeading = 0;
     float difference = 0;
+    int wait_drive = 1000;  //set compass reading  wait  time
+    unsigned long driveMillis = millis();
     
     byte driveDirection = 'S';  // Start in STOP mode
     byte driveCommand = 'S';  // Start drive command STOP
@@ -150,8 +154,8 @@ void Drive::driveAutonomous (long cm)
 
 // this is the drive action that updates any changed parameters on the drive
 void Drive::driveUpdate () {
-  
-
+  // Debugging check for drive updating
+  //  Serial.println("Drive update Run");
   
   if (driveDirection == 'F' ) {
     
@@ -159,7 +163,8 @@ void Drive::driveUpdate () {
           // Hold - Don't go forward if in hold
   // read compass
     
-   // headingCompensate();
+   //headingCompensate();
+   encoderCompensate();
     driveFWD();
     
     // driveDisplayHeading();
@@ -291,6 +296,31 @@ void Drive::headingCompensate(){
     driveCompReset();
   };
 
+void Drive::encoderCompensate(){
+ //      Read current encoder difference
+    int encoderDiff1 = encoderDiff();
+//// Compensate for the difference in heading
+       Serial.print(" Diff=");
+       Serial.print(encoderDiff1);
+
+     if ((encoderDiff1 > 20) || (encoderDiff1 < -20)) {
+     driveCompReset();
+     Serial.println(" Encoder Comp Reset");;
+     }
+     else if (encoderDiff1 > 2) {
+
+       Serial.println(" Encoder Right Comp Up");
+     rightCompUp();
+     }
+    else if (encoderDiff1 < -2) {
+      Serial.println("Encoder Right Comp Down");
+    rightCompDown();;
+    }
+    else 
+    // looking good do nothing
+     Serial.println(" Encoder No Comp");;
+  };
+
 byte Drive::driveStatus () {
 
    //readEncoder();
@@ -298,7 +328,7 @@ byte Drive::driveStatus () {
     // Turn on to display the heading and comp
   //  driveDisplayHeading();
 
-    driveUpdate();
+  //  driveUpdate();
     
   
   return driveDirection;
@@ -309,9 +339,9 @@ byte Drive::driveStatus () {
 void Drive::checkValue (byte value) {
 
 
-    if (value >= '0' and value <= '9') {
+    if (value >= '1' and value <= '9') {
       byte oldSpeed = driveSpeed;
-      driveSpeed = ((((value - '0') + 6) * 16) + 15);
+      driveSpeed = ((((value - '1') + 6) * 16) + 15);
       
 // Print Change for debugging
     Serial.print("OldSpeed=");
@@ -333,9 +363,6 @@ void Drive::checkValue (byte value) {
     switch (value) {
       case 'x':
       case 'X':
-        driveDirection = 'S';
-        driveSTOP();
-        break;
       case 's':
       case 'S':
       case '0':
@@ -354,7 +381,7 @@ void Drive::checkValue (byte value) {
 //    displayHeading();
 
 // Reset Compensation values to default
-    driveCompReset();
+   // driveCompReset();
 
 
 // Store heading value  before we start moving  - test both
@@ -453,7 +480,7 @@ void Drive::checkValue (byte value) {
     
         
     } // end else
-    driveUpdate();
+  //  driveUpdate();
 
     
 };
@@ -486,19 +513,21 @@ void Drive::driveSTOP () {
 void Drive::driveRIGHT () {
   analogWrite(Left_CW, 0);
   analogWrite(Left_CCW, driveSpeed / 2);
-  analogWrite(Right_CCW, driveSpeed / 2);
-  analogWrite(Right_CW, 0);
+    analogWrite(Left_CCW, 0);
+//  analogWrite(Right_CCW, driveSpeed / 2);
+     analogWrite(Right_CCW, 0);
+     analogWrite(Right_CW, 0);
   
   if (driveDirection != 'M')
   driveDirection = 'R';
 };
 
 void Drive::driveLEFT () {
-  analogWrite(Left_CW, driveSpeed / 2);
+ // analogWrite(Left_CW, driveSpeed / 2);
+  analogWrite(Left_CW, 0);
   analogWrite(Left_CCW, 0);
-  analogWrite(Right_CCW, 0);
   analogWrite(Right_CW, driveSpeed / 2);
-  
+  analogWrite(Right_CW, 0);  
   if (driveDirection != 'N')
   driveDirection = 'L';
 };
@@ -511,7 +540,7 @@ byte Drive:: isAutonomous() {
 void Drive::driveCompReset () {
     Right_Comp =  rightCompDefault;
     // currently only changing right wheel - Left is const
-    //Left_Comp = leftCompDefault;
+    Left_Comp = leftCompDefault;
     
   }
   
@@ -532,3 +561,14 @@ void Drive::driveCompReset () {
   
   Right_Comp = Right_Comp - 1;
   }
+  
+  
+  void Drive::driveUpdateTime(unsigned long nowMillis8){
+    // Do not EVER Put anything here - The gets run 1000 tiems a second.
+     // check mills and do this every 60 ms  using wait_compass above.
+    if (nowMillis8 - driveMillis >= wait_drive) {
+          driveMillis = millis();
+      driveUpdate();
+    }
+  
+}
