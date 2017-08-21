@@ -19,7 +19,7 @@
 
 // Motor Run with pins 5,6,   10,11
 
-//#include "encode.h"
+#include "encode.h"
 #include "Arduino.h"
 #include "Drive.h"
 #include "voltage.h"
@@ -65,12 +65,16 @@ void setup()
  //  what version fo Motor Run theyy are using 
   Serial.println("Dewey Drive Code Version 14");
   
+  // setup Encoder
+  setupEncoder();
+ 
+  // setup Cylon 
   cylonSetup(); 
 
  // Setup sonar  - if not connected or readign 0 then set to true
   noSonar = setupSonar();
 
-  
+    Serial.println("Dewey Setup Complete");
 }
 
 void loop()
@@ -121,6 +125,9 @@ void loop()
 
   // Check sonar distance
     sonarTime(noSonar, nowMillis);
+    
+  // Read encoder
+  encoderTime(nowMillis);  
 
   // Run Cylon program 
 

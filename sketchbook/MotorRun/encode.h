@@ -136,6 +136,7 @@ void readEncoder(){
 void encoderClear(){
   encoderLeftCount =0;
   encoderRightCount=0;
+  Serial.println("Encoder Cleared");
 }
   
   

@@ -325,7 +325,7 @@ void Drive::checkValue (byte value) {
     }
     else {
 //      setHeading = compass();
-//      encoderClear();
+      encoderClear();
            
       byte oldMove = driveDirection;
       
@@ -354,7 +354,7 @@ void Drive::checkValue (byte value) {
 
 // Reset Compensation values to default
     driveCompReset();
-//    encoderClear();
+
 
 // Store heading value  before we start moving  - test both
 
