@@ -154,14 +154,14 @@ void printDistance(long duration) {
   Serial.print("cm  ");
 }
 
-void sonarTime(boolean noSonar1, unsigned long nowMillis4){
+long sonarTime(boolean noSonar1, unsigned long nowMillis4){
     // Do not EVER Put anything here - The gets run 1000 tiems a second.
      // check mills and do this every 60 ms  using wait_compass above.
      
     if (((nowMillis4 - sonarMillis) >= wait_sonar) && !noSonar) {
           sonarMillis = nowMillis4;
       distance = getSonar(noSonar1);
-      
+      return distance;
       }
     } 
 

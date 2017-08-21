@@ -20,7 +20,7 @@ boolean encoderChange = false;
 char encodeStrBuff[15] = {'Hello'};
 
 
-int wait_encoder = 50;  //set compass reading  wait  time
+int wait_encoder = 25;  //set compass reading  wait  time
 unsigned long encoderReadMillis = millis();
 
 unsigned long encoderMillisPast = millis();

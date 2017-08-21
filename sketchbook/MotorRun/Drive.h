@@ -159,7 +159,7 @@ void Drive::driveUpdate () {
   
   if (driveDirection == 'F' ) {
     
-  //      if (hold != true) {
+        if (hold != true) {
           // Hold - Don't go forward if in hold
   // read compass
     
@@ -181,7 +181,13 @@ void Drive::driveUpdate () {
 //    Serial.print("  Heading Diff=");
 //    Serial.println(difference);
     
- //     } // End hold
+      } else  // End hold
+      {
+        
+        // Go right if blocked
+        driveRIGHT();
+
+      }
   }  // End Forward
   if (driveDirection == 'B' ) {
     driveBACK();
@@ -217,8 +223,8 @@ void Drive::driveUpdate () {
 //          Serial.println(difference);
   //readEncoder();
   int a = encoderDiff();
-    Serial.print(" Left Encoder Diff: ");
-    Serial.println(a); 
+//    Serial.print(" Left Encoder Diff: ");
+//    Serial.println(a); 
 //  
       if (a< -40) {
         // 40  count is about a 90 degree turn
@@ -243,8 +249,8 @@ void Drive::driveUpdate () {
 //          Serial.print(" Turn Difference: ");
 //          Serial.println(difference);
      int a = encoderDiff();     
-    Serial.print(" Right Encoder Diff: ");
-    Serial.println(a); 
+//    Serial.print(" Right Encoder Diff: ");
+//    Serial.println(a); 
         // Done turning 90 degrees rightt 
               if (a> 40){
 //      if (headingDiff(setHeading, compass()) > 89){
@@ -312,14 +318,14 @@ void Drive::encoderCompensate(){
      Serial.println(" Encoder Comp Reset");
 
      }
-     else if (encoderDiff1 > 2) {
+     else if (encoderDiff1 > 1) {
 
-       Serial.println(" Encoder Right Comp Down");
-     rightCompDown();
+       Serial.println(" Encoder Right Comp Up");
+     rightCompUp();
      }
-    else if (encoderDiff1 < -2) {
-      Serial.println("Encoder Right Comp Up");
-    rightCompUp();;
+    else if (encoderDiff1 < -1) {
+      Serial.println("Encoder Right Comp Down");
+    rightCompDown();;
     }
     else 
     // looking good do nothing

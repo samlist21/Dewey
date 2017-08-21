@@ -124,7 +124,9 @@ void loop()
   }  // currentMills - previousMills is less than than time
 
   // Check sonar distance
-    sonarTime(noSonar, nowMillis);
+   long dist = sonarTime(noSonar, nowMillis);
+   if (convertCM (dist) < 15){
+     dewey.driveHold();}
     
   // Read encoder
   encoderTime(nowMillis);  
