@@ -20,12 +20,15 @@ boolean encoderChange = false;
 char encodeStrBuff[15] = {'Hello'};
 
 
-int wait_encoder = 75;  //set compass reading  wait  time
+int wait_encoder = 50;  //set compass reading  wait  time
 unsigned long encoderReadMillis = millis();
 
 unsigned long encoderMillisPast = millis();
 unsigned long encoderMillisLeft = millis();
 unsigned long encoderMillisRight = millis();
+unsigned long encoderMillisLeftPrevious = millis();
+unsigned long encoderMillisRightPrevious = millis();
+
 unsigned long encoderMillis = 0;
 
 int printCounter=0;
@@ -87,7 +90,7 @@ void displayEncoderChange(){
 
 void readEncoder(){
 	 int inReg = PINB;
-//	encoderMillis = millis() - encoderMillisPast;
+	encoderMillis = millis();
 	
 //  if (encoderMillis >250){
 
@@ -97,19 +100,21 @@ void readEncoder(){
  encoderLeftState = (inReg &  B00000010)>>1;
   
  if (encoderRightState != encoderRightPrevious){
+   encoderRightPrevious = encoderRightState;
    encoderRightCount++;
    encoderChange = true;
-   encoderMillisRight = millis() - encoderMillisRight;
+   encoderMillisRight = encoderMillis - encoderMillisRightPrevious;
 
-   encoderRightPrevious = encoderRightState;
+   encoderMillisRightPrevious = encoderMillis;
  }
    
    if (encoderLeftState != encoderLeftPrevious){
+     encoderLeftPrevious = encoderLeftState;
    encoderLeftCount++;
    encoderChange = true;
-   encoderMillisLeft = millis() - encoderMillisLeft;
+   encoderMillisLeft = encoderMillis - encoderMillisLeftPrevious;
 
-   encoderLeftPrevious = encoderLeftState;
+   encoderMillisLeftPrevious = encoderMillis;
  }
    
 //   encoderLeftRate = encoderLeftCount / encoderMillis;
@@ -119,7 +124,7 @@ void readEncoder(){
    if (encoderChange){
      // For every 20 changes in encoder vlaue print out the status
      printCounter++;
-     if (printCounter > 20){
+     if (printCounter > 40){
        displayEncoderChange();
        printCounter =0;
      }

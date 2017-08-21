@@ -216,20 +216,21 @@ void Drive::driveUpdate () {
 //          Serial.print(" Turn Difference: ");
 //          Serial.println(difference);
   //readEncoder();
-//  int a = encoderDiff();
-//   Serial.print(" Encoder Diff: ");
-//    Serial.println(a); 
+  int a = encoderDiff();
+    Serial.print(" Left Encoder Diff: ");
+    Serial.println(a); 
 //  
-//      if (encoderDiff()< -30 || encoderDiff()> 30 ){
+      if (a< -40) {
+        // 40  count is about a 90 degree turn
 ////      if (headingDiff(setHeading, compass())< -89){
 //      driveDirection = 'F';
-//    driveFWD();
+    driveFWD();
 //    Serial.print(" Heading Diff: ");
 //    Serial.print(headingDiff(setHeading, compass())); 
-//    Serial.print(" Encoder Diff: ");
-//    Serial.println(a); 
-//    Serial.println("--Left Turn 90 degrees complete");
-//      }
+    Serial.print(" Encoder Diff: ");
+    Serial.print(a); 
+    Serial.println("--Left Turn 90 degrees complete");
+    }
   }
   
       if (driveDirection == 'M' ) {
@@ -241,16 +242,18 @@ void Drive::driveUpdate () {
 //          Serial.print(setHeading);
 //          Serial.print(" Turn Difference: ");
 //          Serial.println(difference);
-        
+     int a = encoderDiff();     
+    Serial.print(" Right Encoder Diff: ");
+    Serial.println(a); 
         // Done turning 90 degrees rightt 
-//              if (encoderDiff()> 30 || encoderDiff()< -30){
-////      if (headingDiff(setHeading, compass()) > 89){
-//      driveDirection = 'F';
-//    driveFWD();
-//    Serial.print(" Heading Diff: ");
-//    Serial.print(headingDiff(setHeading, compass()));  
-//    Serial.println("Right Turn 90 degrees complete");
-//      }
+              if (a> 40){
+//      if (headingDiff(setHeading, compass()) > 89){
+      driveDirection = 'F';
+    driveFWD();
+    Serial.print(" Encoder Diff: ");
+    Serial.print(a); 
+    Serial.println("--Right Turn 90 degrees complete");
+      }
   }
   
   
@@ -305,7 +308,9 @@ void Drive::encoderCompensate(){
 
      if ((encoderDiff1 > 20) || (encoderDiff1 < -20)) {
      driveCompReset();
-     Serial.println(" Encoder Comp Reset");;
+      encoderClear();    
+     Serial.println(" Encoder Comp Reset");
+
      }
      else if (encoderDiff1 > 2) {
 
@@ -492,6 +497,10 @@ void Drive::driveFWD () {
   analogWrite(Right_CCW, 0);
   analogWrite(Right_CW, driveSpeed - Right_Comp);
   driveDirection = 'F';
+    Serial.print("Comp R=");
+    Serial.print(Right_Comp);
+      Serial.print(", L=");
+    Serial.println(Left_Comp);
 };
 
 void Drive::driveBACK () {
@@ -513,7 +522,7 @@ void Drive::driveSTOP () {
 void Drive::driveRIGHT () {
   analogWrite(Left_CW, 0);
   analogWrite(Left_CCW, driveSpeed / 2);
-    analogWrite(Left_CCW, 0);
+//    analogWrite(Left_CCW, 0);
 //  analogWrite(Right_CCW, driveSpeed / 2);
      analogWrite(Right_CCW, 0);
      analogWrite(Right_CW, 0);
@@ -526,8 +535,9 @@ void Drive::driveLEFT () {
  // analogWrite(Left_CW, driveSpeed / 2);
   analogWrite(Left_CW, 0);
   analogWrite(Left_CCW, 0);
+  analogWrite(Right_CCW, 0);
   analogWrite(Right_CW, driveSpeed / 2);
-  analogWrite(Right_CW, 0);  
+  
   if (driveDirection != 'N')
   driveDirection = 'L';
 };
@@ -546,20 +556,20 @@ void Drive::driveCompReset () {
   
   void Drive::rightCompUp () {
   
-    if (Right_Comp >254)
+    if ((Right_Comp +2) >254)
     // Don't let right comp go over max value 255
     
-    Left_Comp = Left_Comp - 1;
+    Left_Comp = Left_Comp - 2;
     else    
     // if at max vlaue then reduce left comp
-     Right_Comp = Right_Comp + 1;
+     Right_Comp = Right_Comp + 2;
     
      
   }
   
   void Drive::rightCompDown () {
   
-  Right_Comp = Right_Comp - 1;
+  Right_Comp = Right_Comp - 2;
   }
   
   
