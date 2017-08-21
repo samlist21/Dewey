@@ -8,29 +8,37 @@
 #include "def.h"
 
 unsigned long voltageMillis = millis();
+ // voltagePin voltRead = ELECTRONICS;  
+  int voltRead = 0; 
 
-
-void readVoltage(byte reading) {
+void readVoltage(int reading) {
   char floatStrCalc[10]= {'aaaaaaaa'};
   char floatStrBus[10];
   char StrBuff[15] = {'Hello'};
+  
+  
+
+  float voltFactor =1;
   int pin = 0; // 0 = Electroinics Voltage
   String name = "None";   //name of pin being addressed
 
   switch (reading) {
-    case  ELECTRONICS :
+    case  0 :
       strcpy(StrBuff,"Electronic ");
       name = "Electronic ";
+      voltFactor = 41.322; // 24.75 / 1023 = .0242 = 1/41.322
  //     StrBuff[] = "Electronic ";
       break;
-    case  MOTORS :
+    case  1 :
        strcpy(StrBuff,"Motor ");
       name = "Motor ";
+      voltFactor = 41.322; // 24.75 / 1023 = .0242 = 1/41.322
   //    StrBuff[] = "Motor ";
       break;
-    case  PROCESSOR :
+    case  2 :
       strcpy(StrBuff,"Processor ");
       name = "Processor ";
+      voltFactor =104.9; // 5.04
    //   StrBuff[] = "Processor ";
       break;
     default :
@@ -41,9 +49,9 @@ void readVoltage(byte reading) {
 
 
   int busCounts = analogRead(reading);
- //   Serial.print("VoltageCount=");
- //    Serial.println(busCounts);
-  float calcVoltage = busCounts / 41.322; // 24.75 / 1023 = .0242 = 1/41.322
+    Serial.print("VoltageCount=");
+    Serial.println(busCounts);
+  float calcVoltage = busCounts / voltFactor;
 
   dtostrf(calcVoltage, 4, 2, floatStrCalc);
 
@@ -66,7 +74,10 @@ void voltageCheck(unsigned long currentMillis2){
     
     voltageMillis = currentMillis2;    //millis();
 //      Serial.print("VoltageA1");
-    readVoltage(ELECTRONICS);  // 0 is pin 0 for the Electronics - 1 will be for motors
+    readVoltage(voltRead);  // 0 is pin 0 for the Electronics - 1 will be for motors
+    voltRead = voltRead +1;
+    if (voltRead > 2)
+       voltRead = 0;
     }
 //    else {
 //    voltageMillis++;

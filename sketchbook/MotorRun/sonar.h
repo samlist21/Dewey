@@ -131,6 +131,8 @@ long getSonar(boolean noSonar1) {
   // duration is the time (in microseconds) from the sending
   // of the ping to the reception of its echo off of an object.
   pinMode(echoPin, INPUT);
+  duration = pulseIn(echoPin, HIGH); // without timeout
+  //  with timeout but doesn't seem to workwell
   duration = pulseIn(echoPin, HIGH,2000);
   
     if (duration == 0) {

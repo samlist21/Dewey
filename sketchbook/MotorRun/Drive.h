@@ -325,6 +325,7 @@ void Drive::checkValue (byte value) {
     }
     else {
 //      setHeading = compass();
+    displayEncoderChange();
       encoderClear();
            
       byte oldMove = driveDirection;
