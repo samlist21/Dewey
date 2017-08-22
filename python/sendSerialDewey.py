@@ -44,6 +44,9 @@ sys.path.insert(0,'python/GLCD/')
 picturesDir = "/home/pi/Pictures/"
 soundsDir = "/home/pi/ks/sounds/"
 GLCD_Dir = "/home/pi/ks/python/GLCD/"
+voltText = "No Voltage Reading"
+textIndex =0
+voltTextArray = ["Elec", "Proc", "motor"] 
 
 # find version number
 version = sys.version_info[0]
@@ -164,10 +167,30 @@ def runGLCD():
         elif (GLCDcode == 2 ):
             print("Showing GLCD 2 - Circles, small FFL Logo, and text \r")
             randomCirclesTextGLCD()
+            lcd.setLargeText()
+            lcd.setPosition(1,4)
+            lcd.writeString(voltText)
+            
             GLCDcode = 1
         
     else:
         print("GLCD can not be run.  No Serial port. \r")
+
+
+# Used to show Voltage on the GLCD display.
+def voltGLCD():
+    global setGLCD
+    if setGLCD:
+		voltTextArray[textIndex] = voltText
+		textIndex = textIndex +1
+		if i > 2:
+			i=0		
+		lcd.setLargeText()
+        lcd.setPosition(1,textIndex+1) # column 1 row textIndex +1
+        lcd.writeString(voltTextArray[textIndex])
+        print ("Sending Voltage " + voltTextArray[textIndex]),
+        print (", Array Update " + voltTextArray)
+
 
 # Funciton to find highest image number
 def findLastImageNumber():
@@ -231,6 +254,7 @@ def setFFLLogoGLCD():
     lcd.setPosition(int((lcd.getMaxCharactersPerRow() - len(s)) / 2) + 1, 8)        # Center text on bottom row
     lcd.writeString(s)      # Write text
     # end GLCD first image
+    
 
 def setLastImageGLCD():
     if setGLCD:
@@ -362,6 +386,10 @@ while 1:
         #print ("OutCount ="+ str(outCount) + "\r")
         #a = ser.read(outCount)
         a = ser.readline()
+        if ('Voltage' in a):
+			voltText = a
+			voltGLCD()
+			
         #print(a.decode("ASCII"))
         try:
             #b = a.decode("ascii")

@@ -132,7 +132,7 @@ def setColumn(col):     # Set column position (text), row remains
         global posX
         posX = col
                 
-def setPosition(col,row):       # Set text position
+def setPosition(col=1,row=1):       # Set text position
         setRow(row)
         setColumn(col)
         
