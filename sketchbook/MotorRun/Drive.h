@@ -84,11 +84,11 @@ Drive::Drive () {
 
 
 void Drive::driveHold () {
-  if (hold != true) {
+  if (!hold) {
     holdCommand = driveDirection;
-    driveDirection = 'S';  // set to stop
+   // driveDirection = 'S';  // set to stop
     // could be set to backwards
-    checkValue(driveDirection);
+   // checkValue(driveDirection);
     hold = true;
     Serial.println("Hold mode ON");
   }
@@ -103,11 +103,11 @@ void Drive::driveSlow () {
 };
 
 void Drive::driveResume () {
-  if (hold == true) { // run this case only once after a hold
+  if (hold) { // run this case only once after a hold
     hold = false;
     slow = false;
     driveDirection = holdCommand;
-    checkValue(driveDirection);
+   // checkValue(driveDirection);
     Serial.println("Hold mode OFF =====");
   };
 };
@@ -192,17 +192,17 @@ void Drive::driveUpdate () {
   if (driveDirection == 'B' ) {
     driveBACK();
   }
-//  
-//    if (autonomous &  hold) {
-//     Serial.println(" Autonomous Right");
-//    driveRIGHT();
-//        }
-//    
-//    if (autonomous &  ~hold){
-//      Serial.println(" Autonomous FWD");
-//    driveFWD();
-//    
-//         }
+  
+    if (autonomous &  hold) {
+     Serial.println(" Autonomous Right");
+    driveRIGHT();
+        }
+    
+    if (autonomous &  ~hold){
+      Serial.println(" Autonomous FWD");
+    driveFWD();
+    
+         }
 
 
   if (driveDirection == 'S' ) {

@@ -118,7 +118,7 @@ void addSonar(long sensor){
 
 long getSonar(boolean noSonar1) {
   duration = 0;
-  if (noSonar1 == false){
+  if (!noSonar1){
   // The sonar is triggered by a HIGH pulse of 10 or more microseconds.
   // Give a short LOW pulse beforehand to ensure a clean HIGH pulse:
   digitalWrite(trigPin, LOW);

@@ -125,7 +125,7 @@ void loop()
 
   // Check sonar distance
    long dist = sonarTime(noSonar, nowMillis);
-   if (convertCM (dist) < 15){
+   if ((convertCM (dist)) < 15){
      dewey.driveHold();}
     
   // Read encoder

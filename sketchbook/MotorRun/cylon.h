@@ -44,11 +44,13 @@ void cylonSetup(){
 
 void initializeLED() {
    strip.begin();
+   
 }
 
 void clearLED() {
  
   strip.clear(); //Now clear the bar
+  strip.show();
 
 }
 
