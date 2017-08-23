@@ -24,8 +24,8 @@ void readVoltage(int reading) {
 
   switch (reading) {
     case  0 :
-      strcpy(StrBuff,"Electronic ");
-      name = "Electronic ";
+      strcpy(StrBuff,"Elect ");
+      name = "Elec ";
       voltFactor = 41.322; // 24.75 / 1023 = .0242 = 1/41.322
  //     StrBuff[] = "Electronic ";
       break;
@@ -36,8 +36,8 @@ void readVoltage(int reading) {
   //    StrBuff[] = "Motor ";
       break;
     case  2 :
-      strcpy(StrBuff,"Processor ");
-      name = "Processor ";
+      strcpy(StrBuff,"Proc  ");
+      name = "Proc  ";
       voltFactor =104.9; // 5.04
    //   StrBuff[] = "Processor ";
       break;

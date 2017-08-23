@@ -45,8 +45,8 @@ picturesDir = "/home/pi/Pictures/"
 soundsDir = "/home/pi/ks/sounds/"
 GLCD_Dir = "/home/pi/ks/python/GLCD/"
 voltText = "No Voltage Reading"
-textIndex =0
-voltTextArray = ["Elec", "Proc", "motor"] 
+textIndex = 0
+voltTextArray = ["  Elect 123456789abcdef", "  Proc 123456789abcdef", "  Motor 123456789abcdef"] 
 
 # find version number
 version = sys.version_info[0]
@@ -168,9 +168,18 @@ def runGLCD():
             print("Showing GLCD 2 - Circles, small FFL Logo, and text \r")
             randomCirclesTextGLCD()
             lcd.setLargeText()
-            lcd.setPosition(1,4)
-            lcd.writeString(voltText)
+            lcd.setPosition(1,8)
+            lcd.writeString(voltText[2:21])
+            GLCDcode = 3
             
+        elif (GLCDcode == 3 ):
+            print("Showing Voltages\r")
+            lcd.setPosition(1,1) # column 1 row textIndex +1
+            lcd.writeString(voltTextArray[0][2:21]+"V")
+            lcd.setPosition(1,2) # column 1 row textIndex +1
+            lcd.writeString(voltTextArray[1][2:21]+"V")
+            lcd.setPosition(1,3) # column 1 row textIndex +1
+            lcd.writeString(voltTextArray[2][2:21]+"V")
             GLCDcode = 1
         
     else:
@@ -180,16 +189,18 @@ def runGLCD():
 # Used to show Voltage on the GLCD display.
 def voltGLCD():
     global setGLCD
+    global textIndex
     if setGLCD:
-		voltTextArray[textIndex] = voltText
-		textIndex = textIndex +1
-		if i > 2:
-			i=0		
-		lcd.setLargeText()
-        lcd.setPosition(1,textIndex+1) # column 1 row textIndex +1
-        lcd.writeString(voltTextArray[textIndex])
-        print ("Sending Voltage " + voltTextArray[textIndex]),
-        print (", Array Update " + voltTextArray)
+        voltTextArray[textIndex] = voltText
+        textIndex = textIndex +1
+        if textIndex > 2:
+            textIndex=0
+            lcd.setLargeText()
+        #lcd.setPosition(1,textIndex+1) # column 1 row textIndex +1
+        #lcd.writeString(voltTextArray[textIndex][2:19])
+        #print ("Sending Voltage " + voltTextArray[textIndex]),
+        #print (", Array Update " + str(voltTextArray) + "\r")
+        runGLCD()
 
 
 # Funciton to find highest image number
@@ -386,10 +397,10 @@ while 1:
         #print ("OutCount ="+ str(outCount) + "\r")
         #a = ser.read(outCount)
         a = ser.readline()
-        if ('Voltage' in a):
-			voltText = a
-			voltGLCD()
-			
+        if ('Voltage' in str(a)):
+            voltText = str(a)
+            voltGLCD()
+            
         #print(a.decode("ASCII"))
         try:
             #b = a.decode("ascii")
