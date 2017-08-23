@@ -73,6 +73,9 @@ void setup()
 
  // Setup sonar  - if not connected or readign 0 then set to true
   noSonar = setupSonar();
+  
+  // setup Compass
+//  compassInit();
 
     Serial.println("Dewey Setup Complete");
 }
@@ -125,8 +128,10 @@ void loop()
 
   // Check sonar distance
    long dist = sonarTime(noSonar, nowMillis);
-   if ((convertCM (dist)) < 15){
-     dewey.driveHold();}
+//   if ((convertCM (dist)) < 15)
+//     dewey.driveHold();
+//     else
+//     dewey.driveResume();
     
   // Read encoder
   encoderTime(nowMillis);  
@@ -137,6 +142,11 @@ void loop()
 
   // Run Voltage Check 
     voltageCheck(nowMillis);
+    
+
+    
+      // Run Compass Check 
+ //   compassTime(nowMillis);
 
   dewey.driveUpdateTime(nowMillis);
   

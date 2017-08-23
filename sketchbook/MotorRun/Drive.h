@@ -63,7 +63,7 @@ class Drive {
     float setHeading = 0;
     float driveHeading = 0;
     float difference = 0;
-    int wait_drive = 250;  //set compass reading  wait  time
+    int wait_drive = 500;  //set compass reading  wait  time
     unsigned long driveMillis = millis();
     
     byte driveDirection = 'S';  // Start in STOP mode
@@ -90,7 +90,7 @@ void Drive::driveHold () {
     // could be set to backwards
    // checkValue(driveDirection);
     hold = true;
-    Serial.println("Hold mode ON");
+   // Serial.println("Hold mode ON");
   }
 };
 
@@ -108,7 +108,7 @@ void Drive::driveResume () {
     slow = false;
     driveDirection = holdCommand;
    // checkValue(driveDirection);
-    Serial.println("Hold mode OFF =====");
+  //  Serial.println("Hold mode OFF =====");
   };
 };
 
@@ -158,8 +158,9 @@ void Drive::driveUpdate () {
   //  Serial.println("Drive update Run");
   
   if (driveDirection == 'F' ) {
-    
-        if (hold != true) {
+       Serial.print("Hold Mode=");
+       Serial.println(hold);
+        if (!hold) {
           // Hold - Don't go forward if in hold
   // read compass
     
@@ -185,7 +186,7 @@ void Drive::driveUpdate () {
       {
         
         // Go right if blocked
-        driveRIGHT();
+        driveSTOP();
 
       }
   }  // End Forward

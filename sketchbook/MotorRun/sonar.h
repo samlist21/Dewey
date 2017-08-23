@@ -30,6 +30,8 @@ const int echoPin = 4;    //Echo - yellow Jumper
 long duration, cm, inches;
 long distance=0;
 
+long sonarCounter=0;
+
 int wait_sonar = 250;  //set compass reading  wait  time
 unsigned long sonarMillis = millis();
 
@@ -151,7 +153,7 @@ void printDistance(long duration) {
   Serial.print(inches);
   Serial.print("in, ");
   Serial.print(cm);
-  Serial.print("cm  ");
+  Serial.println ("cm  ");
 }
 
 long sonarTime(boolean noSonar1, unsigned long nowMillis4){
@@ -161,6 +163,13 @@ long sonarTime(boolean noSonar1, unsigned long nowMillis4){
     if (((nowMillis4 - sonarMillis) >= wait_sonar) && !noSonar) {
           sonarMillis = nowMillis4;
       distance = getSonar(noSonar1);
+      sonarCounter++;
+    if (sonarCounter > 16){
+      // Serial.println("Compass working");
+       printDistance(distance);
+       sonarCounter =0;
+    }
+      
       return distance;
       }
     } 

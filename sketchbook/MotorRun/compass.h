@@ -26,6 +26,7 @@ float accel_y = 0;
 float accel_z =0;
 float xyz_Mag = 0;
 boolean compassWorking = false;
+long compassCounter=0;
 
 int wait_compass = 250;  //set compass reading  wait  time
 unsigned long compassMillis = millis();
@@ -177,8 +178,15 @@ void compassTime(unsigned long nowMillis6){
     // save the last time you took a compass reading
     compassMillis = nowMillis6;
     currentHeadingVal = compass();
+    
+         compassCounter++;
+     if (compassCounter > 10){
+      // Serial.println("Compass working");
+       displayHeading();
+       compassCounter =0;
     }
   
+}
 }
 
 
