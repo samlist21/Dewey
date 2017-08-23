@@ -169,17 +169,17 @@ def runGLCD():
             randomCirclesTextGLCD()
             lcd.setLargeText()
             lcd.setPosition(1,8)
-            lcd.writeString(voltText[2:21])
+            lcd.writeString(voltText[2:-5])
             GLCDcode = 3
             
         elif (GLCDcode == 3 ):
             print("Showing Voltages\r")
             lcd.setPosition(1,1) # column 1 row textIndex +1
-            lcd.writeString(voltTextArray[0][2:21]+"V")
+            lcd.writeString(voltTextArray[0][2:-5])
             lcd.setPosition(1,2) # column 1 row textIndex +1
-            lcd.writeString(voltTextArray[1][2:21]+"V")
+            lcd.writeString(voltTextArray[1][2:-5])
             lcd.setPosition(1,3) # column 1 row textIndex +1
-            lcd.writeString(voltTextArray[2][2:21]+"V")
+            lcd.writeString(voltTextArray[2][2:-5])
             GLCDcode = 1
         
     else:

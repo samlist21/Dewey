@@ -32,7 +32,7 @@ void readVoltage(int reading) {
     case  1 :
        strcpy(StrBuff,"Motor ");
       name = "Motor ";
-      voltFactor = 41.322; // 24.75 / 1023 = .0242 = 1/41.322
+      voltFactor = 41.62; // 24.75 / 1023 = .0242 = 1/41.322
   //    StrBuff[] = "Motor ";
       break;
     case  2 :
