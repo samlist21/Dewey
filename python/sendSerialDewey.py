@@ -174,6 +174,7 @@ def runGLCD():
             
         elif (GLCDcode == 3 ):
             print("Showing Voltages\r")
+            lcd.clearScreen()
             lcd.setPosition(1,1) # column 1 row textIndex +1
             lcd.writeString(voltTextArray[0][2:-5])
             lcd.setPosition(1,2) # column 1 row textIndex +1
