@@ -1,32 +1,20 @@
-// Motor Run Program for FFL Dewey Robot
+// Motor Run Program for FFL Dewey Robot Arduino #2
+// This is the second Arduino to manage heading board and 
+// offload other operations. 
 // author Ken Samuelson 
-//  Date started 6/18/2016
-// Last update by Ken Samuelson 7/22/2017
+//  Date started 8/26/2017
+// Last update by Ken Samuelson 8/26/2017
 // Copyright Unpublished work Ken Samuelson 2017 all rights reserved.
 
+// Don't forget to change the device to /dev/ttyACM1
 
-//#include <Wire.h>
-//#include <Adafruit_Sensor.h>
-//#include <Adafruit_LSM303_U.h>
+#include <Wire.h>  // Needed for compass to run
+#include <Adafruit_Sensor.h> // Needed for compass to run
+#include <Adafruit_LSM303_U.h> // Needed for compass to run
 
- //NeoPixel LED Digital Strip Cylon Eye v1.10 Created by EternalCore
- // Library in /usr/share/arduino/libraries so it needs to eb declared here 
- // not sure why this is necessary
-#include "Adafruit_NeoPixel.h"
-#include "cylon.h"
-
-//#include "compass.h"
-
-// Motor Run with pins 5,6,   10,11
-
-#include "encode.h"
 #include "Arduino.h"
-#include "Drive.h"
-#include "def.h"
-#include "voltage.h"
-#include "sonar.h"
 
-
+#include "compass.h"
 
 //char readVal = '$';
 //byte bytVal = 74;
@@ -52,7 +40,7 @@ int byteCount = 0;
 byte readVal = 32;
 
 
- Drive dewey;
+
 
 void setup()
   {
@@ -60,24 +48,16 @@ void setup()
   delay (2000);  //leave a 2 seoncd delay before the program starts.  Used for program download time. 
   Serial.begin(115200);//
   //Serial.flush();
-  Serial.println("Dewey Alive and ready to take commands");
+  Serial.println("Ard2 Alive and ready to take commands");
   //Edit this line when a significant chnage is made so that the user knows
  //  what version fo Motor Run theyy are using 
-  Serial.println("Dewey Drive Code Version 14");
+  Serial.println("Ard2 Drive Code Version 1");
   
-  // setup Encoder
-  setupEncoder();
- 
-  // setup Cylon 
-  cylonSetup(); 
-
- // Setup sonar  - if not connected or readign 0 then set to true
-  noSonar = setupSonar();
   
   // setup Compass
-//  compassInit();
+  compassInit();
 
-    Serial.println("Dewey Setup Complete");
+    Serial.println("Ard2 Setup Complete");
 }
 
 void loop()
@@ -112,13 +92,13 @@ void loop()
   if (byteCount >0) // = -1 if none avaialble if more than one start reading them. 4 per second.
   {
     readVal = Serial.read();
-  Serial.print("ByteCount =");
+  Serial.print("Ard 2 ByteCount =");
   Serial.print(byteCount);      
     Serial.print(", Found Key=");
     Serial.print(readVal);
     Serial.print(" (char)");
     Serial.println(char(readVal));
-    dewey.checkValue(readVal);
+    // dewey.checkValue(readVal);
  
     
   }
@@ -126,29 +106,13 @@ void loop()
   
   }  // currentMills - previousMills is less than than time
 
-  // Check sonar distance
-   long dist = sonarTime(noSonar, nowMillis);
-//   if ((convertCM (dist)) < 15)
-//     dewey.driveHold();
-//     else
-//     dewey.driveResume();
-    
-  // Read encoder
-  encoderTime(nowMillis);  
-
-  // Run Cylon program 
-
-    runCylon(nowMillis, cylonEnable);
-
-  // Run Voltage Check 
-    voltageCheck(nowMillis);
-    
-
-    
-      // Run Compass Check 
- //   compassTime(nowMillis);
-
-  dewey.driveUpdateTime(nowMillis);
+// Read the current Compass Value 
+  
+  compassTime(nowMillis);
+  
+  
+  // Read the current Acceleration Value 
+  accelTime(nowMillis);
   
 }  // End of Loop
 
