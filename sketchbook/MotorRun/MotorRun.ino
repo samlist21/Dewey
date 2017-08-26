@@ -19,7 +19,7 @@
 
 // Motor Run with pins 5,6,   10,11
 
-#include "encode.h"
+#include "encodeInt.h"
 #include "Arduino.h"
 #include "Drive.h"
 #include "def.h"

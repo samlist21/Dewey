@@ -165,7 +165,7 @@ void Drive::driveUpdate () {
   // read compass
     
    //headingCompensate();
-   encoderCompensate();
+   //encoderCompensate();
     driveFWD();
     
     // driveDisplayHeading();

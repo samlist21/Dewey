@@ -25,8 +25,8 @@ const int oneSecInUsec = 1000000; // a second in micro second units
         GND: GND
 */
 
-const int trigPin = 2;    //Trig - green Jumper
-const int echoPin = 4;    //Echo - yellow Jumper
+const int trigPin = 12;    //Trig - green Jumper
+const int echoPin = 13;    //Echo - yellow Jumper
 long duration, cm, inches;
 long distance=0;
 
