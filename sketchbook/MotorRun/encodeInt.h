@@ -59,8 +59,8 @@ void setupEncoder(){
     pinMode(rightEncode, INPUT);
     pinMode(leftEncode, INPUT);
     
-    attachInterrupt(0,encoderRightChange,RISING);  // Right encoder  Pin2
-    attachInterrupt(1,encoderLeftChange,RISING);  // Left encoder  Pin3    
+    attachInterrupt(0,encoderRightChange,CHANGE);  // Right encoder  Pin2
+    attachInterrupt(1,encoderLeftChange,CHANGE);  // Left encoder  Pin3    
 
   
 //  DDRB= B00000000;

@@ -15,7 +15,7 @@ void setup()
   delay (2000);  //leave a 2 seoncd delay before the program starts.  Used for program download time. 
   Serial.begin(115200);//
   //Serial.flush();
-  Serial.println("Encoder Alive and ready to take commands");
+  Serial.println("Encoder Alives and ready to take commands");
   //Edit this line when a significant chnage is made so that the user knows
  //  what version fo Motor Run theyy are using 
   Serial.println("Encoder Drive Code Version 14");
@@ -28,6 +28,8 @@ void setup()
 void loop()
 
 {
+  unsigned long nowMillis5 = millis();
   
+   encoderTime(nowMillis5);
 }
 

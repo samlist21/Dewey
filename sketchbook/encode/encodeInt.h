@@ -56,11 +56,11 @@ int inReg;
 void setupEncoder(){
   Serial.println("Encoder Setup Begin");
   
-    pinMode(rightEncode, INPUT);
+ //   pinMode(rightEncode, INPUT);
     pinMode(leftEncode, INPUT);
     
-    attachInterrupt(0,encoderRightChange,RISING);  // Right encoder  Pin2
-    attachInterrupt(1,encoderLeftChange,RISING);  // Left encoder  Pin3    
+    attachInterrupt(0,encoderRightChange,CHANGE);  // Right encoder  Pin2
+    attachInterrupt(1,encoderLeftChange,CHANGE);  // Left encoder  Pin3    
 
   
 //  DDRB= B00000000;
@@ -91,16 +91,16 @@ void displayEncoderChange(){
 		Serial.print (encoderMillisRight);
 		Serial.print (", MillsL=");
 		Serial.print (encoderMillisLeft);
-   encoderRightRate = encoderMillisRight/1000;
-   encoderLeftRate = encoderMillisLeft/1000;
+ //  encoderRightRate = encoderMillisRight/1000;
+ //  encoderLeftRate = encoderMillisLeft/1000;
 		// Print current Rate 
-         dtostrf(encoderLeftRate, 4, 2, encodeStrBuff);
-		Serial.print (" LRate=");
-		Serial.print (encodeStrBuff);
-
-         dtostrf(encoderRightRate, 4, 2, encodeStrBuff);
-		Serial.print (" RRate=");
-		Serial.print (encodeStrBuff);
+//         dtostrf(encoderLeftRate, 4, 2, encodeStrBuff);
+//		Serial.print (" LRate=");
+//		Serial.print (encodeStrBuff);
+//
+//         dtostrf(encoderRightRate, 4, 2, encodeStrBuff);
+//		Serial.print (" RRate=");
+//		Serial.print (encodeStrBuff);
 
 		// Print current Count 
 		Serial.print (" LCount=");
@@ -109,21 +109,21 @@ void displayEncoderChange(){
 		Serial.println (encoderRightCount);
    
 
-   		Serial.print (" RArray=");
-       for (int i = 0;i<arrayCount;i++){
-		Serial.print (encoderRightResults[i]);
-                Serial.print (", ");
-                 }
-                Serial.print("Cnt=");
-                Serial.println(encoderRightCount);
+//   		Serial.print (" RArray=");
+//       for (int i = 0;i<arrayCount;i++){
+//		Serial.print (encoderRightResults[i]);
+//                Serial.print (", ");
+//                 }
+//                Serial.print("RCnt=");
+//                Serial.println(encoderRightCount);
                 
-                Serial.print (" LArray=");
-       for (int j = 0;j<arrayCount;j++){
-		Serial.print (encoderLeftResults[j]);
-                Serial.print (", ");
-                 }
-                Serial.print("Cnt=");
-                Serial.println(encoderLeftCount);
+//                Serial.print (" LArray=");
+//       for (int j = 0;j<arrayCount;j++){
+//		Serial.print (encoderLeftResults[j]);
+//                Serial.print (", ");
+//                 }
+//                Serial.print("LCnt=");
+//                Serial.println(encoderLeftCount);
 
 //		// Print current Count 
 //		Serial.print (" LCount=");
@@ -137,8 +137,8 @@ void readEncoder(){
 	 int inReg = PINB;
 	encoderMillis = millis();
 	
- encoderRightState = inReg &  B00000001;
- encoderLeftState = (inReg &  B00000010)>>1;
+ //encoderRightState = inReg &  B00000001;
+ //encoderLeftState = (inReg &  B00000010)>>1;
   
  if (encoderRightState != encoderRightPrevious){
    encoderRightPrevious = encoderRightState;
@@ -227,7 +227,7 @@ void encoderRightChange(){
 
    encoderMicrosRight = encoderMicros - encoderMicrosRightPrevious;
 
-   encoderRightResults[encoderRightCount%arrayCount] = encoderMicrosRight;
+  // encoderRightResults[encoderRightCount%arrayCount] = encoderMicrosRight;
 
    encoderMicrosRightPrevious = encoderMicros;
    encoderChange = true;
@@ -237,16 +237,16 @@ void encoderRightChange(){
   
   void encoderLeftChange(){
 	 
-  unsigned long encoderMicros = micros();
+  unsigned long encoderMicros1 = micros();
 //  encoderLeftState = !encoderLeftState;
   
    encoderLeftCount++;
 
-   encoderMicrosLeft = encoderMicros - encoderMicrosLeftPrevious;
+   encoderMicrosLeft = encoderMicros1 - encoderMicrosLeftPrevious;
 
-   encoderLeftResults[encoderLeftCount%arrayCount] = encoderMicrosLeft;
+ //  encoderLeftResults[encoderLeftCount%arrayCount] = encoderMicrosLeft;
 
-   encoderMicrosLeftPrevious = encoderMicros;
+   encoderMicrosLeftPrevious = encoderMicros1;
    encoderChange = true;
    
  }
