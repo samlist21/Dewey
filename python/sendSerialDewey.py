@@ -95,6 +95,7 @@ def printHelpMenu ():
     print('P = Take a picture\r')
     print('H = Print Help Menu\r')
     print('T = Print Talk - Play Sound\r')
+    print('C = Turn OFF or ON Cylon eyes\r')
     print('I = Run GLCD program - Currently needs Python3\r')
     print('\r')
     print('Press ESC, "x", or "X" to Exit (leave application) and STOP Dewey.\r')
