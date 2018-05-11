@@ -535,8 +535,8 @@ void Drive::driveRIGHT () {
   analogWrite(Left_CW, 0);
   analogWrite(Left_CCW, driveSpeed / 2);
 //    analogWrite(Left_CCW, 0);
-//  analogWrite(Right_CCW, driveSpeed / 2);
-     analogWrite(Right_CCW, 0);
+  analogWrite(Right_CCW, driveSpeed / 2);
+//     analogWrite(Right_CCW, 0);
      analogWrite(Right_CW, 0);
   
   if (driveDirection != 'M')
@@ -544,8 +544,8 @@ void Drive::driveRIGHT () {
 };
 
 void Drive::driveLEFT () {
- // analogWrite(Left_CW, driveSpeed / 2);
-  analogWrite(Left_CW, 0);
+  analogWrite(Left_CW, driveSpeed / 2);
+ // analogWrite(Left_CW, 0);
   analogWrite(Left_CCW, 0);
   analogWrite(Right_CCW, 0);
   analogWrite(Right_CW, driveSpeed / 2);
