@@ -16,6 +16,10 @@ git status    Helps you figure out where you are in the versions
 git -n <command>   This is a dry-run and helps you figure out what will happen if you run the command
 git rm <file or directory>  This command will remove files from the repository.  Also use exclude file in the .git/info directory
 
+mkdir ks - needs to be in this directory for absolute paths. 
+git clone https://github.com/samlist21/Dewey.git  - get current repostiory 
+
+
 ```
 
 
@@ -56,10 +60,10 @@ Dewey Photo of Sonar Sensor
 
 ## Reminders
 - Dewey Ethernet IP address is  192.168.1.199
-- Dewey FFlAir WiFi Static IP address is  10.100.1.199 - Subject to change. 
+- Dewey FFlAir WiFi Static IP address is a dynamic IP address you need to find it or use the cable - 10.100.1.250 - Subject to change. 
 - With this IP address the Date needs to be updated upon startup
 to do this type> date   - to check the date 
-If not up to date type> sudo date -s "2017-07-08 10:44:00"  - Example July 7 at 10:44 am.
+No longer needs to be done - If not up to date type> sudo date -s "2017-07-08 10:44:00"  - Example July 7 at 10:44 am.
 The Library has put things back for a little while until they figure out the routing that they want.  
 The old address, above, will work until they do. 
 With the new IP address the date was updated over the Internet to the above was not necessary but the IP address was not known.
