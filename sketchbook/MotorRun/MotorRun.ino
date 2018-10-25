@@ -19,7 +19,7 @@
 
 // Motor Run with pins 5,6,   10,11
 
-#include "encodeInt.h"
+//#include "encodeInt.h"
 #include "Arduino.h"
 #include "Drive.h"
 #include "def.h"
@@ -66,7 +66,7 @@ void setup()
   Serial.println("Dewey Drive Code Version 14");
   
   // setup Encoder
-  setupEncoder();
+  //setupEncoder();
  
   // setup Cylon 
   cylonSetup(); 
@@ -134,7 +134,7 @@ void loop()
 //     dewey.driveResume();
     
   // Read encoder
-  encoderTime(nowMillis);  
+ // encoderTime(nowMillis);  
 
   // Run Cylon program 
 

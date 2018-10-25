@@ -49,7 +49,7 @@ class Drive {
     void driveResume();
     void checkValue (byte);
     void headingCompensate();
-    void encoderCompensate();
+    //void encoderCompensate();
     void driveDisplayHeading();
     void driveCompReset();
     void rightCompUp();
@@ -223,7 +223,8 @@ void Drive::driveUpdate () {
 //          Serial.print(" Turn Difference: ");
 //          Serial.println(difference);
   //readEncoder();
-  int a = encoderDiff();
+  int a = 0;
+  //encoderDiff();
 //    Serial.print(" Left Encoder Diff: ");
 //    Serial.println(a); 
 //  
@@ -249,7 +250,7 @@ void Drive::driveUpdate () {
 //          Serial.print(setHeading);
 //          Serial.print(" Turn Difference: ");
 //          Serial.println(difference);
-     int a = encoderDiff();     
+     int a = 0; // encoderDiff();     
 //    Serial.print(" Right Encoder Diff: ");
 //    Serial.println(a); 
         // Done turning 90 degrees rightt 
@@ -306,32 +307,32 @@ void Drive::headingCompensate(){
     driveCompReset();
   };
 
-void Drive::encoderCompensate(){
- //      Read current encoder difference
-    int encoderDiff1 = encoderDiff();
-//// Compensate for the difference in heading
-       Serial.print(" Diff=");
-       Serial.print(encoderDiff1);
-
-     if ((encoderDiff1 > 20) || (encoderDiff1 < -20)) {
-     driveCompReset();
-      encoderClear();    
-     Serial.println(" Encoder Comp Reset");
-
-     }
-     else if (encoderDiff1 > 1) {
-
-       Serial.println(" Encoder Right Comp Up");
-     rightCompUp();
-     }
-    else if (encoderDiff1 < -1) {
-      Serial.println("Encoder Right Comp Down");
-    rightCompDown();;
-    }
-    else 
-    // looking good do nothing
-     Serial.println(" Encoder No Comp");;
-  };
+//void Drive::encoderCompensate(){
+// //      Read current encoder difference
+//    //int encoderDiff1 = encoderDiff();
+////// Compensate for the difference in heading
+//       //Serial.print(" Diff=");
+//       //Serial.print(encoderDiff1);
+//
+//     if ((encoderDiff1 > 20) || (encoderDiff1 < -20)) {
+//     driveCompReset();
+//      //encoderClear();    
+//     Serial.println(" Encoder Comp Reset");
+//
+//     }
+//     else if (encoderDiff1 > 1) {
+//
+//       Serial.println(" Encoder Right Comp Up");
+//     rightCompUp();
+//     }
+//    else if (encoderDiff1 < -1) {
+//      Serial.println("Encoder Right Comp Down");
+//    rightCompDown();;
+//    }
+//    else 
+//    // looking good do nothing
+//     Serial.println(" Encoder No Comp");;
+//  };
 
 byte Drive::driveStatus () {
 
@@ -367,8 +368,8 @@ void Drive::checkValue (byte value) {
     }
     else {
 //      setHeading = compass();
-    displayEncoderChange();
-      encoderClear();
+    //displayEncoderChange();
+      //encoderClear();
            
       byte oldMove = driveDirection;
       

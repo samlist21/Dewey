@@ -58,9 +58,9 @@ def _initSerial():
         # Open port
         try:
                 ser.open()
-                print("GLCD Serial Port Open...\r")
+                print("GLCD Serial Port Open...",ser.port,"\r")
                 _writeToPort(bytes([191]))
-                print("GLCD Serial Port set to 57600...\r")
+                print("GLCD Serial Port set to ",ser.baudrate,",...\r")
                 returnValue  = True
         except (KeyboardInterrupt, SystemExit):
                 raise
