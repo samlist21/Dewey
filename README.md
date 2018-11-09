@@ -60,14 +60,11 @@ Dewey Photo of Sonar Sensor
 
 ## Reminders
 - Dewey Ethernet IP address is  192.168.1.199
-- Dewey FFlAir WiFi Static IP address is a dynamic IP address you need to find it or use the cable - 10.100.1.250 - Subject to change. 
-- With this IP address the Date needs to be updated upon startup
-to do this type> date   - to check the date 
-No longer needs to be done - If not up to date type> sudo date -s "2017-07-08 10:44:00"  - Example July 7 at 10:44 am.
-The Library has put things back for a little while until they figure out the routing that they want.  
-The old address, above, will work until they do. 
+- Dewey FFlAir WiFi Static IP address is 10.100.1.200 or possibly a Dynamic IP address you need to find it or use the cable - 10.100.1.250 - Subject to change. 
+- With this IP address the Date needs to be updated upon startup - No longer needs to be done - If not up to date type> sudo date -s "2017-07-08 10:44:00"  - Example July 7 at 10:44 am.
+
 With the new IP address the date was updated over the Internet to the above was not necessary but the IP address was not known.
-- VNC connection is either of the above IP addresses and port :5901, depending on the link used.
+- VNC connection is either of the above IP addresses and port :5901, or blank depending on the link used.
 - Dewey Password - email or message Ken Samuelson.  This can be done through the meetup group message. - See meetup for my contact info. 
 - Watch handling the Pi.  If you're not careful you will pop out the spring loaded microSD card and you will trash the card.  This is very bad. 
 - Robot club has a keyboard and mouse in the containers. If you can't access Dewey, you will need the keyboard, mouse, and an HDMI monitor, cable or HDMI to VGA converter. See Ken Samuelson, I have all (any) of them.

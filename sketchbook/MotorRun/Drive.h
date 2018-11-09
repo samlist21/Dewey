@@ -59,6 +59,7 @@ class Drive {
   private:
     byte driveSpeed = 100 ;
     boolean hold = false;
+    boolean holdFlag = false;
     boolean slow = false;
     float setHeading = 0;
     float driveHeading = 0;
@@ -84,13 +85,14 @@ Drive::Drive () {
 
 
 void Drive::driveHold () {
-  if (!hold) {
+  if (!holdFlag) {
     holdCommand = driveDirection;
    // driveDirection = 'S';  // set to stop
     // could be set to backwards
    // checkValue(driveDirection);
+    holdFlag = true;
     hold = true;
-   // Serial.println("Hold mode ON");
+    //Serial.println("Hold mode ON");
   }
 };
 
@@ -106,6 +108,7 @@ void Drive::driveResume () {
   if (hold) { // run this case only once after a hold
     hold = false;
     slow = false;
+    holdFlag = false;
     driveDirection = holdCommand;
    // checkValue(driveDirection);
   //  Serial.println("Hold mode OFF =====");

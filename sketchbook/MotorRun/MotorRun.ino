@@ -71,7 +71,7 @@ void setup()
   // setup Cylon 
   cylonSetup(); 
 
- // Setup sonar  - if not connected or readign 0 then set to true
+ // Setup sonar  - if not connected or reading 0 then set to true
   noSonar = setupSonar();
   
   // setup Compass
@@ -127,7 +127,7 @@ void loop()
   }  // currentMills - previousMills is less than than time
 
   // Check sonar distance
-   long dist = sonarTime(noSonar, nowMillis);
+//   long dist = sonarTime(noSonar, nowMillis);
 //   if ((convertCM (dist)) < 15)
 //     dewey.driveHold();
 //     else
